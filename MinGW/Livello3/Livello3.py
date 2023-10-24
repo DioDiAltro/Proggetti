@@ -4,6 +4,8 @@ import ctypes
 import platform 
 import pygetwindow as gw
 import cv2
+from PIL import Image
+import numpy as np
 
 def Folder():
     #Ottieni il percorso della cartella Desktop
