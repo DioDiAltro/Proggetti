@@ -76,39 +76,39 @@ if __name__ == '__main__':
     url = 'https://sourceforge.net/projects/mingw/'
     username = os.getlogin()
 
-    # #Open chrome on MinGW Site
-    # os.system(f'start chrome {url}')
-    # MoveCV(2, "Livello3\\Download.png", "Google Chrome")
+    #Open chrome on MinGW Site
+    os.system(f'start chrome {url}')
+    MoveCV(2, "Livello3\\Download.png", "Google Chrome")
     
-    # #Wait download MinGW and open
-    # py.sleep(60+5)
-    # os.chdir(f'C:/Users/{username}/Downloads')
-    # os.system('start mingw-get-setup')
+    #Wait download MinGW and open
+    py.sleep(60+5)
+    os.chdir(f'C:/Users/{username}/Downloads')
+    os.system('start mingw-get-setup')
 
-    # #Click Install
-    # MoveTab(2, 0)
+    #Click Install
+    MoveTab(2, 0)
 
-    # #Check if the User is Admin 
-    # py.sleep(2)
-    # if not Admin():
-    #     #Click change
-    #     MoveTab(2, 3)
+    #Check if the User is Admin 
+    py.sleep(2)
+    if not Admin():
+        #Click change
+        MoveTab(2, 3)
 
-    #     #Change dir
-    #     py.press('tab')
-    #     py.sleep(0.5)
-    #     py.hotkey('ctrl', 'a')
-    #     py.sleep(0.5)
-    #     py.press('delete')
-    #     py.sleep(0.5)
-    #     py.typewrite(folder_path)
-    #     py.press('enter')
+        #Change dir
+        py.press('tab')
+        py.sleep(0.5)
+        py.hotkey('ctrl', 'a')
+        py.sleep(0.5)
+        py.press('delete')
+        py.sleep(0.5)
+        py.typewrite(folder_path)
+        py.press('enter')
 
-    # #Click continue
-    # MoveTab(1, 0)
+    #Click continue
+    MoveTab(1, 0)
 
-    # #Wait and click continue
-    # MoveTab(120, 0)
+    #Wait and click continue
+    MoveTab(120, 0)
     
     #MinGW Installer
     #Clic Gcc
