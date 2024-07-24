@@ -9,21 +9,21 @@ eventi_casuali = (
 #prima luoghi poi cristiani
         (
             ''' 
-Dietro a un {}, trovi tre {} nudi che si schiaffeggiano il pesce con un rametto.\n
-Ti viene una botta di rabbia e smonti uno di loro con un calcio volante!!\n
-Cristo! Gli altri due coglioni nudi cacciano dei tirapugni dal culo!!
+dietro a un {}, trovi tre {} nudi che si schiaffeggiano il pesce con un rametto.\n
+ti viene una botta di rabbia e smonti uno di loro con un calcio volante!!\n
+cristo! gli altri due coglioni nudi cacciano dei tirapugni dal culo!!
             ''',
             '''
-Mentre cammini per un {}, diversi {} si alzano da terra e ti guardano\n
+mentre cammini per un {}, diversi {} si alzano da terra e ti guardano\n
 con teneri occhi lucidi.
             ''',
             '''
-Mentre pisciavi su un albero vicino a un {}, senti avvicinarsi due {}\n
+mentre pisciavi su un albero vicino a un {}, senti avvicinarsi due {}\n
 che corrono velocissimo. uno di loro azzoppa vola e \n
-finisce di faccia sull'albero pisciato. Così ti sgamano.
+finisce di faccia sull'albero pisciato. così ti sgamano.
             ''',
             '''
-Ti aggiri per un {}, e a una certa, senti dei rumori strani.\n 
+ti aggiri per un {}, e a una certa, senti dei rumori strani.\n 
 Sono tre {} che parteciano a un'orgia clandestina!
             '''
         ),
@@ -31,37 +31,45 @@ Sono tre {} che parteciano a un'orgia clandestina!
 #prima cristiani poi luoghi
         (
             ''' 
-Wow! Un famoso trio di {} se la fa con diversi anziani gay in un {}.\n
-A quanto pare non vogliono che si sappia, e ti hanno appena visto!
+wow! un famoso trio di {} se la fa con diversi anziani gay in un {}.\n
+a quanto pare non vogliono che si sappia, e ti hanno appena visto!
 
             ''',
             ''' 
-Ops... vai a diarrea dietro un cespuglio, ma ti ritrovi difronte due {}\n
+ops... vai a diarrea dietro un cespuglio, ma ti ritrovi difronte due {}\n
 proventi da un {}, e stai pure col culo cacato!
             ''',
             ''' 
-Ma che cazzo... due {} hanno appena ucciso di botte due disabili\n
-dietro un {}. Per sbaglio squacci a terra e ti notano.
+ma che cazzo... due {} hanno appena ucciso di botte due disabili\n
+dietro un {}. per sbaglio squacci a terra e ti notano.
             ''',
             '''
-Non ce la fai più... tieni troppo a cacare, e intravedi tue {} che fanno\n
-l'elemosina difronte un {}. Ti sei tolto lo sfizio cacando nel cappello\n
-che aveva in mano. Non gli piace e inizia a strizzare il berretto mentre urla!
+non ce la fai più... tieni troppo a cacare, e intravedi tue {} che fanno\n
+l'elemosina difronte un {}. ti sei tolto lo sfizio cacando nel cappello\n
+che aveva in mano. non gli piace e inizia a strizzare il berretto mentre urla!
             '''
         ),
 
 
 #solo cristiani
-#        (
-#            '''
-#
-#                
-#            '''
-#        )
+        (
+            '''
+mentre cammini per un altura, decidi che sdiarreare da 100m di altezza spacca.\n
+i due {} sotto al precipizio non la prendono bene\ne, saltando molto in alto, ti raggiungono.
+            ''',
+            '''
+vicino ad un bar esce un nero che corre velocissimo con tante scarpe in mano.\n
+te le butta tutte addosso e, dato che sei nero, ora hai 6-7 {} che ti odiano.
+            ''',
+            '''
+sei in un bosco nel chill, scacazzi a terra. poi ti giri e non c'è niente a terra.\n
+due {} ninja hanno mangiato la merda e si sono nascosti tra gli alberi!            
+            '''
+        )
 )
 
-cristiani = ('negri','anziani','ricchioni','ciccioni','analfabeti','attivisti','contabili','bambini')
-luoghi = ('villaggio','bosco','sotterraneo','ponte','posto di merda','chiesa','fiume')
+cristiani = ('negri','anziani','ricchioni','ciccioni','analfabeti','attivisti','contabili','bambini','gnomi','nani','antichi pompieri')
+luoghi = ('villaggio','bosco','sotterraneo','ponte','posto di merda','mausoleo','fiume','bronx')
 
 finali_casuali = (
     
@@ -90,8 +98,13 @@ finali_casuali = (
 
 #finali scappare
     (
-        ('scatti a correre veloce, ma uno di loro è incredibilmente fast. wow! che culo! è caduto e si è rotto i denti!'),
-        ('stavi per scappare, ma con un\'abile mossa un tuo avversario ti straccia tutta la maglietta!')
+        ('scatti a correre veloce, ma uno di loro è incredibilmente fast. wow! che culo! è caduto e si è rotto i denti!',
+         'sei fortunato che la maggior parte di loro è composta da ciotti.',
+         'uno ti ha stracciato e strappato la tasca del pantalone. glie l\'hai messa in bocca e sei scappato'),
+        ('stavi per scappare, ma con un\'abile mossa un tuo avversario ti straccia tutta la maglietta!',
+         'mannaggia! mannaggia! ti hanno raggiunto e rubato le scarpe!!!',
+         'non dovevi fermarti a pisciare dopo 8 secondi di corsa. ti hanno strappato parte dei capelli.',
+         'ma che cazzo !? uno è proprio veloce! oh! è incredibilmente fast!!!\nti ha stracciato il berretto così forte da bucartelo')
     )
 )
 
