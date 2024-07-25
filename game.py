@@ -1,77 +1,98 @@
-import random
+from random import randint, choice
+from os import system
+from time import sleep
 
-schema = '{}HP    {}€    {}🎯       {}'
+SCHEMA = '{}HP  |  {}€  |  {}🎯   |    {}'
 
 indice = 0
 
-eventi_casuali = (
+PLAY_OPZ = (
 
-#prima luoghi poi cristiani
+'AZIONI DISPONIBILI:',
+
+'''
+1) ATTACCA
+2) SCAPPA
+3) FAI AMICIZIA    \n
+'''
+
+)
+
+EVENTI_CASUALI = (
+
+#prima LUOGHI poi CRISTIANI
         (
             ''' 
-dietro a un {}, trovi tre {} nudi che si schiaffeggiano il pesce con un rametto.\n
-ti viene una botta di rabbia e smonti uno di loro con un calcio volante!!\n
+dietro a un {}, trovi tre {} nudi che si schiaffeggiano il pesce con un rametto.
+ti viene una botta di rabbia e smonti uno di loro con un calcio volante!!
 cristo! gli altri due coglioni nudi cacciano dei tirapugni dal culo!!
-            ''',
+
+''',
             '''
-mentre cammini per un {}, diversi {} si alzano da terra e ti guardano\n
+mentre cammini per un {}, diversi {} si alzano da terra e ti guardano
 con teneri occhi lucidi.
-            ''',
+
+''',
             '''
-mentre pisciavi su un albero vicino a un {}, senti avvicinarsi due {}\n
-che corrono velocissimo. uno di loro azzoppa vola e \n
+mentre pisciavi su un albero vicino a un {}, senti avvicinarsi due {}
+che corrono velocissimo. uno di loro azzoppa vola e
 finisce di faccia sull'albero pisciato. così ti sgamano.
-            ''',
+
+''',
             '''
-ti aggiri per un {}, e a una certa, senti dei rumori strani.\n 
+ti aggiri per un {}, e a una certa, senti dei rumori strani.
 Sono tre {} che parteciano a un'orgia clandestina!
+
+''',
             '''
+una giga puzza di merda invade un {} e qualche senti due {}:
+"fanculo!!! fanculo!!! fanculo!!!" "scorreggione figlio di puttana!!!"
+'''
         ),
 
-#prima cristiani poi luoghi
+#prima CRISTIANI poi LUOGHI
         (
             ''' 
-wow! un famoso trio di {} se la fa con diversi anziani gay in un {}.\n
+wow! un famoso trio di {} se la fa con diversi anziani gay in un {}.
 a quanto pare non vogliono che si sappia, e ti hanno appena visto!
-
-            ''',
+''',
             ''' 
-ops... vai a diarrea dietro un cespuglio, ma ti ritrovi difronte due {}\n
+ops... vai a diarrea dietro un cespuglio, ma ti ritrovi difronte due {}
 proventi da un {}, e stai pure col culo cacato!
-            ''',
+''',
             ''' 
-ma che cazzo... due {} hanno appena ucciso di botte due disabili\n
+ma che cazzo... due {} hanno appena ucciso di botte due disabili
 dietro un {}. per sbaglio squacci a terra e ti notano.
-            ''',
+''',
             '''
-non ce la fai più... tieni troppo a cacare, e intravedi tue {} che fanno\n
-l'elemosina difronte un {}. ti sei tolto lo sfizio cacando nel cappello\n
+non ce la fai più... tieni troppo a cacare, e intravedi tue {} che fanno
+l'elemosina difronte un {}. ti sei tolto lo sfizio cacando nel cappello
 che aveva in mano. non gli piace e inizia a strizzare il berretto mentre urla!
-            '''
+'''
         ),
 
 
-#solo cristiani
+#solo CRISTIANI
         (
             '''
-mentre cammini per un altura, decidi che sdiarreare da 100m di altezza spacca.\n
+mentre cammini per un altura, decidi che sdiarreare da 100m di altezza spacca.
 i due {} sotto al precipizio non la prendono bene\ne, saltando molto in alto, ti raggiungono.
-            ''',
+''',
             '''
-vicino ad un bar esce un nero che corre velocissimo con tante scarpe in mano.\n
+vicino ad un bar esce un nero che corre velocissimo con tante scarpe in mano.
 te le butta tutte addosso e, dato che sei nero, ora hai 6-7 {} che ti odiano.
-            ''',
+''',
             '''
-sei in un bosco nel chill, scacazzi a terra. poi ti giri e non c'è niente a terra.\n
+sei in un bosco nel chill, scacazzi a terra. poi ti giri e non c'è niente a terra.
 due {} ninja hanno mangiato la merda e si sono nascosti tra gli alberi!            
-            '''
+'''
         )
 )
 
-cristiani = ('negri','anziani','ricchioni','ciccioni','analfabeti','attivisti','contabili','bambini','gnomi','nani','antichi pompieri')
-luoghi = ('villaggio','bosco','sotterraneo','ponte','posto di merda','mausoleo','fiume','bronx')
+CRISTIANI = ('negri','anziani','ricchioni','ciccioni','analfabeti','attivisti','contabili','bambini','gnomi','nani','antichi pompieri')
+LUOGHI = ('villaggio','bosco','sotterraneo','ponte','posto di merda','mausoleo','fiume','bronx')
 
-finali_casuali = (
+FINALI_CASUALI = (
     
     #finali attacco
     (
@@ -123,31 +144,35 @@ class Arma():
     def getLuck(self):
         return self.__luck
     
-    def getDurata(self):
+    @property
+    def Durata(self):
         return self.__durata
-    
-    def setDurata(self, value):
-        self.__durata -= value  
+  
+    @Durata.setter
+    def Durata(self, value):
+        self.__durata = value  
 
         if self.__durata <= 0:
             self.__nome = None
             self.__luck = None
             self.__durata = None
 
+            PLAYER.setArma(None)
+
+
             print('Ti si è smontata l\'arma in mano!')
 
-armi = (
-    ['BASTONCINO', 4],
-    ['FIONDA DI MERDA', 8],
-    ['MAZZA', 12],
-    ['COLTELLONE', 15],
-    ['GIGA_AXE', 20],
-    ['PYSTOLS', 22],
-    ['SPUTAFIAMME', 25],
-    ['FUCILS', 25]
+ARMI = (
+    Arma('BASTONCINO', 4),
+    Arma('FIONDA DI MERDA', 8),
+    Arma('MAZZA', 12),
+    Arma('COLTELLONE', 15),
+    Arma('GIGA_AXE', 18),
+    Arma('PYSTOLS', 22),
+    Arma('SPUTAFIAMME', 25),
+    Arma('FUCILS', 25)
 )
 
-arma = Arma(armi[0][0], armi[0][1])
 
 class Player():
     def __init__(self) -> None:
@@ -155,6 +180,7 @@ class Player():
         self.__money = 50
         self.__score = 0
         self.__inventario = []
+        self.__arma = ARMI[0]
 
     def getHp(self):
         return self.__hp
@@ -169,10 +195,16 @@ class Player():
         return self.__inventario
     
     def addInventario(self, item):
-        self.__inventario.append(item)
+        self.inventario__.append(item)
 
     def rmInventario(self, item):
         self.__inventario.remove(item)
+
+    def getArma(self):
+        return self.__arma
+    
+    def setArma(self, arma):
+        self.__arma = arma
 
     def win(self, hp, money, score):
         self.__hp += hp
@@ -185,50 +217,154 @@ class Player():
         self.__score += score
 
 
-player = Player()
+PLAYER = Player()
 
-def events(contatore=0):
+def events():
 
-    if contatore == 0:
+    #il tipo evento è necessario per il .format() degli avvenimenti. 
+    tipo_evento = randint(0,2)
+
+    if tipo_evento == 0:
+        #wow!
+        print(choice(EVENTI_CASUALI[tipo_evento]).format(choice(LUOGHI), choice(CRISTIANI)))
+        
+    elif tipo_evento == 1:
+        #e funziona eh!!
+        print(choice(EVENTI_CASUALI[tipo_evento]).format(choice(CRISTIANI), choice(LUOGHI)))
+
+    elif tipo_evento == 2:
+        print(choice(EVENTI_CASUALI[tipo_evento]).format(choice(CRISTIANI)))
 
 
-        #il tipo evento è necessario per il .format() degli avvenimenti. 
-        tipo_evento = random.randint(0,1)
+def destino(num):
 
-        if tipo_evento == 0:
+    prob = randint(22,40)
 
-            #wow!
-            print(random.choice(eventi_casuali[tipo_evento]).format(random.choice(luoghi), random.choice(cristiani)))
+    if num == 1:
+        if PLAYER.getArma() == None:
+            prob -= 10
 
-        elif tipo_evento == 1:
-            
-            #e funziona eh!!
-            print(random.choice(eventi_casuali[tipo_evento]).format(random.choice(cristiani), random.choice(luoghi)))
+        else:
+            prob += PLAYER.getArma().getLuck()
+        
+        if PLAYER.getHp() >= 70:
+            prob += 4
+        
+        for i in PLAYER.getInventario():
+            prob -= 2
 
-        elif tipo_evento == 2:
-            pass
+
+    elif num == 2:
+        for i in PLAYER.getInventario():
+            prob -= 4
+
+        if PLAYER.getArma() == None:
+            prob += 8
+
+        if PLAYER.getHp() <= 30:
+            prob -= 4
+
+
+    elif num == 3:
+        for i in PLAYER.getInventario():
+            prob += 4
+
+        if PLAYER.getArma().getLuck() >= 18:
+            prob -= 4
+
+
+    if prob < randint(0,100):
+
+        if num == 1:
+            print(choice(FINALI_CASUALI[0][1]))
+
+        elif num == 2:
+            print(choice(FINALI_CASUALI[1][1]))
+
+        elif num == 3:
+            print(choice(FINALI_CASUALI[2][1]))
+
+        lost_points = [randint(5,15), randint(5,15), randint(10,15)]
+
+        PLAYER.lose(lost_points[0], lost_points[1], lost_points[2])
+
+        print(f'\n-{lost_points[0]}HP   -{lost_points[1]}€    +{lost_points[2]}🎯')
+
+    else:
+        if num == 1:
+            print(choice(FINALI_CASUALI[0][0]))
+
+        elif num == 2:
+            print(choice(FINALI_CASUALI[1][0]))
+
+        elif num == 3:
+            print(choice(FINALI_CASUALI[2][0]))
+
+        get_points = [randint(5,11), randint(5,15), randint(20,30)]
+
+        PLAYER.win(get_points[0], get_points[1], get_points[2])
+
+        print(f'\n+{get_points[0]}HP   +{get_points[1]}€    +{get_points[2]}🎯')
+
+
+
+
+def scelta(mode='casual'):
+
+    if mode == 'casual':
+
+        while True:
+
+            try:
+                choose = int(input(PLAY_OPZ[0] + PLAY_OPZ[1]))
+
+                assert choose in [1,2,3]
+
+            except:
+                print('fanculo. riprova')
+
+            else:
+                system('clear')
+                break
+    
+    elif mode == 'inizio':
+        pass
+
+    return choose
+        
 
 def run():
 
     global indice
 
-    if Arma.getNome == None:
-        print(schema.format(player.getHp(), player.getMoney(), player.getScore(), 'No Weapon. Accort'))
+
+    while PLAYER.getHp() > 0:
+
+        system('clear')
     
+        print(SCHEMA.format(PLAYER.getHp(), PLAYER.getMoney(), PLAYER.getScore(), 'No Weapon. Accort' if PLAYER.getArma() is None else PLAYER.getArma().getNome()))
+
+        indice += 1
+
+        #qua sta la storia principale se la vogliamo fare
+        if indice in []:
+            pass
+
+        else:
+            events()        
+            destino(scelta())
+            input()
+
     else:
-        print(schema.format(player.getHp(), player.getMoney(), player.getScore(), arma.getNome()))
+        print('GAME OVER')
 
-    indice += 1
 
-    #qua sta la storia principale se la vogliamo fare
-    if indice in []:
-        pass
-
-    else:
-        events()
     
 
 if __name__ == '__main__':
+
+    system('clear')
     run()
+
 else:
     print('game.py is not a importable module')
