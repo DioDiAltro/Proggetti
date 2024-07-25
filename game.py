@@ -1,6 +1,5 @@
 from random import randint, choice
 from os import system
-from time import sleep
 
 SCHEMA = '{}HP  |  {}€  |  {}🎯   |    {}'
 
@@ -94,45 +93,55 @@ LUOGHI = ('villaggio','bosco','sotterraneo','ponte','posto di merda','mausoleo',
 
 FINALI_CASUALI = (
     
-    #finali attacco
+# finali attacco
     (
-
+        # finale buono
         ('uno ti ha lanciato la scarpa a fanculo e lo hai risposto con un pompino istantaneo',
          'mentre uno piangeva, hai performato un perfetto calcio volante\nche ha fatto piangere anche gli amici.',
          'hai ucciso uno di loro e gli altri sono saliti su dei monopattini d\'argento e \nsi sono sparati in aria, scomparendo.'),
 
+        # finale cattivo
         ('dannazione! uno di loro inizia a urlare fortissimo e ti squaccia a terra!!!',
          'quello con la mutanda sgommata è molto più serio di quanto sembri!!\nti ha rotto il culo e sei scappato!',
-         'stavi palesemente per ucciderne uno, ma purtroppo sdiarrei sul momento e ti picchiano.')                   
+         'stavi palesemente per ucciderne uno, ma purtroppo sdiarrei sul momento e ti picchiano.')   
+
     ),
 
-#finali amicizia
+# finali amicizia
     (
+        # finale buono
         ('gli hai offerto una sigasmokes e un bambino ti ha spompinato, evviva!',
          'dicono che per stare con loro devi metterti un mandarino nel culo.\n ora stai con loro.'),
 
+        # finale cattivo
         ('sei molto timido e mentre parli per sbaglio caghi in piedi.\nti hanno picchiato molto forte.',
          'ti hanno incaricato di rollare la giga J ma ti cade il dildo dal culo. tutti ti iniziano a picchiare fortissimo!\n\n',
          'mentre parli accendi il telefono di legno e parte un porno furry gay.\nti fanno giustizia.')
+   
     ),
 
 
-#finali scappare
+# finali scappare
     (
+        # finale buono
         ('scatti a correre veloce, ma uno di loro è incredibilmente fast. wow! che culo! è caduto e si è rotto i denti!',
          'sei fortunato che la maggior parte di loro è composta da ciotti.',
          'uno ti ha stracciato e strappato la tasca del pantalone. glie l\'hai messa in bocca e sei scappato'),
+        
+        # finale cattivo
         ('stavi per scappare, ma con un\'abile mossa un tuo avversario ti straccia tutta la maglietta!',
          'mannaggia! mannaggia! ti hanno raggiunto e rubato le scarpe!!!',
          'non dovevi fermarti a pisciare dopo 8 secondi di corsa. ti hanno strappato parte dei capelli.',
          'ma che cazzo !? uno è proprio veloce! oh! è incredibilmente fast!!!\nti ha stracciato il berretto così forte da bucartelo')
+    
     )
+
 )
 
 
-class Arma():
+class Arma:
 
-    #la durata dell'arma quando inizializzata è sempre a 100. dovrebbe scendere e non rimanere a 100 dato che si inizializza all'inizio appunto
+    # la durata dell'arma quando inizializzata è sempre a 100. dovrebbe scendere e non rimanere a 100 dato che si inizializza all'inizio appunto
     def __init__(self, nome, luck, durata=100) -> None:
         self.__nome = nome
         self.__luck = luck
@@ -171,17 +180,22 @@ ARMI = (
     Arma('PYSTOLS', 22),
     Arma('SPUTAFIAMME', 25),
     Arma('FUCILS', 25)
+
 )
 
 
-class Player():
-    def __init__(self) -> None:
+class Player:
+    def __init__(self, nome) -> None:
+        self.__nome = nome
         self.__hp = 100
         self.__money = 50
         self.__score = 0
         self.__inventario = []
         self.__arma = ARMI[0]
 
+    def getNome(self):
+        return self.__nome
+    
     def getHp(self):
         return self.__hp
     
@@ -217,11 +231,11 @@ class Player():
         self.__score += score
 
 
-PLAYER = Player()
+PLAYER = Player(input('Inserisci il tuo nome: '))
 
 def events():
 
-    #il tipo evento è necessario per il .format() degli avvenimenti. 
+    # il tipo evento è necessario per il .format() degli avvenimenti. 
     tipo_evento = randint(0,2)
 
     if tipo_evento == 0:
@@ -324,7 +338,7 @@ def scelta(mode='casual'):
                 print('fanculo. riprova')
 
             else:
-                system('clear')
+                system('cls') # system('clear')
                 break
     
     elif mode == 'inizio':
@@ -340,20 +354,20 @@ def run():
 
     while PLAYER.getHp() > 0:
 
-        system('clear')
+        system('cls') # system('clear')
     
         print(SCHEMA.format(PLAYER.getHp(), PLAYER.getMoney(), PLAYER.getScore(), 'No Weapon. Accort' if PLAYER.getArma() is None else PLAYER.getArma().getNome()))
 
         indice += 1
 
-        #qua sta la storia principale se la vogliamo fare
+        # qua sta la storia principale se la vogliamo fare
         if indice in []:
             pass
 
         else:
             events()        
             destino(scelta())
-            input()
+            input("\nPremi Invio per continuare...")
 
     else:
         print('GAME OVER')
@@ -363,7 +377,7 @@ def run():
 
 if __name__ == '__main__':
 
-    system('clear')
+    system('cls') # system('clear')
     run()
 
 else:
