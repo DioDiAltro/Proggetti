@@ -46,6 +46,20 @@ Sono tre {} che parteciano a un'orgia clandestina!
             '''
 una giga puzza di merda invade un {} e qualche senti due {}:
 "fanculo!!! fanculo!!! fanculo!!!" "scorreggione figlio di puttana!!!"
+''',
+'''
+leggi su un cartello che più avanti c'è il {} dei {}.
+il problema è che ci stavano andando anche loro.
+''',
+'''
+dato che hai il cazzo molto duro ti addentri nel famoso {}
+dove si narra ci siano tantissimi {}.
+ora ce ne sono due picchiali se sei buono
+''',
+'''
+sbatti a terra mentre cammini per il {}
+dove tutti sanno che sbattere a terra è da falliti.
+Diversi {} iniziano a guardarti male.
 '''
         ),
 
@@ -64,9 +78,13 @@ ma che cazzo... due {} hanno appena ucciso di botte due disabili
 dietro un {}. per sbaglio squacci a terra e ti notano.
 ''',
             '''
-non ce la fai più... tieni troppo a cacare, e intravedi tue {} che fanno
+non ce la fai più... tieni troppo a cacare, e intravedi due {} che fanno
 l'elemosina difronte un {}. ti sei tolto lo sfizio cacando nel cappello
 che aveva in mano. non gli piace e inizia a strizzare il berretto mentre urla!
+''',
+'''
+stai spiando tre {} che sembrano avere del cibo.
+
 '''
         ),
 
@@ -92,48 +110,64 @@ CRISTIANI = ('negri','anziani','ricchioni','ciccioni','analfabeti','attivisti','
 LUOGHI = ('villaggio','bosco','sotterraneo','ponte','posto di merda','mausoleo','fiume','bronx')
 
 FINALI_CASUALI = (
-    
+
 # finali attacco
     (
         # finale buono
         ('uno ti ha lanciato la scarpa a fanculo e lo hai risposto con un pompino istantaneo',
          'mentre uno piangeva, hai performato un perfetto calcio volante\nche ha fatto piangere anche gli amici.',
-         'hai ucciso uno di loro e gli altri sono saliti su dei monopattini d\'argento e \nsi sono sparati in aria, scomparendo.'),
+         'hai ucciso uno di loro e gli altri sono saliti su dei monopattini d\'argento e \nsi sono sparati in aria, scomparendo.',
+         'boom! bum! baaaaam!! dai cazzo!!!',
+         'il batman della situation ha spaccato il culo tutti i coglioni presenti.',
+         'con un giga cazzottone uno fa il salto della morte!!!\n un amico piange e un altro ti lancia i soldi!'),
 
         # finale cattivo
         ('dannazione! uno di loro inizia a urlare fortissimo e ti squaccia a terra!!!',
          'quello con la mutanda sgommata è molto più serio di quanto sembri!!\nti ha rotto il culo e sei scappato!',
-         'stavi palesemente per ucciderne uno, ma purtroppo sdiarrei sul momento e ti picchiano.')   
+         'stavi palesemente per ucciderne uno, ma purtroppo sdiarrei sul momento e ti picchiano.',
+         'prendi a uno per il cappuccio e lo tiri fortissimo verso sud-est.\nlui muore, ma gli amici ti stracciano fortissimo il cappello',
+         'hai abbuscato con una precisione del 99%.',
+         'spunta uno che pesa 170kg e mentre urla ti catapulta in un altro posto',
+         'madonna che scelta di merda! ti hanno rotto il culo, frammentandolo!!!')   
 
     ),
-
-# finali amicizia
-    (
-        # finale buono
-        ('gli hai offerto una sigasmokes e un bambino ti ha spompinato, evviva!',
-         'dicono che per stare con loro devi metterti un mandarino nel culo.\n ora stai con loro.'),
-
-        # finale cattivo
-        ('sei molto timido e mentre parli per sbaglio caghi in piedi.\nti hanno picchiato molto forte.',
-         'ti hanno incaricato di rollare la giga J ma ti cade il dildo dal culo. tutti ti iniziano a picchiare fortissimo!\n\n',
-         'mentre parli accendi il telefono di legno e parte un porno furry gay.\nti fanno giustizia.')
-   
-    ),
-
 
 # finali scappare
     (
         # finale buono
-        ('scatti a correre veloce, ma uno di loro è incredibilmente fast. wow! che culo! è caduto e si è rotto i denti!',
+        ('scatti a correre veloce, ma uno di loro è incredibilmente fast.\n wow! che culo! è caduto e si è rotto i denti!',
          'sei fortunato che la maggior parte di loro è composta da ciotti.',
-         'uno ti ha stracciato e strappato la tasca del pantalone. glie l\'hai messa in bocca e sei scappato'),
+         'uno ti ha stracciato e strappato la tasca del pantalone. glie l\'hai messa in bocca e sei scappato',
+         'stavi correndo ma uno aveva il tuo cappello, supplichi per riaverlo\ne te lo stracciano davanti agli occhi. così torni indietro\nmetti il cappello stracciato in testa e gli ficchi un pugno in bocca',
+         'salti molto molto in alto e non riescono a raggiungerti;\nsponsorizzi a tutti una sciolta dall\'alto e te ne vai'),
         
         # finale cattivo
         ('stavi per scappare, ma con un\'abile mossa un tuo avversario ti straccia tutta la maglietta!',
          'mannaggia! mannaggia! ti hanno raggiunto e rubato le scarpe!!!',
          'non dovevi fermarti a pisciare dopo 8 secondi di corsa. ti hanno strappato parte dei capelli.',
-         'ma che cazzo !? uno è proprio veloce! oh! è incredibilmente fast!!!\nti ha stracciato il berretto così forte da bucartelo')
+         'ma che cazzo !? uno è proprio veloce! oh! è incredibilmente fast!!!\nti ha stracciato il berretto così forte da bucartelo',
+         'vuoi andartene, ma vedi un oggetto di valore. così decidi di strappare forte\nla maglietta di uno, prendere l\'object e correre, ma uno ti svergina con successo.',
+         'scatti a correre, e freccia un fallito col monopalla che ti spinge e finisci squacciato in un angolo.')
     
+    ),
+
+
+# finali amicizia
+    (
+        # finale buono
+        ('gli hai offerto una sigasmokes e un bambino ti ha spompinato, evviva!',
+         'dicono che per stare con loro devi metterti un mandarino nel culo.\n ora stai con loro.',
+         'dopo una chiacchierata, uno si sdiarrea addosso e ne approfitti\nper scoppiargli l\'accendino.',
+         'uno ha cacciato un fazzoletto e ti ha pulito il culo',
+         'fra ma perchè te li sei fatti amici?\ncomunque non ti hanno picchiato, ma hai dovuto segare uno di loro'),
+
+        # finale cattivo
+        ('sei molto timido e mentre parli per sbaglio caghi in piedi.\nti hanno picchiato molto forte.',
+         'ti hanno incaricato di rollare la giga J ma ti cade il dildo dal culo. tutti ti iniziano a picchiare fortissimo!\n\n',
+         'mentre parli accendi il telefono di legno e parte un porno furry gay.\nti fanno giustizia.',
+         'ti avvicini, chiedi l\'accendino e uno ti schiaccia le scarpe\ncosì lo ficchi nel muro ma gli amici ti stracciano il cavizone.',
+         'fate una raga di sciolta, e l\'hai persa perchè avevi sdiarreato prima\nsei nei guai!')
+   
     )
 
 )
@@ -338,7 +372,7 @@ def scelta(mode='casual'):
                 print('fanculo. riprova')
 
             else:
-                system('cls') # system('clear')
+                system('clear') # system('clear')
                 break
     
     elif mode == 'inizio':
@@ -354,7 +388,7 @@ def run():
 
     while PLAYER.getHp() > 0:
 
-        system('cls') # system('clear')
+        system('clear') # system('clear')
     
         print(SCHEMA.format(PLAYER.getHp(), PLAYER.getMoney(), PLAYER.getScore(), 'No Weapon. Accort' if PLAYER.getArma() is None else PLAYER.getArma().getNome()))
 
@@ -377,7 +411,7 @@ def run():
 
 if __name__ == '__main__':
 
-    system('cls') # system('clear')
+    system('clear') # system('clear')
     run()
 
 else:
