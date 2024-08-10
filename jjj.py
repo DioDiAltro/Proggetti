@@ -47,11 +47,11 @@ class miner():
             PKGP = json.dumps({
                 "id"     : 2,
                 "method" : 'mining.authorize',
-                "params" : ['eagle2snitch@duck.com','G41q0_desK']
+                "params" : ['jowsock','G41q0_desK']
             }).encode('utf-8')
 
-            dati = self.__pool.sendall(PKGP + b'\n')
-            data = self.__pool.recv(1024).decode('utf-8')
+            self.__pool.sendall(PKGP + b'\n')
+            dati = self.__pool.recv(1024).decode('utf-8')
 
             print(dati)
 
@@ -117,6 +117,7 @@ class miner():
 if __name__=='__main__':
     slave = miner()
 
-    for i in range(2):
-        #while true:
+    for i in range(1):
+    #while true:
+    
         slave.ask()
