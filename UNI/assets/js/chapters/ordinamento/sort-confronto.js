@@ -254,7 +254,7 @@ heap          37636     39159     35964           34904</code></pre>
   /* ------------------------------------------------------------- la gara */
 
   function mountGara(host) {
-    const lab = h('div.lab.ord-gara');
+    const lab = h('div.lab.ord-lab.ord-gara');
     const body = h('div.lab-body');
     const controls = h('div.lab-controls');
     const out = h('div.lab-out', { 'aria-live': 'polite' });

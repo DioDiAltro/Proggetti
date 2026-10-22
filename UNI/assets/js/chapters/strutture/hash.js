@@ -66,10 +66,10 @@
     const keyLine = (op, k) => `<code>${op}(${k})</code> · ${m(`h(${k}) = ${k} mod ${M} = ${k % M}`)}`;
     t.step(null, `Tabella vuota con ${M} liste: ogni <code>t[i]</code> vale <code>nullptr</code>.`, { n }, S());
 
-    function search(k, key) {
+    function search(k, key, intro = '') {
       const i = k % M;
       const at = (pos, cls) => ({ [`${i}:${pos}`]: cls });
-      t.step('s-h', `<code>i = h(${k})</code> = ${k} mod ${M} = ${i}: la chiave, se c'è, sta nella lista ${i}.`, { k, i }, S({ key, probes: [i], marks: { [i]: 'compare' } }));
+      t.step('s-h', `${intro}<code>i = h(${k})</code> = ${k} mod ${M} = ${i}: la chiave, se c'è, sta nella lista ${i}.`, { k, i }, S({ key, probes: [i], marks: { [i]: 'compare' } }));
       const chain = T[i];
       t.step(
         's-loop',
@@ -100,7 +100,7 @@
       const k = o.x;
       const key = keyLine(opName[o.op], k);
       if (o.op === 'cerca') {
-        search(k, key);
+        search(k, key, `<code>cerca(${k})</code>: `);
         continue;
       }
       if (o.op === 'ins') {
@@ -183,14 +183,14 @@
     t.step(null, `Tabella vuota: ${M} caselle, tutte <code>VUOTO</code>.`, { n }, S());
 
     /** cerca(k): restituisce l'indice o -1, registrando le ispezioni. */
-    function search(k, key) {
+    function search(k, key, intro = '') {
       const probes = [];
       for (let j = 0; j < M; j++) {
         const i = (k % M + j) % M;
         probes.push(i);
         t.count('ispezioni');
         const P = { key, probes: probes.slice(), marks: { [i]: 'compare' } };
-        t.step('s-i', `<code>j = ${j}</code>: <code>i = (h(${k}) + ${j}) % ${M}</code> = ${i}. Nella casella c'è ${show(T[i])}.`, { k, j, i }, S(P));
+        t.step('s-i', `${j === 0 ? intro : ''}<code>j = ${j}</code>: <code>i = (h(${k}) + ${j}) % ${M}</code> = ${i}. Nella casella c'è ${show(T[i])}.`, { k, j, i }, S(P));
         if (T[i] == null) {
           t.step('s-empty', `<code>t[${i}]</code> è <code>VUOTO</code>: se ${k} ci fosse, sarebbe stata messa qui o prima. <code>return -1</code>.`, { k, j, i }, S(P));
           return -1;
@@ -215,7 +215,7 @@
       const k = o.x;
       const key = keyLine(opName[o.op], k);
       if (o.op === 'cerca') {
-        search(k, key);
+        search(k, key, `<code>cerca(${k})</code>: `);
         continue;
       }
       if (o.op === 'canc') {
@@ -579,6 +579,7 @@
       x: { min: 0, max: 0.95, label: 'α' },
       y: { min: 0, max: 16, label: 'ispezioni' },
       height: 290,
+      endLabels: false,
       ariaLabel: 'Numero atteso di ispezioni in funzione del fattore di carico',
     });
     const F = {
@@ -950,10 +951,10 @@ max_load_factor predefinito: 1</code></pre>
             },
             {
               q: 'Metodo della divisione con chiavi decimali qualsiasi: quali valori di <var>m</var> sono <strong>cattive</strong> scelte?',
-              options: [m('m = 1024'), m('m = 1000'), m('m = 701'), m('m = 997')],
+              options: [m('m = 1024'), m('m = 1000'), m('m = 701'), m('m = 389')],
               answer: [0, 1],
               explain: `Con ${m('m = 1024 = 2^{10}')} l'indice dipende solo dagli ultimi 10 bit della chiave; con ${m('m = 1000')} solo dalle
-              ultime 3 cifre. 701 e 997 sono primi e lontani dalle potenze di 2: usano tutta la chiave.`,
+              ultime 3 cifre. 701 e 389 sono primi e lontani dalle potenze di 2: il resto dipende da tutta la chiave.`,
             },
             {
               q: 'Quali affermazioni su <code>unordered_map</code> e <code>map</code> sono vere?',

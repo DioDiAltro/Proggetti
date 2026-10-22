@@ -71,7 +71,7 @@
           const b = new Array(2 * cap).fill(null);
           const bcol = (k, marks) => ({ label: 'b', a: b.slice(), n: k, ptrs: {}, marks: marks || {}, note: `${2 * cap} caselle` });
           t.step('g-new', `<code>b = new int[${2 * cap}]</code>: un array nuovo, grande il doppio.`, V(o.x), S(col(), bcol(0)));
-          t.step('g-for', `Si copiano gli ${n} elementi di <code>a</code> in <code>b</code>, da <code>i = 0</code> a <code>i = ${n - 1}</code>.`, V(o.x), S(col(), bcol(0)));
+          t.step('g-for', `Si copiano in <code>b</code> gli elementi di <code>a</code>, da <code>i = 0</code> a <code>i = ${n - 1}</code>.`, V(o.x), S(col(), bcol(0)));
           for (let i = 0; i < n; i++) {
             b[i] = a[i];
             t.count('copie');
@@ -102,7 +102,7 @@
         n--;
         t.step(
           'pop',
-          `<code>pop()</code>: basta <code>n--</code>, ${m('Θ(1)')}. Il ${a[n]} resta scritto in <code>a[${n}]</code> ma non fa più parte della pila: la prossima push lo sovrascrive.`,
+          `<code>pop()</code>: basta <code>n--</code>, ${m('Θ(1)')}. Il valore ${a[n]} resta scritto in <code>a[${n}]</code> ma non fa più parte della pila: la prossima push lo sovrascrive.`,
           V(),
           S(col())
         );
@@ -113,7 +113,7 @@
     const per = t.c.push ? t.c.copie / t.c.push : 0;
     t.step(
       null,
-      `Fine: ${t.c.push} push e ${t.c.copie} copie per le crescite, in media ${fmtNum(per)} copie per push. Raddoppiando, le copie non superano mai il numero di push: ogni push costa ${m('O(1)')} ammortizzato.`,
+      `Fine: ${t.c.push} push e ${t.c.copie} copie per le crescite, in media ${fmtNum(per)} ${per === 1 ? 'copia' : 'copie'} per push. Raddoppiando, le copie restano sempre meno del doppio delle push: ogni push costa ${m('O(1)')} ammortizzato.`,
       V(),
       Object.assign(S(col()), { meta: { values: a.slice(0, n) } })
     );
@@ -222,7 +222,7 @@
         n--;
         t.step(
           'deq-n',
-          `<code>n--</code>. Il ${x} resta scritto in <code>a[${old}]</code>, ma è fuori dalla coda (casella tratteggiata): un prossimo enqueue lo sovrascriverà.`,
+          `<code>n--</code>. Il valore ${x} resta scritto in <code>a[${old}]</code>, ma è fuori dalla coda (casella tratteggiata): un prossimo enqueue lo sovrascriverà.`,
           V(x),
           S()
         );
@@ -472,7 +472,9 @@
     t.step(
       'fine',
       ok
-        ? 'La stringa è finita e la pila è vuota: ogni aperta ha trovato la sua chiusa, nell\'ordine giusto. <code>return true</code>.'
+        ? t.c.push
+          ? 'La stringa è finita e la pila è vuota: ogni aperta ha trovato la sua chiusa, nell\'ordine giusto. <code>return true</code>.'
+          : 'La stringa è finita senza parentesi: la pila è vuota, <code>return true</code>.'
         : `La stringa è finita, ma sulla pila ${plural(stack.length, 'resta un\'aperta', 'restano ' + stack.length + ' aperte')} senza chiusa. <code>return false</code>.`,
       {},
       S(null, {
@@ -644,9 +646,9 @@
   <div data-mount="stPila"></div>
   <h3>Quanto costa una push: l'analisi ammortizzata</h3>
   <p>Una push che fa crescere l'array costa ${m('Θ(n)')}, perché copia tutti gli elementi. Ma capita di rado: partendo da
-  capacità 1 e raddoppiando, per arrivare a <var>n</var> elementi le crescite copiano ${m('1 + 2 + 4 + … + n/2 < n')}
-  elementi in tutto. Le <var>n</var> push costano quindi meno di ${m('n + n = 2n')} operazioni: in media
-  ${m('O(1)')} ciascuna. Si dice che la push costa ${m('O(1)')} <strong>ammortizzato</strong>: una singola push può costare
+  capacità 1 e raddoppiando, le crescite copiano ${m('1 + 2 + 4 + … + 2^k')} elementi, dove ${m('2^k')} è la capacità più
+  grande che si è riempita, quindi ${m('2^k < n')}. La somma vale ${m('2^{k+1} - 1 < 2n')}. Le <var>n</var> push costano
+  allora meno di ${m('n + 2n = 3n')} operazioni (le scritture più le copie): in media ${m('O(1)')} ciascuna. Si dice che la push costa ${m('O(1)')} <strong>ammortizzato</strong>: una singola push può costare
   tanto, una sequenza di <var>n</var> push costa ${m('O(n)')}. È esattamente quello che fa <code>vector::push_back</code>.</p>
   ${box('esame', `<p>Domanda classica: "e se invece di raddoppiare l'array lo allungassi di 10 caselle alla volta?". Allora le
   crescite sono una ogni 10 push e copiano ${m('10 + 20 + 30 + … ≈ n^2/20')} elementi: ${m('Θ(n^2)')} in tutto, cioè
@@ -716,9 +718,9 @@ tolgo 1</code></pre>
     caption: 'Le operazioni e i loro costi',
     head: ['Struttura', 'Inserire', 'Togliere', 'Leggere', 'Costo'],
     rows: [
-      ['<code>stack&lt;T&gt;</code>', '<code>push(x)</code>', '<code>pop()</code>', '<code>top()</code>', `${m('O(1)')} (push ammortizzato)`],
-      ['<code>queue&lt;T&gt;</code>', '<code>push(x)</code> in fondo', '<code>pop()</code> davanti', '<code>front()</code>, <code>back()</code>', `${m('O(1)')} (push ammortizzato)`],
-      ['<code>deque&lt;T&gt;</code>', '<code>push_front</code>, <code>push_back</code>', '<code>pop_front</code>, <code>pop_back</code>', '<code>front()</code>, <code>back()</code>, <code>d[i]</code>', `${m('O(1)')} (inserimenti ammortizzati)`],
+      ['<code>stack&lt;T&gt;</code>', '<code>push(x)</code>', '<code>pop()</code>', '<code>top()</code>', m('O(1)')],
+      ['<code>queue&lt;T&gt;</code>', '<code>push(x)</code> in fondo', '<code>pop()</code> davanti', '<code>front()</code>, <code>back()</code>', m('O(1)')],
+      ['<code>deque&lt;T&gt;</code>', '<code>push_front</code>, <code>push_back</code>', '<code>pop_front</code>, <code>pop_back</code>', '<code>front()</code>, <code>back()</code>, <code>d[i]</code>', m('O(1)')],
     ],
   })}
   ${box('errore', `<p>In <code>std::stack</code> e <code>std::queue</code> la <code>pop()</code> non restituisce niente
@@ -951,8 +953,8 @@ tolgo 1</code></pre>
               q: 'Una pila su array <strong>raddoppia</strong> la capacità quando è piena. Quanto costano in tutto <var>n</var> push, partendo dalla pila vuota?',
               options: [m('Θ(n)'), m('Θ(n log n)'), m('Θ(n^2)'), m('Θ(1)')],
               answer: 0,
-              explain: `Le crescite copiano ${m('1 + 2 + 4 + … < n')} elementi in tutto, e le scritture sono <var>n</var>: meno di
-              ${m('2n')} operazioni, cioè ${m('Θ(n)')} in tutto e ${m('O(1)')} ammortizzato per push. Se la capacità crescesse di una
+              explain: `Le crescite copiano ${m('1 + 2 + 4 + … + 2^k')} elementi con ${m('2^k < n')}, cioè meno di ${m('2n')}; con le
+              <var>n</var> scritture fanno meno di ${m('3n')} operazioni: ${m('Θ(n)')} in tutto e ${m('O(1)')} ammortizzato per push. Se la capacità crescesse di una
               costante invece che di un fattore, il totale sarebbe ${m('Θ(n^2)')}.`,
             },
             {

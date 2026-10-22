@@ -7,9 +7,9 @@ using namespace std;
 
 //@region vettore
 struct Vettore {
-    int* dati = nullptr;    // array sullo heap
-    int n = 0;              // elementi usati (size)
-    int cap = 0;            // posti disponibili (capacity)
+    int* dati = nullptr;  // array sullo heap
+    int n = 0;            // size: elementi usati
+    int cap = 0;          // capacity: posti allocati
 
     void push_back(int x) {
         if (n == cap) {                                 //@pieno

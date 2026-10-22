@@ -590,6 +590,12 @@
   font-style: normal;
 }
 
+/* codice in linea lungo: può andare a capo (vedi ASD.cpp.aCapo) */
+code.cpp-wrap {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 /* nelle risposte dei quiz il codice lungo va a capo invece di uscire dallo schermo */
 .cpp-quiz .quiz-opt code {
   white-space: normal;

@@ -409,9 +409,9 @@
       const left = a[i] <= a[j];
       let why;
       if (!left) why = `${a[i]} &gt; ${a[j]}: prendo quello di destra.`;
-      else if (a[i] === a[j]) why = `sono uguali, e con <code>&lt;=</code> vince quello di sinistra: è questo che rende la fusione stabile.`;
+      else if (a[i] === a[j]) why = `Sono uguali, e con <code>&lt;=</code> vince quello di sinistra: è questo che rende la fusione stabile.`;
       else why = `${a[i]} ≤ ${a[j]}: prendo quello di sinistra.`;
-      t.step('cmp', `Confronto a[${i}] = ${lab[i]} con a[${j}] = ${lab[j]}: ${why}`, { i, j, k }, state({ am: { [i]: 'compare', [j]: 'compare' }, ap: ap(i, j), bp: { k } }));
+      t.step('cmp', `Confronto a[${i}] = ${lab[i]} con a[${j}] = ${lab[j]}. ${why}`, { i, j, k }, state({ am: { [i]: 'compare', [j]: 'compare' }, ap: ap(i, j), bp: { k } }));
       if (left) {
         bl[k] = lab[i];
         used.add(i);
@@ -472,20 +472,7 @@
 
   /** La fusione è giusta se il risultato è ordinato e i valori uguali tengono l'ordine degli apici (stabilità). */
   function validateMerge(input, frames) {
-    const res = frames[frames.length - 1].state.result || [];
-    const all = input.left.concat(input.right);
-    if (res.length !== all.length) return 'lunghezza sbagliata';
-    const key = (s) => [parseInt(s, 10), String(s).replace(/^\d+/, '')];
-    const order = ['', '′', '″', '‴'];
-    for (let q = 1; q < res.length; q++) {
-      const [v1, t1] = key(res[q - 1]);
-      const [v2, t2] = key(res[q]);
-      if (v1 > v2) return 'non ordinato: ' + res.join(',');
-      if (v1 === v2 && order.indexOf(t1) > order.indexOf(t2)) return 'non stabile: ' + res.join(',');
-    }
-    const s1 = all.slice().sort((p, q) => p - q).join(',');
-    const s2 = res.map((s) => parseInt(s, 10)).sort((p, q) => p - q).join(',');
-    return s1 === s2 ? null : 'valori diversi dall\'input';
+    return S.checkStable(frames[frames.length - 1].state.result || [], input.left.concat(input.right));
   }
 
   /* ------------------------------------------------- il merge sort completo */
@@ -594,7 +581,7 @@
   /* -------------------------------------- laboratorio: l'albero di ricorsione */
 
   function mountAlbero(host) {
-    const lab = h('div.lab');
+    const lab = h('div.lab.ord-lab');
     const body = h('div.lab-body.quadretti');
     const controls = h('div.lab-controls');
     const out = h('div.lab-out.ord-lab-out', { 'aria-live': 'polite' });

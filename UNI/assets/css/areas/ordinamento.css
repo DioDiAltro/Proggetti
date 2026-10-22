@@ -15,10 +15,6 @@
   min-width: 0;
 }
 
-.ord-piece[hidden] {
-  display: none;
-}
-
 .ord-multi .av-label {
   white-space: nowrap;
 }
@@ -70,11 +66,6 @@
 .ord-stepper .st-legend i.k-visited {
   background: var(--surface-2);
   border-color: var(--ink-2);
-}
-
-.ord-stepper .st-legend i.k-sorted {
-  background: var(--pen-tint);
-  border-color: var(--pen);
 }
 
 .ord-stepper .st-legend i.k-future {
@@ -312,7 +303,7 @@
 }
 
 .ord-radios .chip,
-.lab-controls .chip {
+.ord-lab .lab-controls .chip {
   cursor: pointer;
 }
 
@@ -361,4 +352,11 @@
   color: var(--ink-2);
   font-weight: 400;
   border-bottom-style: dashed;
+}
+
+/* senza animazioni per chi le ha disattivate (nei visualizzatori ci pensa già lo Stepper) */
+@media (prefers-reduced-motion: reduce) {
+  .ord-lab {
+    --av-dur: 0ms;
+  }
 }

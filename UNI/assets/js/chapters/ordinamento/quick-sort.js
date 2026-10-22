@@ -99,7 +99,8 @@
   <h3>Caso medio</h3>
   <p>Su un input in ordine casuale il pivot cade quasi sempre "abbastanza" in mezzo, e basta: anche se ogni partizione
   dividesse sempre 9 a 1, l'albero sarebbe alto ${m('log_{10/9} n')} e il costo resterebbe ${m('Θ(n log n)')}. Il conto
-  esatto (lo trovi sul Cormen) dà in media circa ${m('2n ln n ≈ 1,39 n log_2 n')} confronti per <var>n</var> grande.</p>
+  esatto dà in media circa ${m('2n ln n ≈ 1,39 n log_2 n')} confronti per <var>n</var> grande (sul Cormen trovi la
+  dimostrazione che il tempo atteso è ${m('O(n log n)')}).</p>
   <p>Misuralo: il grafico conta i confronti per <var>n</var> crescente, sull'input casuale e su quello già ordinato.</p>
   <div data-mount="grafico"></div>
   <p>Lo stesso esperimento in C++, con 2000 elementi. Il programma conta anche la profondità massima della ricorsione,
@@ -502,7 +503,7 @@ casuale, parte piccola          9</code></pre>
       const sbil = p === lo || p === hi ? ' Divisione sbilanciata: una delle due parti è vuota.' : '';
       t.step(
         'part',
-        `Dopo la partizione (${c} confront${c === 1 ? 'o' : 'i'}): <code>p = ${p}</code>, il ${pivot} è al suo posto definitivo. A sinistra ${fmt(lo, p - 1)}, a destra ${fmt(p + 1, hi)}.${sbil}`,
+        `Dopo la partizione (${c} confront${c === 1 ? 'o' : 'i'}): <code>p = ${p}</code>, il pivot ${pivot} è al suo posto definitivo. A sinistra ${fmt(lo, p - 1)}, a destra ${fmt(p + 1, hi)}.${sbil}`,
         v2,
         view({ range: [lo, hi], regions })
       );
@@ -540,7 +541,7 @@ casuale, parte piccola          9</code></pre>
   /* ---------------------------------------------- laboratorio: i confronti */
 
   function mountGrafico(host) {
-    const lab = h('div.lab');
+    const lab = h('div.lab.ord-lab');
     const body = h('div.lab-body');
     const controls = h('div.lab-controls');
     const out = h('div.lab-out', { 'aria-live': 'polite' });

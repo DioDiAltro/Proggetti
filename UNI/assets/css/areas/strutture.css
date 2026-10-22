@@ -715,3 +715,9 @@
   border-style: dashed;
   border-color: var(--ink-3);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.ll-box, .str-cell, .str-ccell rect, .str-sector path, .hs-slot, .hs-node) {
+    transition: none;
+  }
+}

@@ -375,14 +375,14 @@
       V(prev, curr),
       S({ ptrs: { prev, curr }, curr, hot: ['curr'] })
     );
-    let next;
+    // next è dichiarato dentro il corpo del while: alla condizione del ciclo e al return non esiste
     for (;;) {
       if (curr == null) {
-        t.step('loop', '<code>curr == nullptr</code>: non resta niente da girare, il ciclo finisce.', V(prev, curr, next), S({ ptrs: next === undefined ? { prev, curr } : { prev, curr, next } }));
+        t.step('loop', '<code>curr == nullptr</code>: non resta niente da girare, il ciclo finisce.', V(prev, curr), S({ ptrs: { prev, curr } }));
         break;
       }
-      t.step('loop', `<code>curr</code> punta al nodo ${val(L, curr)}: c'è ancora un nodo da girare.`, V(prev, curr, next), S({ ptrs: next === undefined ? { prev, curr } : { prev, curr, next }, curr }));
-      next = L.nodes[curr].next;
+      t.step('loop', `<code>curr</code> punta al nodo ${val(L, curr)}: c'è ancora un nodo da girare.`, V(prev, curr), S({ ptrs: { prev, curr }, curr }));
+      const next = L.nodes[curr].next;
       t.step(
         'salva-next',
         next == null
@@ -412,20 +412,21 @@
         S({ ptrs: { prev, curr, next }, curr, hot: ['curr'] })
       );
     }
-    t.step(
-      'ret',
-      prev == null
-        ? '<code>return prev</code>: restituisce <code>nullptr</code>, la lista era vuota.'
-        : `<code>return prev</code>: <code>prev</code> punta al nodo ${val(L, prev)}, il vecchio ultimo, che è la nuova testa. Attenzione: <code>head</code> punta ancora al vecchio primo nodo, che ora è l'ultimo.`,
-      V(prev, curr, next),
-      S({ ptrs: { prev } })
-    );
+    let retNote;
+    if (prev == null) retNote = '<code>return prev</code>: restituisce <code>nullptr</code>, la lista era vuota.';
+    else if (prev === head0) retNote = `<code>return prev</code>: con un solo nodo la lista invertita è uguale a quella di partenza, e <code>prev</code> punta proprio a ${val(L, prev)}.`;
+    else
+      retNote = `<code>return prev</code>: <code>prev</code> punta al nodo ${val(L, prev)}, il vecchio ultimo, che è la nuova testa. Attenzione: <code>head</code> punta ancora al vecchio primo nodo, che ora è l'ultimo.`;
+    t.step('ret', retNote, V(prev, curr), S({ ptrs: { prev } }));
     L.head = prev;
     const cls = {};
     for (const id of row) cls[id] = 'done';
+    const k = t.c['frecce girate'];
     t.step(
       null,
-      `Chi ha chiamato la funzione scrive <code>head = inverti(head)</code> e la lista è girata: ${t.c['frecce girate']} frecce girate, ${m('Θ(n)')} tempo e ${m('Θ(1)')} memoria in più. Qui è ridisegnata a partire da <code>head</code>.`,
+      k === 0
+        ? 'La lista vuota resta vuota: il ciclo non è mai partito.'
+        : `Chi ha chiamato la funzione scrive <code>head = inverti(head)</code> e la lista è girata: ${k} ${k === 1 ? 'freccia girata' : 'frecce girate'}, ${m('Θ(n)')} tempo e ${m('Θ(1)')} memoria in più. Qui è ridisegnata a partire da <code>head</code>.`,
       {},
       L.snap({ ptrs: { head: L.head }, cls })
     );
@@ -603,7 +604,7 @@
   il processore li legge a blocchi (la <i>cache</i>), mentre i nodi di una lista possono stare ovunque.</p>
   ${box('esame', `<p>Quando ti chiedono il costo di "inserire in mezzo" a una lista, distingui i due casi:
   ${m('Θ(1)')} se hai già il puntatore al nodo dopo cui inserire, ${m('Θ(n)')} se la posizione va prima cercata. Scrivere
-  solo "${m('O(1)')}" senza dire cosa si suppone noto è la risposta che fa perdere punti.</p>`)}
+  solo "${m('O(1)')}", senza dire cosa si suppone già noto, è una risposta incompleta.</p>`)}
 </section>
 
 <section id="tail">

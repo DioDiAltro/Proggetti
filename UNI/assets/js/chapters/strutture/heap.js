@@ -567,7 +567,7 @@ priorità 1: pulizia</code></pre>
             );
           }
         }
-        return Object.assign({}, o.extra ? o.extra() : {}, { a });
+        return Object.assign({ a }, o.extra ? o.extra() : {});
       },
       format: (v) => {
         if (o.sync) o.sync(v);

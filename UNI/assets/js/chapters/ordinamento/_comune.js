@@ -390,15 +390,39 @@
   /** Come validate, per gli stati di una MultiView: controlla l'array del pezzo `key` (es. 'a'). */
   sorting.validateKey = (key) => (input, frames) => sorting.validate(input, [{ state: frames[frames.length - 1].state[key] || {} }]);
 
-  /** Distingue i valori ripetuti con gli apici: [2, 5, 2, 2] → ['2', '5', '2′', '2″']. */
+  const MARKS = ['', '′', '″', '‴', '⁗'];
+
+  /** Distingue i valori ripetuti con gli apici: [2, 5, 2, 2] → ['2', '5', '2′', '2″']. Dalla sesta copia: '2(6)'. */
   sorting.tagDuplicates = function (values) {
     const seen = new Map();
-    const MARKS = ['', '′', '″', '‴'];
     return values.map((v) => {
       const k = seen.get(v) || 0;
       seen.set(v, k + 1);
       return String(v) + (k < MARKS.length ? MARKS[k] : `(${k + 1})`);
     });
+  };
+
+  /** Da un'etichetta di tagDuplicates a [valore, numero della copia]: '2″' → [2, 2]. */
+  sorting.tagRank = function (label) {
+    const s = String(label);
+    const v = parseInt(s, 10);
+    const tag = s.replace(/^-?\d+/, '');
+    const k = MARKS.indexOf(tag);
+    return [v, k >= 0 ? k : parseInt(tag.replace(/\D/g, ''), 10) - 1];
+  };
+
+  /** Controlla che le etichette siano in ordine di valore e, a parità, di copia (cioè stabili). */
+  sorting.checkStable = function (labels, input) {
+    if (labels.length !== input.length) return 'lunghezza diversa dall\'input';
+    for (let q = 1; q < labels.length; q++) {
+      const [v1, k1] = sorting.tagRank(labels[q - 1]);
+      const [v2, k2] = sorting.tagRank(labels[q]);
+      if (v1 > v2) return 'non ordinato: ' + labels.join(',');
+      if (v1 === v2 && k1 > k2) return 'non stabile: ' + labels.join(',');
+    }
+    const s1 = input.slice().sort((x, y) => x - y).join(',');
+    const s2 = labels.map((l) => sorting.tagRank(l)[0]).sort((x, y) => x - y).join(',');
+    return s1 === s2 ? null : 'valori diversi dall\'input';
   };
 
   /** Tipi di input dei laboratori. */

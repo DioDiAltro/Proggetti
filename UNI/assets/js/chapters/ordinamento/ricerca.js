@@ -80,7 +80,8 @@
   l'overflow di un intero con segno è comportamento indefinito. <code>hi - lo</code> invece non supera mai
   <code>hi</code>, e <code>lo + (hi - lo) / 2</code> sta sempre tra <code>lo</code> e <code>hi</code>.</p>
   ${box('nota', `Non è un'ipotesi da libro: nel 2006 si scoprì che la ricerca binaria della libreria standard di Java
-  usava <code>(lo + hi) / 2</code> e sbagliava sugli array con più di un miliardo di elementi. Era lì da nove anni.`, 'Un errore famoso')}
+  usava <code>(lo + hi) / 2</code> e sbagliava sugli array con più di un miliardo di elementi. Era lì da anni e
+  nessuno se n'era accorto, perché con array piccoli le due formule danno lo stesso risultato.`, 'Un errore famoso')}
 </section>
 
 <section id="passi">
@@ -661,7 +662,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 16, 17, 31, 32, 33, 63, 64, 100, 127, 128, 1000, 1023, 1024, 1025, 10000, 65535,
       65536, 100000, 1000000, 1048576, 1000000000,
     ];
-    const lab = h('div.lab');
+    const lab = h('div.lab.ord-lab');
     const body = h('div.lab-body');
     const controls = h('div.lab-controls');
     const out = h('div.lab-out');
@@ -726,7 +727,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
 
   function mountBounds(host) {
     let arr = BOUNDS0.slice();
-    const lab = h('div.lab');
+    const lab = h('div.lab.ord-lab');
     const body = h('div.lab-body.quadretti');
     const controls = h('div.lab-controls');
     const out = h('div.lab-out.ord-lab-out', { 'aria-live': 'polite' });

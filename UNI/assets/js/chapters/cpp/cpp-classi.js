@@ -333,6 +333,7 @@ double m = massimo(3, 2.5);`,
             },
           ]),
       });
+      C.aCapo(el);
     },
   });
 

@@ -120,15 +120,17 @@
       if (f) removeFrom(f.vars, id);
     }
 
-    /** Apre un blocco interno: le variabili dichiarate dentro spariscono con ungroup. */
-    group(id, title, frameId) {
-      this.frame(frameId).vars.push({ group: title, id, vars: [] });
+    /** Apre un blocco interno (anche dentro un altro, con parentId): le variabili dichiarate
+        dentro spariscono con ungroup. */
+    group(id, title, frameId, parentId) {
+      const f = this.frame(frameId);
+      const list = parentId != null ? flatGroups(f.vars).find((g) => g.id === parentId).vars : f.vars;
+      list.push({ group: title, id, vars: [] });
     }
 
     ungroup(id, frameId) {
       const f = this.frame(frameId);
-      const i = f.vars.findIndex((v) => v.group != null && v.id === id);
-      if (i >= 0) f.vars.splice(i, 1);
+      if (f) removeFrom(f.vars, id);
     }
 
     find(path) {
@@ -279,6 +281,15 @@
     if (out.length !== want.length) return `output di ${out.length} righe invece di ${want.length}`;
     for (let i = 0; i < want.length; i++) if (out[i] !== want[i]) return `riga ${i + 1}: «${out[i]}» invece di «${want[i]}»`;
     return null;
+  };
+
+  /** Il codice in linea lungo (come priority_queue<pair<int, int>, …>) può andare a capo: sui
+      telefoni altrimenti esce dalla pagina. Quello corto resta su una riga. Va chiamato alla fine
+      di render, dopo ASD.mount. */
+  cpp.aCapo = (root, soglia = 26) => {
+    for (const c of root.querySelectorAll('code')) {
+      if (!c.closest('pre') && c.textContent.length > soglia) c.classList.add('cpp-wrap');
+    }
   };
 
   /** ASD.quiz con una classe in più: il codice nelle risposte può andare a capo sui telefoni. */

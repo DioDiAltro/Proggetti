@@ -500,18 +500,7 @@
   }
 
   function validateCounting(input, frames) {
-    const res = frames[frames.length - 1].state.result || [];
-    if (res.length !== input.length) return 'lunghezza sbagliata';
-    const order = ['', '′', '″', '‴'];
-    for (let q = 1; q < res.length; q++) {
-      const v1 = parseInt(res[q - 1], 10);
-      const v2 = parseInt(res[q], 10);
-      if (v1 > v2) return 'non ordinato';
-      const t1 = String(res[q - 1]).replace(/^\d+/, '');
-      const t2 = String(res[q]).replace(/^\d+/, '');
-      if (v1 === v2 && order.indexOf(t1) > order.indexOf(t2)) return 'non stabile';
-    }
-    return null;
+    return S.checkStable(frames[frames.length - 1].state.result || [], input);
   }
 
   /* -------------------------------------------------------------- radix sort */
@@ -555,7 +544,7 @@
       a = b.slice();
       t.step(
         'copy',
-        `<code>a = b</code>: ora a è ordinato secondo le ${nome}; a parità di cifra è rimasto l'ordine della passata prima.`,
+        `<code>a = b</code>: ora a è ordinato secondo le ${nome}; a parità di cifra è rimasto l'ordine ${esp === 1 ? 'dell\'input' : 'della passata prima'}.`,
         { esp },
         st({ esp })
       );
