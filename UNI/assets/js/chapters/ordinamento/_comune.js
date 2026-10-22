@@ -260,7 +260,9 @@
      sort-semplici e la pagina iniziale).
 
      ASD.sorting.MultiView        vista composta: più array (e un albero) nello stesso palco
+     ASD.sorting.validateKey(k)   validate per gli stati di una MultiView (controlla il pezzo k)
      ASD.sorting.tagDuplicates    [2, 5, 2] → ['2', '5', '2′']: distingue i valori uguali
+     ASD.sorting.tagRank / checkStable   leggono quelle etichette e controllano la stabilità
      ASD.sorting.count.merge|quick|heap|counting   conteggi veloci, senza fotogrammi
      ASD.sorting.gara.<algoritmo> confronti e spostamenti misurati tutti allo stesso modo
      ASD.sorting.kinds            i tipi di input dei laboratori (casuale, ordinato, ...)
@@ -274,10 +276,13 @@
    * del counting sort. Ogni pezzo è una vista del nucleo (ArrayView o TreeView).
    *
    *   new ASD.sorting.MultiView(stage, [
-   *     { key: 'a', label: 'a', mode: 'cells' },                         // ArrayView
-   *     { key: 'b', label: 'b (buffer)', mode: 'cells' },
-   *     { key: 't', kind: 'tree', label: 'chiamate', layout: 'tidy' },   // TreeView
+   *     { key: 'a', label: 'a', mode: 'cells', regionRows: 1 },           // ArrayView
+   *     { key: 'b', label: 'b (buffer)', mode: 'bars', height: 130 },
+   *     { key: 't', kind: 'tree', label: 'chiamate', tree: { shape: 'box', levelH: 54 } }, // TreeView (tidy)
    *   ], { cls: 'ord-merge' });
+   *
+   * Opzioni di un pezzo array: mode, label, height, minSlot, maxSlot, showIndex,
+   * cls, regionRows. Di un pezzo albero: label, ariaLabel, tree (opzioni di TreeView).
    *
    * render(state): state[key] è lo stato del pezzo. Se manca, il pezzo resta
    * invisibile ma occupa il suo spazio: così i comandi del visualizzatore non si
@@ -306,6 +311,8 @@
           label: p.label,
           height: p.height || (p.mode === 'bars' ? 150 : undefined),
           maxSlot: p.maxSlot || 58,
+          // celle più strette di 26px non lasciano leggere due cifre: meglio far scorrere il palco
+          minSlot: p.minSlot || (p.mode === 'bars' ? 16 : 26),
           showIndex: p.showIndex !== false,
         });
         const regions = h('div.ord-regions', { 'aria-hidden': 'true' });
@@ -369,7 +376,7 @@
         const w = (r.to - r.from + 1) * slot;
         const textW = String(r.label || '').length * 6.6 + 8;
         const center = left + w / 2;
-        const tl = Math.max(-slot / 2, center - textW / 2);
+        const tl = center - textW / 2;
         let row = rowsEnd.findIndex((end) => end <= tl);
         if (row === -1) {
           row = rowsEnd.length;

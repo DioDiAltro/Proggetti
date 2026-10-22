@@ -143,7 +143,7 @@
       t.step(
         less ? 's-left' : 's-right',
         next
-          ? `t = t-&gt;${less ? 'left' : 'right'} = ${next.key}. Metà (circa) dell'albero è scartata con un solo confronto.`
+          ? `t = t-&gt;${less ? 'left' : 'right'} = ${next.key}. Il sottoalbero dall'altra parte è scartato senza guardarlo.`
           : `t = t-&gt;${less ? 'left' : 'right'} = nullptr: ${from.key} non ha figlio ${less ? 'sinistro' : 'destro'}.`,
         vars(),
         snap()
@@ -512,7 +512,7 @@
     const before = sx ? nd(x, A, nd(y, Bt, C)) : nd(y, nd(x, A, Bt), C);
     t.step(
       null,
-      `Chiamo <code>radice = ${fn}(radice)</code>. Prima: in ordine ${ord}, altezza ${h0}. I tre sottoalberi α, β, γ non cambiano dentro: cambia solo chi è loro padre.`,
+      `Chiamo <code>radice = ${fn}(radice)</code>. Prima: in ordine ${ord}, altezza ${h0}. I sottoalberi α, β, γ non cambiano al loro interno; solo β cambierà padre.`,
       {},
       st(before)
     );
@@ -707,7 +707,7 @@
     <dt>Alberi AVL</dt>
     <dd>in ogni nodo le altezze dei due sottoalberi differiscono al più di 1 (fattore di bilanciamento −1, 0 o +1).
     Dopo un inserimento si risale verso la radice e, al primo nodo sbilanciato, si fa una rotazione semplice o doppia
-    (casi LL, RR, LR, RL). L'altezza resta sotto circa ${m('1.44 log_2 n')}.</dd>
+    (casi LL, RR, LR, RL). L'altezza resta sotto circa ${m('1,44 log_2 n')}.</dd>
     <dt>Alberi rosso-neri</dt>
     <dd>ogni nodo è rosso o nero; la radice è nera; un nodo rosso non ha figli rossi; ogni cammino dalla radice a un
     <code>nullptr</code> attraversa lo stesso numero di nodi neri. Ne segue ${m('h <= 2 log_2(n + 1)')}. Le correzioni
@@ -766,7 +766,7 @@ Neri non c'è</code></pre>
     scrivi la simmetrica e guarda se è crescente.</li>
     <li><strong>Cammini di ricerca</strong>: "quale di queste sequenze non può essere la sequenza dei nodi esaminati cercando
     55?". Ogni nodo del cammino restringe l'intervallo in cui devono stare i successivi.</li>
-    <li><strong>Costi</strong>: "quanto costa inserire <var>n</var> chiavi già ordinate?" ${m('1 + 2 + … + n = Θ(n^2)')}.</li>
+    <li><strong>Costi</strong>: "quanto costa inserire <var>n</var> chiavi già ordinate?" La <var>i</var>-esima scende lungo una catena di ${m('i - 1')} nodi: ${m('0 + 1 + … + (n - 1) = Θ(n^2)')}.</li>
   </ol>
   ${box('esame', `<p>Quando dai il costo di un'operazione su un BST scrivi ${m('O(h)')} e poi specifica: ${m('O(log n)')} se
   l'albero è bilanciato, ${m('Θ(n)')} nel caso peggiore. Scrivere solo "${m('O(log n)')}" per un BST qualsiasi è

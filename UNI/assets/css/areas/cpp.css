@@ -88,6 +88,12 @@
   overflow-wrap: anywhere;
 }
 
+/* frame chiuso: solo l'intestazione */
+.mem-frame.is-folded > .mem-frame-head {
+  border-bottom: 0;
+  border-radius: 4px;
+}
+
 .mem-fnote {
   font: 600 1.08rem/1.2 var(--font-hand);
   color: var(--red);
@@ -255,6 +261,18 @@
   padding: 3px 6px 6px;
   border: 1px solid var(--rule-2);
   border-radius: 4px;
+}
+
+/* un oggetto o un array appena creati: evidenziatore leggero su tutto il riquadro */
+.mem-var.has-fields.is-hl,
+.mem-var.has-cells.is-hl {
+  background: var(--hl-soft);
+  border-color: var(--hl-ink);
+}
+
+.mem-var.has-cells.is-hl {
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px var(--hl-soft);
 }
 
 .mem-fields {
@@ -558,6 +576,13 @@
 /* l'albero delle chiamate scorre di lato invece di rimpicciolirsi */
 .cpp-albero .tv svg {
   max-width: none;
+}
+
+/* il codice di fib è di quattro righe: colonna stretta, così l'albero ha più spazio */
+@container (min-width: 820px) {
+  .cpp-albero .st-main {
+    grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.38fr);
+  }
 }
 
 /* messaggi del compilatore e del sanitizer, come nel terminale */

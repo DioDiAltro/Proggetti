@@ -489,3 +489,11 @@
 .tr-sol .code {
   margin-top: 0;
 }
+
+/* niente movimento per chi l'ha chiesto (negli stepper ci pensa già lo stepper) */
+@media (prefers-reduced-motion: reduce) {
+  .tr-lab,
+  .tr-fig {
+    --av-dur: 0ms;
+  }
+}

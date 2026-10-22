@@ -277,7 +277,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
                 { label: 'Non ordinato', value: { a: [9, 2, 7, 4, 1, 8, 3], x: 9 } },
               ],
             },
-            view: (stage) => new ASD.viz.ArrayView(stage, { mode: 'cells' }),
+            view: (stage) => new ASD.viz.ArrayView(stage, { mode: 'cells', minSlot: 26 }),
             trace: traceBinary,
             counters: [{ key: 'iterazioni', label: 'iterazioni' }],
             legend: [
@@ -306,7 +306,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
                 { label: 'x più grande di tutti', value: { a: BOUNDS0, x: 12 } },
               ],
             },
-            view: (stage) => new ASD.viz.ArrayView(stage, { mode: 'cells' }),
+            view: (stage) => new ASD.viz.ArrayView(stage, { mode: 'cells', minSlot: 26 }),
             trace: traceLower,
             counters: [{ key: 'iterazioni', label: 'iterazioni' }],
             legend: [
@@ -338,7 +338,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
                 { label: 'Cerca 2', value: { a: [2, 5, 8, 12], x: 2 } },
               ],
             },
-            view: (stage) => new ASD.viz.ArrayView(stage, { mode: 'cells' }),
+            view: (stage) => new ASD.viz.ArrayView(stage, { mode: 'cells', minSlot: 26 }),
             trace: traceBug,
             counters: [{ key: 'iterazioni', label: 'iterazioni' }],
             legend: [
@@ -735,7 +735,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
     host.append(lab);
     const stage = h('div.ord-lab-array');
     body.append(stage);
-    const view = new ASD.viz.ArrayView(stage, { mode: 'cells' });
+    const view = new ASD.viz.ArrayView(stage, { mode: 'cells', minSlot: 26 });
 
     const id = ASD.uid('bounds-x');
     const xOut = h('output', { for: id });

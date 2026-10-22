@@ -361,7 +361,7 @@
         minSlot: 22,
         float: this.o.float,
       });
-      this.tv = new ASD.viz.TreeView(this.treeBox, { r: 17, gap: 8, levelH: 58, pad: 18, ariaLabel: 'Lo heap disegnato come albero' });
+      this.tv = new ASD.viz.TreeView(this.treeBox, { r: 17, gap: 8, levelH: 58, pad: 18, ariaLabel: 'L\'heap disegnato come albero' });
       this.root.append(this.treeBox, this.arrBox);
       this.wrap.append(this.root);
       host.append(this.wrap);

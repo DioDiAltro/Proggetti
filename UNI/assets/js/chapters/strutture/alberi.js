@@ -572,7 +572,7 @@
       ['perfetto di altezza <var>h</var>', `${m('2^h')} foglie e ${m('2^h - 1')} nodi interni`, 'l\'ultimo livello ha più nodi di tutti gli altri insieme'],
       ['completo con <var>n</var> nodi', `altezza ${m('⌊log_2 n⌋')}`, 'tutti i livelli pieni tranne l\'ultimo'],
       ['con <var>n</var> nodi', `${m('⌊log_2 n⌋ <= h <= n - 1')}`, 'il minimo per i completi, il massimo per le catene'],
-      ['pieno', 'foglie = nodi interni + 1', `archi: ${m('2I = n - 1 = I + F - 1')}`],
+      ['pieno', 'foglie = nodi interni + 1', `con <var>I</var> nodi interni e <var>F</var> foglie gli archi sono ${m('2I')} (due per nodo interno) e anche ${m('n - 1 = I + F - 1')}`],
       ['qualsiasi, con <var>n</var> nodi', `${m('n + 1')} puntatori nulli`, `${m('2n')} puntatori in tutto, ${m('n - 1')} sono archi`],
     ],
   })}
@@ -603,7 +603,7 @@
   <h3>Quanto costano: la ricorrenza</h3>
   <p>Se il sottoalbero sinistro ha <var>k</var> nodi, il destro ne ha ${m('n - 1 - k')}. Ogni chiamata, oltre alle due
   chiamate ricorsive, fa un lavoro costante <var>c</var>:</p>
-  <p class="formula">${m('T(0) = c,    T(n) = T(k) + T(n - 1 - k) + c')}</p>
+  <p class="formula">${m('T(0) = c')}, &emsp; ${m('T(n) = T(k) + T(n - 1 - k) + c')}</p>
   <p>Qualunque sia la forma dell'albero (qualunque <var>k</var>), la soluzione è ${m('T(n) = (2n + 1)c')}. Si verifica per
   induzione: ${m('(2k + 1)c + (2(n - 1 - k) + 1)c + c = (2n + 1)c')}. Il conto si legge anche così: le chiamate sono una
   per nodo più una per ognuno degli ${m('n + 1')} puntatori nulli, e ognuna costa una costante. Quindi ${m('Θ(n)')}.</p>
@@ -691,13 +691,13 @@
   <p>Un albero binario si può salvare anche senza puntatori, in un array, numerando i nodi livello per livello: la radice
   in <code>a[0]</code>, i suoi figli in <code>a[1]</code> e <code>a[2]</code>, i nipoti da <code>a[3]</code> a
   <code>a[6]</code>, e così via. Con gli indici da 0 del C++:</p>
-  <p class="formula">${m('figli di i: 2i + 1  e  2i + 2,      padre di i: ⌊(i - 1)/2⌋')}</p>
+  <p class="formula">figli di <var>i</var>: ${m('2i + 1')} e ${m('2i + 2')}; &emsp; padre di <var>i</var>: ${m('⌊(i - 1)/2⌋')}</p>
   <p>Nessun puntatore da salvare: la posizione basta a trovare padre e figli. Sposta l'indice e guarda dove finiscono.</p>
   <div data-mount="array"></div>
   ${box('ricorda', `<p>Per un albero <strong>completo</strong> l'array non ha buchi: <var>n</var> nodi occupano esattamente
   <code>a[0..n-1]</code>. Per questo gli ${ASD.link('heap', null, 'heap')} si salvano così. Per un albero qualsiasi invece i
-  buchi possono essere tanti: una catena di altezza <var>h</var> occupa un array di ${m('2^{h+1} - 1')} caselle per soli
-  ${m('h + 1')} nodi.</p>`)}
+  buchi possono essere tanti: una catena che scende sempre a destra, di altezza <var>h</var>, occupa un array di
+  ${m('2^{h+1} - 1')} caselle per soli ${m('h + 1')} nodi.</p>`)}
   ${box('errore', `<p>I libri con gli array da 1 scrivono figli ${m('2i')} e ${m('2i + 1')}, padre ${m('⌊i/2⌋')}. In C++
   (da 0) sono ${m('2i + 1')}, ${m('2i + 2')} e ${m('⌊(i - 1)/2⌋')}. Mescolare le due versioni è l'errore più comune.</p>`)}
 </section>

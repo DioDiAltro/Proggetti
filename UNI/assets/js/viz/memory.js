@@ -7,7 +7,7 @@
    });
    view.render({
      stack: [                       // dal fondo (main) alla cima: la cima è disegnata IN ALTO
-       { id: 'main', name: 'main()', note: 'ritorna 13', cls: 'active',
+       { id: 'main', name: 'main()', note: 'ritorna 13', cls: 'active',   // folded: true = solo l'intestazione
          vars: [
            { id: 'x', type: 'int', name: 'x', value: 5, cls: 'hl', addr: '0x7f10' },
            { id: 'p', type: 'int*', name: 'p', ptr: 'main.x', value: '0x7f10' },   // freccia verso x
@@ -229,6 +229,11 @@
       const head = h('div.mem-frame-head', h('span.mem-fname', f.name || f.id));
       if (f.note) head.append(h('span.mem-fnote', f.note));
       el.append(head);
+      if (f.folded) {
+        // frame chiuso: le sue variabili non interessano in questo esempio
+        el.classList.add('is-folded');
+        return el;
+      }
       const vars = h('div.mem-vars');
       if (f.vars && f.vars.length) for (const v of f.vars) vars.append(this.variable(v, f.id));
       else vars.append(h('p.mem-empty', 'nessuna variabile locale'));

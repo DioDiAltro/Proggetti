@@ -344,7 +344,7 @@
     id: 'heap',
     title: 'Heap e code con priorità',
     lead:
-      'Uno heap è un albero binario completo salvato in un array, in cui ogni padre è più grande dei suoi figli. Dà il massimo in O(1) e lo toglie in O(log n): è la struttura che sta dietro alle code con priorità, all\'heapsort e a std::priority_queue.',
+      'Un heap è un albero binario completo salvato in un array, in cui nessun padre è più piccolo dei suoi figli. Dà il massimo in O(1) e lo toglie in O(log n): è la struttura che sta dietro alle code con priorità, all\'heapsort e a std::priority_queue.',
     minutes: 50,
     prereq: ['alberi', 'sort-semplici'],
     goals: [
@@ -373,7 +373,7 @@
       ['<strong>Heap binario</strong>', m('O(log n)'), m('O(1)'), m('O(log n)')],
     ],
   })}
-  <p>L'array non ordinato è veloce a inserire e lento a estrarre; quello ordinato il contrario. Lo heap è il compromesso:
+  <p>L'array non ordinato è veloce a inserire e lento a estrarre; quello ordinato il contrario. L'heap è il compromesso:
   tutte e due le operazioni in ${m('O(log n)')}, e il massimo sempre pronto in cima.</p>
 </section>
 
@@ -399,7 +399,7 @@
     <li>le foglie sono <code>a[n/2]</code> … <code>a[n-1]</code> (con la divisione intera): mezzo array; l'ultimo nodo
     interno è <code>a[n/2 - 1]</code>;</li>
     <li>in un max-heap il <strong>minimo</strong> sta in una foglia, ma non si sa quale;</li>
-    <li>fratelli e cugini non sono ordinati tra loro: uno heap <em>non</em> è un array ordinato, e cercare una chiave
+    <li>fratelli e cugini non sono ordinati tra loro: un heap <em>non</em> è un array ordinato, e cercare una chiave
     qualsiasi costa ${m('O(n)')}. Un array ordinato in modo decrescente, invece, è sempre un max-heap.</li>
   </ul>
   <p>Prova tu: scrivi un array e guarda se è un max-heap. Gli archi rossi sono le coppie padre-figlio sbagliate.</p>
@@ -428,13 +428,15 @@
   ${box('errore', `<p>Scambiare con il figlio <em>sinistro</em> (o con uno qualsiasi) invece che con il maggiore. Se il padre
   scende verso il figlio minore, quel figlio sale sopra il fratello più grande e la proprietà salta. Il confronto
   <code>a[r] &gt; a[m]</code> serve proprio a scegliere il maggiore.</p>`)}
-  <p>Anche qui un livello per scambio, al più ${m('⌊log_2 n⌋')}, con 2 confronti per livello: ${m('O(log n)')}. Nel Cormen
-  questa procedura si chiama MAX-HEAPIFY, nel Demetrescu fixHeap.</p>
+  <p>Anche qui un livello per scambio, al più ${m('⌊log_2 n⌋')}, con 2 confronti per livello: ${m('O(log n)')}.</p>
+  ${box('nota', `<p>Nel Cormen il sift-down si chiama MAX-HEAPIFY; nel Demetrescu si chiama fixHeap, e il nome
+  <em>heapify</em> indica invece la costruzione di tutto l'heap (la build-heap qui sotto). Stesso nome, due cose diverse:
+  allo scritto guarda che cosa fa la procedura, non come si chiama.</p>`, 'Nomi nei libri')}
 </section>
 
 <section id="build">
-  <h2>Costruire uno heap in tempo lineare</h2>
-  <p>Per trasformare un array qualsiasi in uno heap si potrebbero inserire gli elementi uno alla volta: ${m('n')} sift-up, fino
+  <h2>Costruire un heap in tempo lineare</h2>
+  <p>Per trasformare un array qualsiasi in un heap si potrebbero inserire gli elementi uno alla volta: ${m('n')} sift-up, fino
   a ${m('O(n log n)')}. C'è un modo migliore, <strong>build-heap</strong>: le foglie (metà dell'array) sono già heap da sole;
   si fa sift-down su ogni nodo interno, dall'ultimo (<code>n/2 - 1</code>) fino alla radice. Quando si arriva al nodo
   <var>i</var>, i sottoalberi dei suoi figli sono già heap, e un sift-down basta a sistemare il sottoalbero di <var>i</var>.</p>
@@ -453,7 +455,7 @@
 
 <section id="heapsort">
   <h2>Heapsort</h2>
-  <p>Con uno heap si ordina sul posto. Prima build-heap; poi, per <var>i</var> da ${m('n - 1')} a 1: si scambia
+  <p>Con un heap si ordina sul posto. Prima build-heap; poi, per <var>i</var> da ${m('n - 1')} a 1: si scambia
   <code>a[0]</code> (il massimo dell'heap) con <code>a[i]</code>, che così è al suo posto definitivo, e si fa sift-down di
   <code>a[0]</code> sull'heap ridotto <code>a[0..i-1]</code>. L'heap si accorcia da destra e la parte ordinata cresce in
   fondo.</p>
@@ -473,7 +475,7 @@
 
 <section id="stl">
   <h2>std::priority_queue</h2>
-  <p>In C++ la coda con priorità è pronta: <code>std::priority_queue</code> (in <code>&lt;queue&gt;</code>) è uno heap su un
+  <p>In C++ la coda con priorità è pronta: <code>std::priority_queue</code> (in <code>&lt;queue&gt;</code>) è un heap su un
   <code>vector</code>. Per default è un <strong>max-heap</strong>: <code>top()</code> dà il più grande. Per un min-heap si
   passa il confronto <code>greater&lt;int&gt;</code> (in <code>&lt;functional&gt;</code>).</p>
   <div data-mount="codice-stl"></div>
@@ -504,7 +506,7 @@ priorità 1: pulizia</code></pre>
       ['Estrazione del massimo (<code>pop</code>)', m('O(log n)'), 'sift-down: 2 confronti per livello'],
       ['Build-heap', m('O(n)'), 'somma delle altezze dei nodi, minore di n'],
       ['Heapsort', m('O(n log n)'), 'anche nel caso peggiore; sul posto; non stabile'],
-      ['Cercare una chiave qualsiasi', m('O(n)'), 'lo heap non è ordinato tra fratelli'],
+      ['Cercare una chiave qualsiasi', m('O(n)'), 'l\'heap non è ordinato tra fratelli'],
       ['Padre e figli di <code>a[i]</code>', m('O(1)'), `${m('(i-1)/2')}, ${m('2i+1')}, ${m('2i+2')}`],
     ],
   })}
@@ -513,9 +515,9 @@ priorità 1: pulizia</code></pre>
 <section id="esame">
   <h2>All'esame</h2>
   <ol>
-    <li><strong>È uno heap?</strong> Per ogni <var>i</var> da 0 a ${m('n/2 - 1')} confronta <code>a[i]</code> con
+    <li><strong>È un heap?</strong> Per ogni <var>i</var> da 0 a ${m('n/2 - 1')} confronta <code>a[i]</code> con
     <code>a[2i+1]</code> e <code>a[2i+2]</code>.</li>
-    <li><strong>Simulazione</strong>: "inserisci 30 nello heap …", "estrai il massimo da …", "costruisci lo heap con build-heap
+    <li><strong>Simulazione</strong>: "inserisci 30 nell'heap …", "estrai il massimo da …", "costruisci l'heap con build-heap
     da …": disegna l'albero, fai gli scambi, ricopia l'array.</li>
     <li><strong>Teoria</strong>: perché build-heap è ${m('O(n)')}; dove sta il minimo di un max-heap; heapsort è stabile?
     è sul posto?</li>
@@ -553,7 +555,7 @@ priorità 1: pulizia</code></pre>
     { k: 'key', label: 'figlio maggiore / nuovo' },
   ];
 
-  /** Input "array" per gli stepper dello heap. mustBeHeap: rifiuta un array che non è un max-heap. */
+  /** Input "array" per gli stepper dell'heap. mustBeHeap: rifiuta un array che non è un max-heap. */
   function arrayInput(o) {
     return {
       label: 'Array',
@@ -730,7 +732,7 @@ priorità 1: pulizia</code></pre>
         btn('Controlla', () => check()),
         h(
           'span.tr-ops-group',
-          btn('Uno heap', () => set(HP.randomHeap(9)), '.btn-ghost'),
+          btn('Un heap', () => set(HP.randomHeap(9)), '.btn-ghost'),
           btn('Quasi', () => {
             const a = HP.randomHeap(9);
             const i = ASD.randInt(1, 8);
@@ -788,7 +790,7 @@ priorità 1: pulizia</code></pre>
       x: { min: 1, max: 128, label: 'n', integer: true },
       y: { min: 0, label: 'scambi' },
       height: 280,
-      ariaLabel: 'Numero massimo di scambi per costruire uno heap: build-heap resta sotto n, gli inserimenti crescono come n log n',
+      ariaLabel: 'Numero massimo di scambi per costruire un heap: build-heap resta sotto n, gli inserimenti crescono come n log n',
     });
     const sumHeights = (n) => {
       let s = 0;

@@ -262,26 +262,36 @@ READ of size 4 at 0x502000000010 thread T0
         leak: (host) =>
           ASD.code(host, {
             file: 'leak.cpp',
-            code: `int* p = new int(1);
-p = new int(2);      // il primo blocco non ha più nessun puntatore
-delete p;            // libera solo il secondo`,
-            notes: { 2: 'perso!' },
+            code: `int main() {
+    int* p = new int(1);
+    p = new int(2);      // il primo blocco non ha più nessun puntatore
+    delete p;            // libera solo il secondo
+    return 0;
+}`,
+            notes: { 3: 'perso!' },
           }),
         pendente: (host) =>
           ASD.code(host, {
             file: 'uaf.cpp',
-            code: `int* q = new int(7);
-delete q;
-cout << *q << '\\n';  // q punta a memoria liberata`,
-            notes: { 3: 'pendente!' },
+            code: `#include <iostream>
+int main() {
+    int* q = new int(7);
+    delete q;
+    std::cout << *q << '\\n';   // q punta a memoria liberata
+    return 0;
+}`,
+            notes: { 5: 'pendente!' },
           }),
         doppia: (host) =>
           ASD.code(host, {
             file: 'df.cpp',
-            code: `int* q = new int(7);
-delete q;
-delete q;            // seconda volta sullo stesso blocco`,
-            notes: { 3: 'due volte!' },
+            code: `int main() {
+    int* q = new int(7);
+    delete q;
+    delete q;            // seconda volta sullo stesso blocco
+    return 0;
+}`,
+            notes: { 4: 'due volte!' },
           }),
         lista: mountLista,
         quiz: (host) =>
