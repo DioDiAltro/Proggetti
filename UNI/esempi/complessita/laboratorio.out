@@ -1,0 +1,15 @@
+frammento            n=10      n=100     n=1000
+ciclo semplice              10       100      1000
+due in sequenza             20       200      2000
+annidati                   100     10000   1000000
+triangolo                   45      4950    499500
+passo tre                    4        34       334
+costante                  1000      1000      1000
+raddoppio                    4         7        10
+n log n                     40       700     10000
+dimezza e scorri            18       197      1994
+radice                       3        10        31
+tre cicli                  120    161700 166167000
+armonico                    33       573      8053
+quadrato del passo           2         3         4
+ricorsione doppia   n=10: 177  n=20: 21891  n=25: 242785

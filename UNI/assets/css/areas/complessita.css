@@ -1,1 +1,303 @@
-/* ASD a quadretti — stili specifici della parte "complessita". */
+/* ASD a quadretti — parte "Complessità". Prefisso classi: cx- */
+
+/* la lavagna del conto guidato: righe di ragionamento che si accumulano */
+.cx-board {
+  display: grid;
+  gap: 6px;
+  min-height: 160px;
+  align-content: start;
+}
+
+.cx-board-title {
+  margin: 0 0 8px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.cx-board-line {
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font: 400 1.08rem/1.5 var(--font-display);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--sheet) 82%, transparent);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.cx-board-line.is-new {
+  background: var(--hl-soft);
+  box-shadow: inset 2px 0 0 var(--hl-ink);
+}
+
+.cx-board-line .m {
+  white-space: normal;
+}
+
+.cx-board-line .mano {
+  font-size: 1.15em;
+}
+
+.cx-board-line var {
+  font-style: italic;
+}
+
+.cx-board-empty {
+  margin: 0;
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+/* esempi delle regole: codice + spiegazione affiancati */
+.cx-rule {
+  display: grid;
+  gap: 4px 24px;
+  grid-template-columns: minmax(0, 1fr);
+  margin-block: var(--sp-4) var(--sp-6);
+  max-width: var(--wide);
+}
+
+.cx-rule .code {
+  margin: 0;
+}
+
+.cx-rule h3 {
+  margin-top: 0;
+}
+
+@media (min-width: 1100px) {
+  .cx-rule {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+/* laboratorio "c e n₀" */
+.cx-verdict {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--paper-2);
+}
+
+.cx-verdict.ok {
+  background: var(--green-soft);
+}
+
+.cx-verdict.no {
+  background: var(--red-soft);
+}
+
+.cx-verdict .vd {
+  margin-right: 6px;
+}
+
+.cx-verdict.ok .vd {
+  color: var(--green);
+}
+
+.cx-verdict.no .vd {
+  color: var(--red);
+}
+
+.cx-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cx-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.cx-mode label {
+  cursor: pointer;
+}
+
+.cx-fx {
+  margin: 0 0 10px;
+  font-size: var(--fs-lg);
+}
+
+/* tabella dei tempi */
+.cx-times td {
+  white-space: nowrap;
+}
+
+.cx-times td.slow {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.cx-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cx-toggles label {
+  cursor: pointer;
+}
+
+/* laboratorio dei frammenti */
+.cx-lab-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@container (min-width: 860px) {
+  .cx-lab-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+  }
+}
+
+.cx-snips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cx-snips .btn[aria-pressed="true"] {
+  font-weight: 600;
+}
+
+.cx-guess {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.cx-guess legend {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+  float: left;
+  width: 100%;
+}
+
+.cx-guess label {
+  cursor: pointer;
+}
+
+.cx-guess .chip:has(input:checked) {
+  border-color: var(--pen);
+  background: var(--pen-soft);
+  color: var(--pen);
+}
+
+.cx-ratio td,
+.cx-ratio th {
+  padding-right: 18px;
+}
+
+/* albero di ricorsione: costo per livello */
+.cx-levels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: var(--fs-sm);
+}
+
+.cx-levels li {
+  display: grid;
+  grid-template-columns: 6.5em minmax(0, 1fr) 9em;
+  align-items: center;
+  gap: 10px;
+}
+
+.cx-levels .lv {
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.cx-levels .bar {
+  height: 14px;
+  min-width: 2px;
+  border-radius: 0 3px 3px 0;
+  background: var(--pen-tint);
+  border: 1.5px solid var(--pen);
+}
+
+.cx-levels .val {
+  font-family: var(--font-display);
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.cx-levels-title {
+  margin: 18px 0 8px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .cx-levels li {
+    grid-template-columns: 4.5em minmax(0, 1fr);
+  }
+
+  .cx-levels .val {
+    grid-column: 1 / -1;
+  }
+}
+
+.cx-tree-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.cx-result {
+  margin: 0;
+  font: 400 1.25rem/1.4 var(--font-display);
+}
+
+.cx-result .m {
+  font-size: 1.1em;
+}
+
+.cx-steps {
+  margin: 8px 0 0;
+  padding-left: 1.2em;
+}
+
+.cx-steps li + li {
+  margin-top: 4px;
+}
+
+.cx-num {
+  width: 5.5em;
+  font-family: var(--font-mono);
+}
+
+.cx-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 14px;
+}
+
+.cx-form .field input,
+.cx-form .field select {
+  min-width: 0;
+}
+
+.cx-eq {
+  font: 400 1.35rem/1.3 var(--font-display);
+  margin: 0;
+}

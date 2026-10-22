@@ -97,7 +97,7 @@
     draw() {
       const W = Math.max(280, this.root.clientWidth || 600);
       const H = this.o.height;
-      const m = { top: 14, right: this.o.endLabels ? 78 : 18, bottom: 40, left: 58 };
+      const m = { top: 14, right: this.o.endLabels ? 78 : 18, bottom: 44, left: 58 };
       this.svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
       this.svg.setAttribute('width', W);
       this.svg.setAttribute('height', H);
@@ -148,7 +148,7 @@
       }
       gAxis.append(s('line', { x1: m.left, x2: m.left + pw, y1: m.top + ph, y2: m.top + ph }));
       gAxis.append(s('line', { x1: m.left, x2: m.left, y1: m.top, y2: m.top + ph }));
-      if (x.label) gAxis.append(s('text', { class: 'p-title', x: m.left + pw + 10, y: m.top + ph + 18, 'text-anchor': 'start' }, x.label));
+      if (x.label) gAxis.append(s('text', { class: 'p-title', x: m.left + pw, y: m.top + ph + 34, 'text-anchor': 'end' }, x.label));
       if (y.label) gAxis.append(s('text', { class: 'p-title', x: 4, y: 10, 'text-anchor': 'start' }, y.label + (log ? ' (scala logaritmica)' : '')));
       this.svg.append(gGrid, gAxis);
 

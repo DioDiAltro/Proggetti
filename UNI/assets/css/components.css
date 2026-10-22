@@ -707,11 +707,19 @@
 .tv-node .tv-sub {
   font: 500 11px var(--font-body);
   fill: var(--ink-2);
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 4px;
+  stroke-linejoin: round;
 }
 
 .tv-node .tv-note {
   font: 600 15px var(--font-hand);
   fill: var(--red);
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 4px;
+  stroke-linejoin: round;
 }
 
 .tv-node.is-compare :is(circle, rect) { fill: var(--hl); stroke: var(--hl-ink); }
@@ -989,6 +997,10 @@
   display: grid;
   gap: var(--sp-4);
   max-width: var(--measure);
+}
+
+.quiz > li {
+  min-width: 0;
 }
 
 .quiz-q {
