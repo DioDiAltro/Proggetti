@@ -15,7 +15,8 @@
  *   //@check nosan             senza sanitizer (es. programmi molto lenti)
  *
  * Uso:  node tools/check-cpp.mjs              tutti gli esempi
- *       node tools/check-cpp.mjs ordinamento  solo quelli il cui percorso contiene "ordinamento"
+ *       node tools/check-cpp.mjs ordinamento  solo la parte esempi/ordinamento
+ *       node tools/check-cpp.mjs heap         i file il cui percorso contiene "heap" (se non è una parte)
  *       node tools/check-cpp.mjs --update     riscrive i .out con l'output attuale (usare con giudizio)
  */
 import { readdirSync, readFileSync, writeFileSync, statSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
@@ -70,7 +71,14 @@ const norm = (s) =>
     .join('\n')
     .replace(/\n+$/, '');
 
-const files = walk(ESEMPI).filter((f) => !filter || relative(ESEMPI, f).includes(filter));
+// il filtro è il nome di una parte (cartella di esempi/), oppure un pezzo di percorso:
+// "cpp" deve dare la parte cpp, non tutti i file .cpp
+const parti = readdirSync(ESEMPI).filter((d) => statSync(join(ESEMPI, d)).isDirectory());
+const scelto = (f) => {
+  const rel = relative(ESEMPI, f);
+  return parti.includes(filter) ? rel.split(/[\\/]/)[0] === filter : rel.includes(filter);
+};
+const files = walk(ESEMPI).filter((f) => !filter || scelto(f));
 const tmp = mkdtempSync(join(tmpdir(), 'asd-check-'));
 const results = [];
 

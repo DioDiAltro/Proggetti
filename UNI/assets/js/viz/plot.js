@@ -97,12 +97,15 @@
     draw() {
       const W = Math.max(280, this.root.clientWidth || 600);
       const H = this.o.height;
-      const m = { top: 14, right: this.o.endLabels ? 78 : 18, bottom: 44, left: 58 };
+      const series = this.data.series || [];
+      // a destra c'è posto per l'etichetta più lunga (circa 7 px a carattere, più il trattino; " ↑" compreso)
+      const longest = Math.max(0, ...series.map((se) => String(se.label || '').length + 2));
+      const right = this.o.endLabels ? Math.round(Math.min(Math.max(78, 24 + longest * 7), W * 0.32)) : 18;
+      const m = { top: this.o.y.label ? 28 : 14, right, bottom: 44, left: 58 };
       this.svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
       this.svg.setAttribute('width', W);
       this.svg.setAttribute('height', H);
       this.svg.replaceChildren();
-      const series = this.data.series || [];
       const all = series.map((se) => ({ se, pts: this.samples(se) }));
       this.cache = all;
 

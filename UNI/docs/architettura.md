@@ -17,7 +17,7 @@ UNI/
 │   └── js/
 │       ├── core/               asd.js (utilità), outline.js (indice), highlight.js, code.js,
 │       │                       stepper.js, quiz.js, app.js (navigazione, va caricato per ultimo)
-│       ├── viz/                viste riusabili: array, tree, plot (+ memory, list, hash, graph, table)
+│       ├── viz/                viste riusabili: array, tree, plot, memory, list, hash, graph, table
 │       ├── sources/<parte>.js  GENERATI da tools/build-sources.mjs: non modificarli a mano
 │       └── chapters/<parte>/   un file per capitolo + _comune.js con le utilità della parte
 ├── esempi/<parte>/*.cpp        programmi C++ completi (+ .out con l'output atteso, + .in facoltativo)
@@ -188,16 +188,25 @@ Regole:
 
 ### Viste disponibili
 
-| Vista | File | Stato |
+| Vista | File | Per che cosa |
 |---|---|---|
-| `ASD.viz.ArrayView(el, { mode: 'bars' \| 'cells', float, height })` | `viz/array.js` | `{ a, ids, marks, ptrs, range, float, brackets, max }` |
-| `ASD.viz.TreeView(el, { layout: 'binary' \| 'tidy', shape: 'circle' \| 'box' })` | `viz/tree.js` | `{ root, nodes: { id: { label, kids, cls, sub, note } }, edges }` |
-| `ASD.viz.Plot(el, { x, y, height })` | `viz/plot.js` | `plot.set({ series, bands, vlines, bad })` |
+| `ASD.viz.ArrayView(el, { mode: 'bars' \| 'cells' })` | `viz/array.js` | array e ordinamenti: `{ a, ids, marks, ptrs, range, float, brackets, max }` |
+| `ASD.viz.TreeView(el, { layout: 'binary' \| 'tidy', shape: 'circle' \| 'box' })` | `viz/tree.js` | alberi e alberi di ricorsione: `{ root, nodes: { id: { label, kids, cls, sub, note } }, edges }` |
+| `ASD.viz.Plot(el, { x, y, height })` | `viz/plot.js` | grafici di funzioni e di misure: `plot.set({ series, bands, vlines, bad })` |
+| `ASD.viz.MemoryView(el, { heap })` | `viz/memory.js` | stack delle chiamate, heap, puntatori e riferimenti: `{ stack: [frame], heap: [blocco] }` |
+| `ASD.viz.ListView`, `StackView`, `CircularView` | `viz/list.js` | liste concatenate, pile, array circolare di una coda |
+| `ASD.viz.HashView(el, { mode: 'chain' \| 'open' })` | `viz/hash.js` | tabelle hash: `{ t, marks, nodeMarks, probes, key }` |
+| `ASD.viz.GraphView`, `GraphScene` | `viz/graph.js` | grafi; la scena affianca al grafo i pannelli delle strutture (coda, pila, tabella, liste) |
+| `ASD.viz.TableView(el)` | `viz/table.js` | tabelle della programmazione dinamica: `{ rows, cols, cells, cur, deps, path, marks, arrows }` |
 
-Una vista è qualsiasi oggetto con `render(state, frame)` (e facoltativo
-`reset()`). Per disegnare più cose insieme (un array e la sua pila, un grafo
-e la coda della BFS) si crea una vista composta che divide il palco in parti e
-chiama le viste figlie. Colori solo dai token CSS (`var(--pen)`,
+La documentazione completa di ogni vista è il commento in cima al suo file.
+
+Una vista è qualsiasi oggetto con `render(state, frame, stepper)` (e
+facoltativo `reset()`). Per disegnare più cose insieme (un array e la sua
+pila, un albero e il suo array) si crea una vista composta che divide il palco
+in parti e chiama le viste figlie (vedi `GraphScene` in `viz/graph.js`, o
+`HeapView` in `chapters/strutture/_alberi.js`: lo stesso heap come array e come
+albero). Colori solo dai token CSS (`var(--pen)`,
 `var(--hl)`, …): mai esadecimali nel JavaScript.
 
 Classi di stato comuni (array, alberi e le altre viste le usano allo stesso

@@ -294,6 +294,11 @@ samp {
   box-decoration-break: clone;
 }
 
+/* nelle tabelle un pezzo di codice non si spezza a metà (<stack, >): se non c'è posto la tabella scorre di lato */
+.tbl :not(pre) > code {
+  overflow-wrap: normal;
+}
+
 kbd {
   border: 1px solid var(--rule-2);
   border-bottom-width: 2px;

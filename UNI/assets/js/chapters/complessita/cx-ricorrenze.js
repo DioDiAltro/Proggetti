@@ -171,12 +171,23 @@
       chips.append(b);
     });
 
+    // su uno schermo stretto l'albero ha meno foglie, così le etichette restano leggibili
+    let stretto = null;
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(() => {
+        const w = treeWrap.clientWidth;
+        if (w && stretto !== null && w < 560 !== stretto) draw();
+      }).observe(treeWrap);
+    }
+
     function draw() {
       const a = Number(selA.value);
       const b = Number(selB.value);
       const d = Number(selD.value);
-      // livelli da disegnare: al massimo ~16 foglie
-      const depth = a === 1 ? 4 : Math.max(1, Math.min(4, Math.floor(Math.log(16) / Math.log(a) + 1e-9)));
+      stretto = (treeWrap.clientWidth || 600) < 560;
+      // livelli da disegnare: al massimo ~16 foglie (9 sul telefono)
+      const foglie = stretto ? 9 : 16;
+      const depth = a === 1 ? 4 : Math.max(1, Math.min(4, Math.floor(Math.log(foglie) / Math.log(a) + 1e-9)));
       const nodes = {};
       let id = 0;
       const build = (lvl) => {

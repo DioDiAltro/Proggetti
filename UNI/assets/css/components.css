@@ -193,7 +193,8 @@
   background: var(--paper-2);
 }
 
-.st-title {
+/* .stepper davanti: altrimenti vincono il margine e la misura di .prose h3 */
+.stepper .st-title {
   margin: 0;
   font: 600 1rem/1.3 var(--font-body);
 }
