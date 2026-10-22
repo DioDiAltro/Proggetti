@@ -105,7 +105,6 @@ std::vector, capacity: 1 2 4 8 16 32 64 128`)}
   <p><code>string</code> (header <code>&lt;string&gt;</code>) è, in pratica, un <code>vector&lt;char&gt;</code> con
   qualche operazione in più:</p>
   ${table({
-    cls: 'cpp-costi',
     head: ['Operazione', 'Che cosa fa', 'Costo'],
     rows: [
       ['<code>s.size()</code>, <code>s[i]</code>', 'lunghezza, carattere in posizione <var>i</var>', m('Θ(1)')],
@@ -181,7 +180,7 @@ doppioni: 3, distinti: 3`)}
     head: ['Ti serve…', 'Usa', 'Perché'],
     rows: [
       ['l\'ordine degli elementi, il minimo, il massimo, «il primo ≥ x»', '<code>set</code> / <code>map</code>', 'l\'albero tiene tutto in ordine: <code>begin()</code>, <code>rbegin()</code>, <code>lower_bound</code>'],
-      ['solo inserire e cercare, il più velocemente possibile', '<code>unordered_set</code> / <code>unordered_map</code>', m('Θ(1)') + ' in media; l\'ordine di visita è casuale'],
+      ['solo inserire e cercare, il più velocemente possibile', '<code>unordered_set</code> / <code>unordered_map</code>', m('Θ(1)') + ' in media; l\'ordine di visita non è definito'],
       ['un costo garantito anche nel caso peggiore', '<code>set</code> / <code>map</code>', m('Θ(log n)') + ' sempre; la tabella hash al peggio è ' + m('Θ(n)')],
     ],
   })}
@@ -231,7 +230,6 @@ accumulate con 0LL: 4000000000
   <p>Questa è la parte del capitolo da sapere a memoria. <var>n</var> è il numero di elementi; «amm.» vuol dire
   ammortizzato; «—» vuol dire che l'operazione non esiste.</p>
   ${table({
-    cls: 'cpp-costi',
     caption: 'Contenitori sequenziali e adattatori',
     head: ['Contenitore', 'Struttura', 'Accesso <code>[i]</code>', 'In fondo', 'In testa', 'In mezzo', 'Cercare un valore'],
     rows: [
@@ -244,22 +242,20 @@ accumulate con 0LL: 4000000000
     ],
   })}
   ${table({
-    cls: 'cpp-costi',
     caption: 'Contenitori associativi',
     head: ['Contenitore', 'Struttura', 'Inserire', 'Cancellare', 'Cercare (<code>find</code>, <code>count</code>)', 'Minimo e massimo', 'Visita in ordine'],
     rows: [
       ['<code>set</code>, <code>map</code>', 'albero rosso-nero', m('Θ(log n)'), m('Θ(log n)'), m('Θ(log n)') + '; anche <code>lower_bound</code>', m('Θ(1)') + ': <code>begin()</code>, <code>rbegin()</code>', m('Θ(n)')],
-      ['<code>unordered_set</code>, <code>unordered_map</code>', 'tabella hash', m('Θ(1)') + ' medio, ' + m('Θ(n)') + ' peggiore', m('Θ(1)') + ' medio, ' + m('Θ(n)') + ' peggiore', m('Θ(1)') + ' medio, ' + m('Θ(n)') + ' peggiore', m('Θ(n)'), '— (ordine casuale)'],
+      ['<code>unordered_set</code>, <code>unordered_map</code>', 'tabella hash', m('Θ(1)') + ' medio, ' + m('Θ(n)') + ' peggiore', m('Θ(1)') + ' medio, ' + m('Θ(n)') + ' peggiore', m('Θ(1)') + ' medio, ' + m('Θ(n)') + ' peggiore', m('Θ(n)'), '— (nessun ordine)'],
     ],
   })}
   ${table({
-    cls: 'cpp-costi',
     caption: 'Algoritmi (su un intervallo di n elementi)',
     head: ['Algoritmo', 'Costo', 'Note'],
     rows: [
       ['<code>sort</code>', m('Θ(n log n)'), 'non stabile'],
       ['<code>stable_sort</code>', m('Θ(n log n)'), 'stabile; usa memoria in più (senza, ' + m('Θ(n log^{2} n)') + ')'],
-      ['<code>binary_search</code>, <code>lower_bound</code>, <code>upper_bound</code>', m('Θ(log n)'), 'solo su un intervallo ordinato e ad accesso diretto (vector, deque, array)'],
+      ['<code>binary_search</code>, <code>lower_bound</code>, <code>upper_bound</code>', m('Θ(log n)'), 'su un intervallo ordinato ad accesso diretto (vector, deque, array); su una <code>list</code> i passi diventano ' + m('Θ(n)') + ', e per set e map si usa il metodo <code>s.lower_bound(x)</code>'],
       ['<code>find</code>, <code>count</code>, <code>min_element</code>, <code>max_element</code>', m('Θ(n)'), 'una passata'],
       ['<code>reverse</code>, <code>accumulate</code>', m('Θ(n)'), '<code>accumulate</code> è in <code>&lt;numeric&gt;</code>'],
     ],
@@ -382,7 +378,8 @@ cout << m["ciao"] << ' ' << m.size();`,
               options: ['<code>0 0</code>', '<code>0 1</code>', 'Un errore in esecuzione', 'Non compila'],
               answer: 1,
               explain: `<code>m["ciao"]</code> con una chiave assente la inserisce con valore 0 e restituisce quello: la
-              mappa ora ha un elemento. Per controllare senza inserire si usa <code>m.count("ciao")</code>.`,
+              mappa ora ha un elemento. Dal C++17 i pezzi di una catena di <code>&lt;&lt;</code> si valutano da sinistra a destra,
+              quindi <code>size()</code> si legge dopo l'inserimento. Per controllare senza inserire si usa <code>m.count("ciao")</code>.`,
             },
             {
               q: 'Con <code>vector&lt;int&gt; v = {1, 3, 3, 3, 5, 8};</code>, quanto valgono <code>lower_bound(v.begin(), v.end(), 3) - v.begin()</code> e <code>upper_bound(v.begin(), v.end(), 3) - v.begin()</code>?',

@@ -31,6 +31,8 @@
   <strong>parametri</strong> e un <strong>corpo</strong>. <code>return</code> restituisce il valore e termina la funzione;
   una funzione <code>void</code> non restituisce niente.</p>
   <div data-mount="anatomia"></div>
+  ${C.out(`49
+Ciao Ada`)}
   <p>I nomi tra parentesi nella definizione sono i <strong>parametri</strong> (<code>x</code>, <code>nome</code>); i
   valori passati nella chiamata sono gli <strong>argomenti</strong> (<code>7</code>). All'inizio della chiamata ogni
   parametro viene inizializzato con il suo argomento.</p>
@@ -89,6 +91,7 @@ minimo 24, massimo 30
   <p><code>return</code> restituisce un valore solo. Per restituirne due ci sono tre strade: parametri per riferimento
   che la funzione riempie (come <code>minMax</code> sopra), una <code>pair</code>, oppure una <code>struct</code>:</p>
   <div data-mount="ritorno"></div>
+  ${C.out('minimo 24, massimo 30')}
   <p>Restituire un <code>vector</code> per valore non copia gli elementi: il compilatore lo <em>sposta</em> al chiamante,
   a costo costante. Il problema è il contrario: restituire un riferimento a una variabile locale.</p>
   ${box('errore', `<p>Le variabili locali spariscono quando la funzione finisce. Un riferimento (o un puntatore) a una di
@@ -170,36 +173,10 @@ ambiguo.cpp:2:8: note: candidate: 'double massimo(double, double)'`)}
 </section>`;
 
       ASD.mount(el, {
-        anatomia: (host) =>
-          ASD.code(host, {
-            file: 'funzioni.cpp',
-            code: `int quadrato(int x) {          // tipo di ritorno, nome, parametri
-    return x * x;              // restituisce il valore e termina
-}
-
-void saluta(string nome) {     // void: non restituisce niente
-    cout << "Ciao " << nome << '\\n';
-}
-
-int q = quadrato(7);           // chiamata: l'argomento 7 va in x, q vale 49
-saluta("Ada");                 // stampa: Ciao Ada`,
-          }),
+        anatomia: (host) => ASD.code(host, { src: 'cpp/funzioni_base' }),
         parametri: (host) => ASD.code(host, { src: 'cpp/parametri', maxHeight: 420 }),
         scambio: mountScambio,
-        ritorno: (host) =>
-          ASD.code(host, {
-            file: 'ritorno.cpp',
-            code: `pair<int, int> minMax(const vector<int>& v) {
-    int mn = v[0], mx = v[0];
-    for (int x : v) {
-        if (x < mn) mn = x;
-        if (x > mx) mx = x;
-    }
-    return {mn, mx};                 // una coppia di valori
-}
-
-auto [lo, hi] = minMax(voti);        // C++17: spacchetta la coppia in due variabili`,
-          }),
+        ritorno: (host) => ASD.code(host, { src: 'cpp/ritorno_pair' }),
         chiamate: mountChiamate,
         statica: (host) =>
           ASD.code(host, {

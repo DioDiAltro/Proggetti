@@ -45,8 +45,12 @@
   dato); le funzioni dichiarate dentro sono i <strong>metodi</strong> e lavorano sull'oggetto su cui vengono chiamate.
   Ai membri si accede con il punto, o con <code>-&gt;</code> se hai un puntatore all'oggetto.</p>
   <div data-mount="punto"></div>
-  <p><code>class</code> è la stessa cosa, con una sola differenza: i membri di una <code>struct</code> sono pubblici se
-  non dici niente, quelli di una <code>class</code> sono privati. Con <code>public:</code> e <code>private:</code>
+  ${C.out(`5
+7.2111
+4`)}
+  <p><code>class</code> è la stessa cosa, con una differenza che qui conta: i membri di una <code>struct</code> sono
+  pubblici se non dici niente, quelli di una <code>class</code> sono privati (l'altra differenza riguarda
+  l'ereditarietà, che in questo corso non serve). Con <code>public:</code> e <code>private:</code>
   decidi tu:</p>
   <ul>
     <li>la parte <strong>pubblica</strong> è l'interfaccia: le operazioni che chi usa l'oggetto può chiamare;</li>
@@ -112,11 +116,15 @@ reorder.cpp:4:56: warning: member 'Intervallo::inizio' is used uninitialized [-W
   <strong>RAII</strong> (<i>Resource Acquisition Is Initialization</i>), ed è il motivo per cui <code>vector</code> e
   <code>string</code> non perdono mai memoria.</p>
   <div data-mount="buffer"></div>
-  ${box('errore', `<p>Se una classe possiede memoria tramite un puntatore, la copia automatica copia il
-  <em>puntatore</em>, non l'array: due oggetti puntano allo stesso blocco e alla fine lo liberano entrambi.</p>
+  ${C.out(`b[0] = 42, elementi: 1000
+b[0] = 42, elementi: 1000
+nessuna perdita di memoria`)}
+  ${box('errore', `<p>Perché le due righe con <code>= delete</code>? Se una classe possiede memoria tramite un puntatore,
+  la copia automatica copia il <em>puntatore</em>, non l'array: due oggetti puntano allo stesso blocco e alla fine lo
+  liberano entrambi. Senza quelle righe, <code>Buffer b2 = b;</code> compilerebbe e finirebbe così:</p>
   ${C.term(`==8884==ERROR: AddressSanitizer: attempting double-free on 0x504000000010 in thread T0:`)}
-  <p>Per gestire una risorsa così bisogna scrivere anche il costruttore di copia e l'operatore di assegnamento (la
-  «regola del tre»), oppure vietare la copia. La soluzione più semplice è non possedere memoria a mano: con
+  <p>Per gestire una risorsa così o si scrivono a mano il costruttore di copia e l'operatore di assegnamento (la
+  «regola del tre», insieme al distruttore), o si vieta la copia come qui. La soluzione più semplice è non possedere memoria a mano: con
   <code>vector&lt;int&gt; dati;</code> come membro, copia e distruzione funzionano da sole («regola dello zero»).</p>`)}
 </section>
 
@@ -209,22 +217,7 @@ in cima: secondo`)}
 </section>`;
 
       ASD.mount(el, {
-        punto: (host) =>
-          ASD.code(host, {
-            file: 'punto.cpp',
-            code: `struct Punto {
-    double x, y;                              // campi
-    double distanza() const {                 // metodo: usa i campi dell'oggetto
-        return sqrt(x * x + y * y);           // (sqrt è in <cmath>)
-    }
-};
-
-Punto p{3, 4};                    // x = 3, y = 4
-p.x = 6;                          // accesso con il punto
-cout << p.distanza() << '\\n';     // 7.2111
-Punto* q = &p;
-cout << q->y << '\\n';             // con un puntatore: q->y vuol dire (*q).y`,
-          }),
+        punto: (host) => ASD.code(host, { src: 'cpp/punto' }),
         frazione: (host) => ASD.code(host, { src: 'cpp/frazione', region: 'classe' }),
         ordine: (host) =>
           ASD.code(host, {
@@ -236,23 +229,7 @@ public:
 };                        // ...quindi viene inizializzato per primo`,
           }),
         vita: mountVita,
-        buffer: (host) =>
-          ASD.code(host, {
-            file: 'buffer.cpp',
-            code: `class Buffer {
-    int* dati;
-    int n;
-public:
-    Buffer(int n) : dati(new int[n]), n(n) {}   // acquisisce la memoria
-    ~Buffer() { delete[] dati; }                // la rilascia, sempre
-    int& operator[](int i) { return dati[i]; }
-};
-
-void f() {
-    Buffer b(1000);
-    b[0] = 42;
-}   // qui il distruttore di b libera l'array: nessuna perdita`,
-          }),
+        buffer: (host) => ASD.code(host, { src: 'cpp/buffer_raii', region: 'buffer' }),
         studenti: (host) => ASD.code(host, { src: 'cpp/studenti', region: 'studente' }),
         lambda: (host) => ASD.code(host, { src: 'cpp/studenti', region: 'lambda' }),
         tfunzione: (host) => ASD.code(host, { src: 'cpp/pila_template', region: 'funzione' }),
@@ -284,8 +261,8 @@ void f() {
                 'Le struct stanno sullo stack, le class sullo heap',
               ],
               answer: 2,
-              explain: `È l'unica differenza: per il resto sono identiche, e entrambe possono avere metodi, costruttori,
-              parti pubbliche e private. Dove sta un oggetto (stack o heap) dipende da come lo crei, non dalla parola chiave.`,
+              explain: `È la differenza che conta (l'altra riguarda l'ereditarietà): per il resto sono identiche, ed
+              entrambe possono avere metodi, costruttori, parti pubbliche e private. Dove sta un oggetto (stack o heap) dipende da come lo crei, non dalla parola chiave.`,
             },
             {
               q: 'Quale <code>operator&lt;</code> ordina gli studenti per voto <strong>decrescente</strong> e, a parità di voto, per nome crescente?',

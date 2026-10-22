@@ -388,7 +388,7 @@ Segmentation fault`)}
     M.note(`riceve ${ris}`);
     t.step(
       null,
-      `<code>fattoriale(${N}) = ${ris}</code> torna a <code>main</code>. In tutto ${N + 1} chiamate, e lo stack è arrivato a ${N + 1} frame sopra main: tempo e memoria ${m('Θ(n)')}.`,
+      `<code>fattoriale(${N}) = ${ris}</code> torna a <code>main</code>. In tutto ${N + 1} ${N === 0 ? 'chiamata' : 'chiamate'}, e lo stack è arrivato a ${N + 1} frame sopra main: tempo e memoria ${m('Θ(n)')}.`,
       { risultato: ris },
       M.snap()
     );
@@ -510,7 +510,7 @@ Segmentation fault`)}
     const rossi = Object.values(nodes).filter((x) => x.cls === 'swap').length;
     t.step(
       null,
-      `Finito: <code>fib(${N}) = ${r}</code> con <b>${t.c.chiamate}</b> chiamate, cioè ${m('2F(n+1) - 1')}. Di valori diversi ce ne sono solo ${N + 1} (da 0 a ${N})` +
+      `Finito: <code>fib(${N}) = ${r}</code> con <b>${t.c.chiamate}</b> ${t.c.chiamate === 1 ? 'chiamata' : 'chiamate'}, cioè ${m('2F(n+1) - 1')}. Gli argomenti diversi però sono al più ${N + 1} (da 0 a ${N})` +
         (rossi ? `: ${rossi} ${rossi === 1 ? 'chiamata rossa ricalcola' : 'chiamate rosse ricalcolano'} un intero sottoalbero già visto.` : '.'),
       { n: N, 'chiamate aperte': 0 },
       snap()

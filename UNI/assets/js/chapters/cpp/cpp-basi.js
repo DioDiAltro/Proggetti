@@ -377,7 +377,7 @@ cout << x << ' ' << y;`,
               options: ['<code>1245</code>', '<code>12457</code>', '<code>124578</code>', '<code>0124</code>'],
               answer: 0,
               explain: `I multipli di 3 (0, 3, 6) vengono saltati da <code>continue</code>; 1, 2, 4, 5 vengono stampati; con
-              <code>i = 7</code> il <code>break</code> esce dal ciclo prima della stampa. Il 9 non viene mai raggiunto.`,
+              <code>i = 7</code> il <code>break</code> esce dal ciclo prima della stampa, e 8 e 9 non vengono mai raggiunti.`,
             },
             {
               q: 'Che cosa stampa?',
