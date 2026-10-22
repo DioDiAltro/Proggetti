@@ -1124,3 +1124,17 @@
   font-weight: 600;
   max-width: var(--measure);
 }
+
+/* movimento ridotto: niente scivolamenti, solo cambi di stato */
+@media (prefers-reduced-motion: reduce) {
+  .av-item,
+  .av-bar,
+  .av-hole,
+  .av-float-tag,
+  .av-ptr,
+  .tv-node,
+  .tv-edge,
+  .ln {
+    transition: none;
+  }
+}

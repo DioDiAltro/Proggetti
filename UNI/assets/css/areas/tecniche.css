@@ -80,11 +80,15 @@
 .tc-tv-scroll {
   max-width: 100%;
   overflow-x: auto;
-  padding: 2px 2px 8px;
+  padding: 2px 2px 8px 0;
   scrollbar-width: thin;
 }
 
 .tc-tv-table {
+  /* max-content: le colonne tengono la loro larghezza e, se non ci stanno,
+     scorre il contenitore invece di stringersi */
+  width: max-content;
+  position: relative; /* le celle misurano offsetLeft rispetto alla tabella */
   border-collapse: separate;
   border-spacing: 3px;
   margin-inline: auto;
@@ -105,7 +109,6 @@
   position: sticky;
   left: 0;
   z-index: 2;
-  background: var(--sheet);
 }
 
 .tc-tv-ch,
@@ -129,7 +132,13 @@
   position: sticky;
   left: 0;
   z-index: 1;
+}
+
+/* la prima colonna resta ferma: quando la tabella scorre le serve un fondo,
+   e il contorno copre anche gli spazi tra le caselle (border-spacing) */
+.tc-tv.is-scroll :is(.tc-tv-rh, .tc-tv-corner) {
   background: var(--sheet);
+  outline: 3px solid var(--sheet);
 }
 
 .tc-tv-hl {
@@ -144,25 +153,21 @@
   color: var(--ink-2);
 }
 
-.tc-tv-ch:is(.is-compare),
-.tc-tv-rh:is(.is-compare) {
+.tc-tv :is(.tc-tv-ch, .tc-tv-rh).is-compare {
   background: var(--hl);
 }
 
-.tc-tv-ch.is-done,
-.tc-tv-rh.is-done {
+.tc-tv :is(.tc-tv-ch, .tc-tv-rh).is-done {
   background: var(--green-soft);
   box-shadow: inset 0 0 0 1.5px var(--green);
 }
 
-.tc-tv-ch.is-key,
-.tc-tv-rh.is-key {
+.tc-tv :is(.tc-tv-ch, .tc-tv-rh).is-key {
   background: var(--violet-soft);
   box-shadow: inset 0 0 0 1.5px var(--violet);
 }
 
-.tc-tv-ch.is-out,
-.tc-tv-rh.is-out {
+.tc-tv :is(.tc-tv-ch, .tc-tv-rh).is-out {
   opacity: 0.45;
 }
 
@@ -186,6 +191,10 @@
 
 .tc-tv-cell.has-ar .tc-tv-v {
   padding: 9px 0 0 9px;
+}
+
+.tc-tv-cell.is-inf .tc-tv-v {
+  font: 400 1.3rem/1 var(--font-display);
 }
 
 .tc-tv-ar {
@@ -268,6 +277,10 @@
   .tc-tv-rh {
     padding: 0 5px 0 2px !important;
   }
+
+  .tc-tv.is-scroll :is(.tc-tv-rh, .tc-tv-corner) {
+    outline-width: 2px;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -279,7 +292,11 @@
   --tl-row: 30px;
   position: relative;
   min-width: 0;
-  padding-top: 22px;
+  padding-top: 4px;
+}
+
+.tc-tl.has-mark {
+  padding-top: 24px;
 }
 
 .tc-tl-rows {
@@ -295,7 +312,7 @@
   left: var(--tl-name);
   right: 0;
   background-image: linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
-  background-size: calc(100% / var(--T, 10)) 100%;
+  background-size: calc(100% * var(--step, 1) / var(--T, 10)) 100%;
   pointer-events: none;
 }
 
@@ -350,7 +367,7 @@
 .tc-tl-row.is-key .tc-tl-bar { background: var(--violet-soft); border-color: var(--violet); }
 .tc-tl-row.is-out .tc-tl-bar { opacity: 0.35; border-style: dashed; }
 .tc-tl-row.is-out .tc-tl-name { color: var(--ink-3); }
-.tc-tl-row.is-compare .tc-tl-name { background: linear-gradient(transparent 12%, var(--hl) 12% 88%, transparent 88%); }
+.tc-tl-row.is-compare .tc-tl-nm { background: linear-gradient(transparent 4%, var(--hl) 4% 96%, transparent 96%); padding: 0 2px; margin: 0 -2px; }
 
 .tc-tl-mark {
   position: absolute;
@@ -668,6 +685,11 @@
 .tc-hf-codes .tbl {
   min-width: 0;
   margin: 0;
+  background: var(--sheet);
+}
+
+.tc-hf-codes .tbl :is(th, td):first-child {
+  padding-left: 10px;
 }
 
 .tc-hf-codes .tbl-wrap {
@@ -703,9 +725,9 @@
   min-width: 0;
 }
 
-.tc-fib-counts td.num {
-  text-align: right;
+.tc-num {
   font-family: var(--font-mono);
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -732,4 +754,26 @@
 
 .tc-scheda ol {
   padding-left: 1.3em;
+}
+
+/* --------------------------------------------------------------------------
+   Movimento ridotto: niente animazioni anche fuori dai visualizzatori
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tc-fib-tree,
+  .tc-tl,
+  .tc-sacks {
+    --av-dur: 0ms;
+  }
+
+  .tc-tl-row,
+  .tc-tl-bar,
+  .tc-tl-mark,
+  .tc-sack,
+  .tc-tv-cell,
+  .tc-tv-ch,
+  .tc-tv-rh {
+    transition: none !important;
+  }
 }

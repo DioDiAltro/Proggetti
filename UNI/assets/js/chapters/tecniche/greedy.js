@@ -91,7 +91,7 @@
   <ul>
     <li>Se ${m('x = a')}, la scelta greedy è già in <var>O</var>.</li>
     <li>Altrimenti togli <var>x</var> da <var>O</var> e metti <var>a</var>. Le altre attività di <var>O</var> sono
-    compatibili con <var>x</var> e finiscono dopo di lei, quindi iniziano da ${m('f_x')} in poi; siccome
+    compatibili con <var>x</var> e non finiscono prima di lei, quindi iniziano da ${m('f_x')} in poi; siccome
     ${m('f_a <= f_x')}, iniziano anche dopo la fine di <var>a</var>. La nuova soluzione è valida e ha lo stesso numero di
     attività: è ottima e contiene <var>a</var>.</li>
   </ul>
@@ -140,7 +140,7 @@ ma 6 = 3 + 3 usa solo 2 monete: qui il greedy non è ottimo.</code></pre>
   greedy usa più monete del necessario.</p>
   <div data-mount="resto"></div>
   ${box('nota', `<p>Il resto con monete qualsiasi si risolve sempre con la programmazione dinamica, in tempo
-  ${m('Θ(kR)')} con <var>k</var> tagli di monete: è il secondo esempio del capitolo
+  ${m('Θ(k\u2009R)')} con <var>k</var> tagli di monete: è il secondo esempio del capitolo
   ${ASD.link('dp', 'monete', 'Programmazione dinamica')}.</p>`, 'Come si rimedia')}
 </section>
 
@@ -181,7 +181,7 @@ Zaino 0/1, ottimo:          220</code></pre>
   <p>Cambia la capacità e confronta i tre zaini.</p>
   <div data-mount="zaini"></div>
   ${box('errore', `<p>"Ordino per valore/peso e prendo finché ci sta" <strong>non</strong> risolve lo zaino 0/1. Lo zaino
-  0/1 si risolve con la programmazione dinamica, in ${m('Θ(nW)')}: è il primo problema del capitolo
+  0/1 si risolve con la programmazione dinamica, in ${m('Θ(n\u2009W)')}: è il primo problema del capitolo
   ${ASD.link('dp-problemi', 'zaino', 'Problemi classici di PD')}.</p>`)}
 </section>
 
@@ -213,10 +213,11 @@ e  freq 9  codice 1101
 d  freq 16  codice 111
 Bit totali: 224 (con 3 bit fissi per carattere: 300)</code></pre>
   <h3>Perché è corretto e quanto costa</h3>
-  <p><strong>Scelta greedy</strong>: esiste un albero ottimo in cui i due caratteri meno frequenti sono fratelli al
-  livello più profondo. Se un carattere più frequente stesse più in basso di uno meno frequente, scambiarli non
-  aumenterebbe il costo (argomento di scambio). <strong>Sottostruttura ottima</strong>: fusi i due caratteri in un
-  carattere nuovo con la somma delle frequenze, resta lo stesso problema con un carattere in meno.</p>
+  <p><strong>Scelta greedy</strong>: esiste un albero ottimo in cui i due caratteri meno frequenti sono foglie sorelle al
+  livello più profondo. Prendi un albero ottimo qualsiasi e scambia quei due caratteri con le due foglie sorelle più
+  profonde: ogni scambio porta più in alto un carattere frequente almeno quanto l'altro, quindi il costo non aumenta
+  (argomento di scambio). <strong>Sottostruttura ottima</strong>: fusi i due caratteri in un carattere nuovo con la somma
+  delle frequenze, resta lo stesso problema con un carattere in meno.</p>
   <p><strong>Costo</strong>: ${m('n')} inserimenti iniziali e ${m('n - 1')} fusioni, ognuna con due estrazioni e un
   inserimento da ${m('O(log n)')}: in tutto ${m('O(n log n)')}.</p>
   ${box('errore', `<p><code>priority_queue&lt;int&gt;</code> estrae il <strong>massimo</strong>. Per Huffman serve il
@@ -232,7 +233,7 @@ Bit totali: 224 (con 3 bit fissi per carattere: 300)</code></pre>
     head: ['Problema', 'Scelta greedy', 'Costo', 'Sempre ottimo?'],
     rows: [
       ['Selezione di attività', 'finisce prima', m('O(n log n)'), 'sì'],
-      ['Resto, monete dell\'euro', 'moneta più grande', `${m('Θ(k)')} tagli + una passata per moneta data`, 'sì (sistema canonico)'],
+      ['Resto, monete dell\'euro', 'moneta più grande', 'un passo per taglio e uno per moneta data', 'sì (sistema canonico)'],
       ['Resto, monete {1, 3, 4}', 'moneta più grande', 'come sopra', '<strong>no</strong>: 6 = 4 + 1 + 1'],
       ['Zaino frazionario', 'valore/peso più alto', m('O(n log n)'), 'sì'],
       ['Zaino 0/1', 'valore/peso più alto', m('O(n log n)'), '<strong>no</strong>: serve la PD'],
@@ -544,7 +545,7 @@ Bit totali: 224 (con 3 bit fissi per carattere: 300)</code></pre>
         it.el.style.setProperty('--y', `calc(var(--tl-row) * ${idx})`);
         it.bar.style.setProperty('--s', String(a.s / Tm));
         it.bar.style.setProperty('--d', String((a.f - a.s) / Tm));
-        it.name.replaceChildren(a.nome, h('small', { text: iv(a) }));
+        it.name.replaceChildren(h('span.tc-tl-nm', { text: a.nome }), h('small', { text: iv(a) }));
         const mk = st.marks && st.marks[a.id];
         it.el.className = 'tc-tl-row' + [].concat(mk || []).map((x) => ' is-' + x).join('');
         if (it.fresh) {
@@ -559,6 +560,7 @@ Bit totali: 224 (con 3 bit fissi per carattere: 300)</code></pre>
           this.items.delete(id);
         }
       }
+      this.root.classList.toggle('has-mark', Boolean(st.line));
       if (st.line) {
         this.mark.hidden = false;
         const frac = st.line.t / Tm;
@@ -570,6 +572,7 @@ Bit totali: 224 (con 3 bit fissi per carattere: 300)</code></pre>
       if (this.axisKey !== String(Tm)) {
         this.axisKey = String(Tm);
         const step = Tm <= 12 ? 1 : Tm <= 24 ? 2 : 5;
+        this.root.style.setProperty('--step', String(step));
         const ticks = [];
         for (let v = 0; v <= Tm; v += step) ticks.push(T.vars(h('span.tc-tl-tick', { text: String(v) }), { '--t': v / Tm }));
         this.axis.replaceChildren(...ticks);
@@ -599,6 +602,9 @@ Bit totali: 224 (con 3 bit fissi per carattere: 300)</code></pre>
     lab.append(head, body, controls, out);
     host.append(lab);
     const view = new TimelineView(body);
+    body.append(
+      h('div.st-legend', { 'aria-label': 'Legenda dei colori' }, h('span', h('i.k-done'), 'scelta dal criterio'), h('span', h('i.k-out'), 'scartata'))
+    );
     const setPick = T.radios('Input', SETS, () => draw(), 'c1');
     const critPick = T.radios('Criterio greedy', CRIT, () => draw(), 'inizio');
     controls.append(setPick.el, critPick.el);
@@ -694,7 +700,7 @@ Bit totali: 224 (con 3 bit fissi per carattere: 300)</code></pre>
           ? `<span class="tc-verdict-no">Per ${R} il greedy usa ${g.length} monete, ma ne bastano ${b.k}.</span>`
           : `<span class="tc-verdict-ok">Per ${R} il greedy dà il minimo: ${b.k} ${b.k === 1 ? 'moneta' : 'monete'}.</span>`}</p>` +
         `<p class="tc-out-line">${fails.length
-          ? `Con queste monete il greedy sbaglia per ${fails.length} importi su ${MAX}: ${fails.slice(0, 12).join(', ')}${fails.length > 12 ? '…' : ''}.`
+          ? `Con queste monete il greedy sbaglia per ${fails.length} importi su ${MAX}: ${fails.slice(0, 12).join(', ')}${fails.length > 12 ? ', …' : '.'}`
           : `Con queste monete il greedy non sbaglia mai fino a ${MAX}.`}</p>`;
     }
     draw();

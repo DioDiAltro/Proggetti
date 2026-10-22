@@ -2,8 +2,6 @@
    (algoritmi greedy, programmazione dinamica, problemi classici di PD).
 
    ASD.tecniche.key(i, j)                  → 'i,j': la chiave di una cella per TableView
-   ASD.tecniche.INF                        → '∞': il valore "infinito" scritto in tabella
-   ASD.tecniche.legend.table               → legenda dei colori delle tabelle di PD
    ASD.tecniche.coins.greedy(monete, R)    → monete date dal greedy, o null se non arriva a R
    ASD.tecniche.coins.best(monete, R)      → { k, usate } con la PD (k = Infinity se impossibile)
    ASD.tecniche.brute.knapsack(items, W)   → valore ottimo dello zaino 0/1 provando i 2^n sottoinsiemi
@@ -31,17 +29,6 @@
     for (const [k, v] of Object.entries(map)) el.style.setProperty(k, String(v));
     return el;
   };
-  T.INF = '∞';
-
-  T.legend = {
-    table: [
-      { k: 'active', label: 'cella in calcolo' },
-      { k: 'compare', label: 'celle che legge' },
-      { k: 'done', label: 'ricostruzione' },
-      { k: 'hole', label: 'da calcolare' },
-    ],
-  };
-
   /* ------------------------------------------------------------- monete */
 
   T.coins = {

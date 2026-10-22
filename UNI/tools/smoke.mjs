@@ -52,7 +52,8 @@ const browser = await chromium.launch({
 const url = pathToFileURL(join(ROOT, 'index.html')).href;
 
 async function newPage(opts) {
-  const ctx = await browser.newContext(opts);
+  // movimento ridotto: niente transizioni tra capitoli, gli screenshot non catturano dissolvenze a metà
+  const ctx = await browser.newContext({ reducedMotion: 'reduce', ...opts });
   const page = await ctx.newPage();
   const problems = [];
   page.on('console', (m) => {

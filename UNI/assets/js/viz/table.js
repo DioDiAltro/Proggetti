@@ -132,6 +132,7 @@
           const k = key(i, j);
           const cls = ['tc-tv-cell'];
           if (val == null) cls.push('is-empty');
+          else if (val === Infinity || val === '∞') cls.push('is-inf');
           const arrow = arrows[k] || '';
           if (arrow) cls.push('has-ar');
           for (const s of states.get(k) || []) cls.push('is-' + s);
@@ -152,23 +153,43 @@
       headState(this.colEls, st.colMarks);
 
       this.updateScroll();
-      if (st.cur) this.bringIntoView(st.cur);
-      else if (st.path && st.path.length) this.bringIntoView(st.path[st.path.length - 1]);
+      if (st.cur) this.bringIntoView([st.cur].concat(st.deps || []));
+      else if (st.path && st.path.length) this.bringIntoView([st.path[st.path.length - 1]]);
     }
 
-    /** Porta in vista (solo in orizzontale) la cella [i, j]. */
-    bringIntoView([i, j]) {
+    /**
+     * Scorre in orizzontale perché si vedano la prima cella della lista (quella in
+     * calcolo) e, se ci stanno, anche le altre (le dipendenze). Lo scorrimento si
+     * ferma sempre all'inizio di una colonna, così accanto alla prima colonna
+     * ferma non restano pezzi di caselle.
+     */
+    bringIntoView(cells) {
       const sc = this.scroller;
-      if (sc.scrollWidth <= sc.clientWidth + 1) return;
-      const c = this.cellEls[i] && this.cellEls[i][j];
-      if (!c) return;
-      const box = sc.getBoundingClientRect();
-      const r = c.td.getBoundingClientRect();
-      const fixed = this.rowEls[i] ? this.rowEls[i].getBoundingClientRect().width : 0;
-      let delta = 0;
-      if (r.left < box.left + fixed + 4) delta = r.left - (box.left + fixed + 4);
-      else if (r.right > box.right - 4) delta = r.right - (box.right - 4);
-      if (Math.abs(delta) > 0.5) sc.scrollLeft += delta;
+      const row = this.cellEls[0];
+      if (!row || !row.length || sc.scrollWidth <= sc.clientWidth + 1) return;
+      const cols = cells.map((c) => c && c[1]).filter((j) => j != null && j >= 0 && j < row.length);
+      if (!cols.length) return;
+      // coordinate rispetto alla tabella (è lei l'offsetParent delle celle)
+      const left = (j) => row[j].td.offsetLeft;
+      const right = (j) => row[j].td.offsetLeft + row[j].td.offsetWidth;
+      const lead = left(0); // le celle a sinistra di qui finiscono sotto la colonna ferma
+      const span = sc.clientWidth - lead;
+      let a = Math.min(...cols);
+      let b = Math.max(...cols);
+      if (right(b) - left(a) > span) a = b = cols[0];
+      const S = sc.scrollLeft;
+      if (left(a) >= S + lead - 0.5 && right(b) <= S + sc.clientWidth + 0.5) return;
+      let first = a; // la colonna da mettere subito dopo quella ferma
+      if (left(a) >= S + lead) {
+        // si va verso destra: il minimo spostamento che mostra b
+        for (let k = 0; k <= a; k++) {
+          if (right(b) <= left(k) - lead + sc.clientWidth + 0.5) {
+            first = k;
+            break;
+          }
+        }
+      }
+      sc.scrollLeft = Math.max(0, left(first) - lead);
     }
 
     /** Se la tabella non ci sta, il contenitore diventa raggiungibile da tastiera. */
