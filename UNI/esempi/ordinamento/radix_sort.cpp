@@ -8,27 +8,29 @@
 using namespace std;
 
 //@region radix
-// Ordina a in modo stabile secondo la cifra di peso esp (1, 10, 100, ...).
+// Ordina a in modo stabile secondo la cifra di peso
+// esp (1 = unità, 10 = decine, 100 = centinaia).
 void countingSortCifra(vector<int>& a, int esp) {
     int n = a.size();
     vector<int> c(10, 0);
     for (int i = 0; i < n; i++)
-        c[(a[i] / esp) % 10]++;              // conta le cifre //@count
+        c[(a[i] / esp) % 10]++;        //@count
     for (int d = 1; d < 10; d++)
-        c[d] += c[d - 1];                    // somme prefisse //@prefix
+        c[d] += c[d - 1];              //@prefix
     vector<int> b(n);
-    for (int i = n - 1; i >= 0; i--) {       // da destra, come nel counting sort
-        int d = (a[i] / esp) % 10;
+    for (int i = n - 1; i >= 0; i--) {
+        int d = (a[i] / esp) % 10;     // la cifra
         c[d]--;
-        b[c[d]] = a[i];                      //@place
+        b[c[d]] = a[i];                //@place
     }
-    a = b;                                   //@copy
+    a = b;                             //@copy
 }
 
 void radixSort(vector<int>& a) {
     int massimo = *max_element(a.begin(), a.end());
-    for (int esp = 1; massimo / esp > 0; esp *= 10)   // una passata per cifra //@pass
-        countingSortCifra(a, esp);                     //@call
+    // una passata per ogni cifra del massimo
+    for (int esp = 1; massimo / esp > 0; esp *= 10) //@pass
+        countingSortCifra(a, esp);     //@call
 }
 //@endregion
 

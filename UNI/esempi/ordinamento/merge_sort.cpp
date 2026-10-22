@@ -5,30 +5,32 @@
 using namespace std;
 
 //@region merge
-// Fonde a[lo..mid] e a[mid+1..hi], già ordinati, in a[lo..hi] ordinato.
+// Fonde a[lo..mid] e a[mid+1..hi], già ordinati.
 void merge(vector<int>& a, int lo, int mid, int hi) {
-    vector<int> b(hi - lo + 1);              // buffer ausiliario //@buffer
-    int i = lo, j = mid + 1, k = 0;          //@init
-    while (i <= mid && j <= hi) {            //@loop
-        if (a[i] <= a[j])                    // <= rende il merge stabile //@cmp
-            b[k++] = a[i++];                 //@take-left
+    vector<int> b(hi - lo + 1);       // buffer //@buffer
+    int i = lo, j = mid + 1, k = 0;   //@init
+    while (i <= mid && j <= hi) {     //@loop
+        if (a[i] <= a[j])  // <= : stabile //@cmp
+            b[k++] = a[i++];          //@take-left
         else
-            b[k++] = a[j++];                 //@take-right
+            b[k++] = a[j++];          //@take-right
     }
-    while (i <= mid) b[k++] = a[i++];        // avanzi della metà sinistra //@rest-left
-    while (j <= hi) b[k++] = a[j++];         // avanzi della metà destra //@rest-right
-    for (k = 0; k < hi - lo + 1; k++)        //@copy-loop
-        a[lo + k] = b[k];                    // si ricopia b in a[lo..hi] //@copy
+    // gli avanzi: al più uno dei due cicli lavora
+    while (i <= mid) b[k++] = a[i++]; //@rest-left
+    while (j <= hi) b[k++] = a[j++];  //@rest-right
+    // si ricopia b in a[lo..hi]
+    for (k = 0; k < hi - lo + 1; k++) //@copy-loop
+        a[lo + k] = b[k];             //@copy
 }
 //@endregion
 
 //@region sort
 void mergeSort(vector<int>& a, int lo, int hi) {
-    if (lo >= hi) return;                    // 0 o 1 elementi: già ordinato //@base
-    int mid = lo + (hi - lo) / 2;            //@mid
-    mergeSort(a, lo, mid);                   // ordina la metà sinistra //@left
-    mergeSort(a, mid + 1, hi);               // ordina la metà destra //@right
-    merge(a, lo, mid, hi);                   // fonde le due metà ordinate //@merge
+    if (lo >= hi) return;  // già ordinato //@base
+    int mid = lo + (hi - lo) / 2;      //@mid
+    mergeSort(a, lo, mid);  // metà sinistra //@left
+    mergeSort(a, mid + 1, hi);  // metà destra //@right
+    merge(a, lo, mid, hi);  // fusione //@merge
 }
 //@endregion
 

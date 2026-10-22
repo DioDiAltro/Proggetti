@@ -192,6 +192,27 @@
   text-decoration: line-through;
 }
 
+/* il posto in cui andrebbe una chiave che non c'è */
+:is(.tr-stage, .tr-heap, .tr-lab) .tv-node.is-ghost :is(circle, rect) {
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-dasharray: 4 3;
+}
+
+:is(.tr-stage, .tr-heap, .tr-lab) .tv-node.is-ghost text:not(.tv-sub, .tv-note) {
+  fill: var(--ink-2);
+  font-weight: 500;
+}
+
+/* sui telefoni il disegno ha bisogno di tutta la larghezza */
+@container (max-width: 480px) {
+  .st-stage.tr-st-stage,
+  .tr-lab > .lab-body {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Heap: array e albero insieme
    -------------------------------------------------------------------------- */
@@ -218,15 +239,26 @@
   padding-bottom: 2px;
 }
 
+/* "sottoalbero già heap" (build-heap): grigio come i nodi visitati */
+.tr-heap .av-item.is-visited .av-cell,
+.tr-heap .av-item.is-visited .av-bar {
+  background: var(--surface-2);
+}
+
+.tr-st-stage .st-legend i.k-visited {
+  background: var(--surface-2);
+  border-color: var(--rule-2);
+}
+
 /* i nomi dei puntatori accanto ai nodi, a penna blu */
 .tr-heap .tv-node .tv-note {
   fill: var(--pen);
-  font-size: 17px;
+  font: 600 12px var(--font-mono);
 }
 
 @container (min-width: 520px) {
   .tr-heap.tr-heap-bars {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   }
 }
 
@@ -355,6 +387,14 @@
   margin: 0 0 6px;
 }
 
+.tr-lab-out .tr-lab-sum {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--rule);
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
 .tr-lab-out p:last-child {
   margin-bottom: 0;
 }
@@ -372,7 +412,7 @@
 }
 
 .tr-ops .field input.tr-wide {
-  width: min(100%, 17em);
+  width: min(100%, 26em);
 }
 
 .tr-ops-group {

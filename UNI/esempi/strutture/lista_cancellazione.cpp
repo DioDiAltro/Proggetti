@@ -9,7 +9,8 @@ struct Nodo {
 };
 
 //@region cancella
-// Toglie il primo nodo che contiene x. Restituisce false se x non c'è.
+// Toglie il primo nodo che contiene x.
+// Restituisce false se x non c'è.
 bool cancella(Nodo*& head, int x) {
     if (head == nullptr) return false;                      //@vuota
     if (head->val == x) {                                   //@test-testa

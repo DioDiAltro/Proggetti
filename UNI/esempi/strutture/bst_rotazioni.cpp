@@ -12,7 +12,7 @@ struct Nodo {
 };
 
 //@region rotazioni
-// x ha un figlio destro y: y sale, x scende a sinistra.
+// y, figlio destro di x, sale; x scende a sinistra.
 // Restituisce la nuova radice del sottoalbero.
 Nodo* ruotaSinistra(Nodo* x) {
     Nodo* y = x->right;      //@rl-y

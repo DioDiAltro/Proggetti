@@ -555,7 +555,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
       const mid = lo + half;
       t.count('iterazioni');
       const cmp = { marks: { [mid]: 'compare' }, ptrs: { lo, mid, hi } };
-      t.step('mid', `<code>mid = ${lo} + ${hi - lo}/2 = ${mid}</code>.`, { lo, hi, mid, x }, st(lo, hi, cmp));
+      t.step('mid', `<code>mid = ${lo} + ${hi - lo}/2 = ${lo} + ${half} = ${mid}</code>.`, { lo, hi, mid, x }, st(lo, hi, cmp));
       if (a[mid] < x) {
         t.step('cmp', `<code>a[${mid}] = ${a[mid]}</code> &lt; ${x}: a[${mid}] e tutti quelli alla sua sinistra sono minori di ${x}, la risposta è dopo mid.`, { lo, hi, mid, x }, st(lo, hi, cmp));
         lo = mid + 1;
@@ -638,7 +638,7 @@ x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false</code></pre>
       const mid = lo + Math.floor((hi - lo) / 2);
       t.count('iterazioni');
       const cmp = { marks: { [mid]: 'compare' }, ptrs: { lo, mid, hi } };
-      t.step('mid', `<code>mid = ${lo} + ${hi - lo}/2 = ${mid}</code>.`, { lo, hi, mid, x }, st(lo, hi, cmp));
+      t.step('mid', `<code>mid = ${lo} + ${hi - lo}/2 = ${lo} + ${mid - lo} = ${mid}</code>.`, { lo, hi, mid, x }, st(lo, hi, cmp));
       if (a[mid] === x) {
         t.step('eq', `a[${mid}] = ${a[mid]} è x: return ${mid}. Questa volta va bene: l'errore non sempre si vede.`, { lo, hi, mid, x }, st(lo, hi, { marks: { [mid]: 'done' }, ptrs: { mid } }));
         return t.frames;

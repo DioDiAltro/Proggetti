@@ -6,8 +6,8 @@ using namespace std;
 
 //@region sort
 //@region build
-// Fa scendere a[i] finché è più piccolo di un figlio.
-// Guarda solo a[0..n-1]: n è la dimensione dell'heap.
+// a[i] scende finché è più piccolo di un figlio.
+// Usa solo a[0..n-1]: n = dimensione dell'heap.
 void siftDown(vector<int>& a, int i, int n) {
     while (2 * i + 1 < n) {                //@down-loop
         int m = 2 * i + 1, r = 2 * i + 2;  //@down-kids
@@ -30,8 +30,8 @@ void heapSort(vector<int>& a) {
     int n = a.size();
     buildHeap(a);                          //@hs-build
     for (int i = n - 1; i > 0; i--) {      //@hs-loop
-        swap(a[0], a[i]);    // il massimo va in fondo   //@hs-swap
-        siftDown(a, 0, i);   // heap in a[0..i-1]        //@hs-down
+        swap(a[0], a[i]);   // max in fondo  //@hs-swap
+        siftDown(a, 0, i);  // a[0..i-1]     //@hs-down
     }
 }
 //@endregion sort

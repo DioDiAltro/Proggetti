@@ -1,5 +1,7 @@
 // Albero binario di ricerca (BST): ricerca, minimo e massimo, inserimento,
-// cancellazione, successore e visita simmetrica. Chiavi tutte diverse.
+// cancellazione, successore, visita simmetrica e controllo della proprietà.
+// Chiavi tutte diverse.
+#include <climits>
 #include <iostream>
 #include <string>
 using namespace std;
@@ -12,7 +14,7 @@ struct Nodo {
 };
 
 //@region cerca
-// Il nodo con chiave k, oppure nullptr se k non c'è.
+// Il nodo con chiave k (nullptr se non c'è).
 Nodo* cerca(Nodo* t, int k) {
     while (t != nullptr && k != t->key) {   //@s-loop
         if (k < t->key)                     //@s-cmp
@@ -104,6 +106,18 @@ void inorder(Nodo* t) {   // chiavi in ordine crescente
 }
 //@endregion
 
+//@region ebst
+// Vero se tutte le chiavi del sottoalbero t stanno
+// strettamente tra lo e hi, e così via in giù.
+bool eBST(Nodo* t, long long lo, long long hi) {
+    if (t == nullptr) return true;
+    if (t->key <= lo || t->key >= hi) return false;
+    return eBST(t->left, lo, t->key) &&
+           eBST(t->right, t->key, hi);
+}
+// Per tutto l'albero: eBST(radice, LLONG_MIN, LLONG_MAX)
+//@endregion
+
 void preorder(Nodo* t) {  // mostra la forma dell'albero
     if (t == nullptr) return;
     cout << t->key << ' ';
@@ -128,6 +142,7 @@ int main() {
     cout << "\npreordine:  ";
     preorder(radice);
     cout << "\nminimo " << minimo(radice)->key << ", massimo " << massimo(radice)->key << '\n';
+    cout << "è un BST? " << (eBST(radice, LLONG_MIN, LLONG_MAX) ? "sì" : "no") << '\n';
 
     for (int k : {45, 55})
         cout << "cerca(" << k << "): " << (cerca(radice, k) != nullptr ? "trovata" : "assente") << '\n';
@@ -152,6 +167,14 @@ int main() {
     cout << "simmetrica finale: ";
     inorder(radice);
     cout << '\n';
+
+    // Un albero che rispetta la regola solo tra padre e figlio:
+    // 12 è a destra di 5, ma sta nel sottoalbero sinistro di 10.
+    Nodo* sbagliato = new Nodo(10);
+    sbagliato->left = new Nodo(5);
+    sbagliato->left->right = new Nodo(12);
+    cout << "10 -> 5 -> 12 è un BST? " << (eBST(sbagliato, LLONG_MIN, LLONG_MAX) ? "sì" : "no") << '\n';
+    distruggi(sbagliato);
 
     distruggi(radice);
     return 0;

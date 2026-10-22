@@ -12,17 +12,20 @@ struct Nodo {
 };
 
 //@region costruisci
-// Costruisce il sottoalbero che nella simmetrica occupa in[lo..hi].
-// p è la posizione in pre della prossima radice: avanza a ogni nodo creato.
-Nodo* costruisci(const vector<int>& pre, const vector<int>& in, int& p, int lo, int hi) {
-    if (lo > hi) return nullptr;                        //@rc-base
-    Nodo* t = new Nodo(pre[p]);                         //@rc-root
-    p++;                                                //@rc-next
-    int k = lo;                                         //@rc-k
-    while (in[k] != t->key) k++;                        //@rc-find
-    t->left = costruisci(pre, in, p, lo, k - 1);        //@rc-left
-    t->right = costruisci(pre, in, p, k + 1, hi);       //@rc-right
-    return t;                                           //@rc-ret
+// Costruisce il sottoalbero che nella simmetrica
+// occupa in[lo..hi]. p è la posizione in pre della
+// prossima radice: avanza a ogni nodo creato.
+Nodo* costruisci(const vector<int>& pre,
+                 const vector<int>& in,
+                 int& p, int lo, int hi) {
+    if (lo > hi) return nullptr;                    //@rc-base
+    Nodo* t = new Nodo(pre[p]);                     //@rc-root
+    p++;                                            //@rc-next
+    int k = lo;                                     //@rc-k
+    while (in[k] != t->key) k++;                    //@rc-find
+    t->left = costruisci(pre, in, p, lo, k - 1);    //@rc-left
+    t->right = costruisci(pre, in, p, k + 1, hi);   //@rc-right
+    return t;                                       //@rc-ret
 }
 //@endregion
 

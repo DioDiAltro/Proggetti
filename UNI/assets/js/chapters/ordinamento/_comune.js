@@ -279,10 +279,15 @@
    *     { key: 't', kind: 'tree', label: 'chiamate', layout: 'tidy' },   // TreeView
    *   ], { cls: 'ord-merge' });
    *
-   * render(state): state[key] è lo stato del pezzo (se manca, il pezzo resta
-   * nascosto). Per un array, state[key].regions = [{ from, to, label, cls }]
-   * disegna sotto le celle delle parentesi con un nome ("≤ pivot", ...): le
-   * etichette che non ci stanno scendono su una riga nuova, mai una sopra l'altra.
+   * render(state): state[key] è lo stato del pezzo. Se manca, il pezzo resta
+   * invisibile ma occupa il suo spazio: così i comandi del visualizzatore non si
+   * spostano sotto il mouse tra un passo e l'altro.
+   * Per un array, state[key].regions = [{ from, to, label, cls }] disegna sotto
+   * le celle delle parentesi con un nome ("≤ pivot", ...): le etichette che non
+   * ci stanno scendono su una riga nuova, mai una sopra l'altra. L'opzione
+   * regionRows del pezzo riserva da subito lo spazio per quel numero di righe.
+   * Per un albero, state[key].minDepth riserva l'altezza di un albero con quei
+   * livelli (utile quando l'albero cresce durante l'esecuzione).
    */
   class MultiView {
     constructor(stage, parts, o = {}) {
@@ -329,10 +334,17 @@
       this.last = st;
       for (const p of this.parts) {
         const s = st[p.key];
-        p.box.hidden = !s;
+        p.box.style.visibility = s ? '' : 'hidden';
+        if (s) p.box.removeAttribute('aria-hidden');
+        else p.box.setAttribute('aria-hidden', 'true');
         if (!s) continue;
         p.view.render(s);
         if (p.regions) this.drawRegions(p, s.regions || []);
+        if (p.kind === 'tree') {
+          const o = p.view.o;
+          const half = o.shape === 'box' ? o.boxH / 2 : o.r;
+          p.view.root.style.minHeight = s.minDepth != null ? s.minDepth * o.levelH + half * 2 + o.pad * 2 + 'px' : '';
+        }
       }
     }
 
@@ -368,11 +380,15 @@
         const label = h('span.ord-reg-label', { text: r.label || '', style: { left: center + 'px', top: 12 + row * 15 + 'px' } });
         els.push(br, label);
       }
-      p.regions.style.height = regions.length ? 14 + Math.max(1, rowsEnd.length) * 15 + 'px' : '0px';
+      const rows = Math.max(regions.length ? 1 : 0, rowsEnd.length, p.regionRows || 0);
+      p.regions.style.height = rows ? 14 + rows * 15 + 'px' : '0px';
       p.regions.replaceChildren(...els);
     }
   }
   sorting.MultiView = MultiView;
+
+  /** Come validate, per gli stati di una MultiView: controlla l'array del pezzo `key` (es. 'a'). */
+  sorting.validateKey = (key) => (input, frames) => sorting.validate(input, [{ state: frames[frames.length - 1].state[key] || {} }]);
 
   /** Distingue i valori ripetuti con gli apici: [2, 5, 2, 2] → ['2', '5', '2′', '2″']. */
   sorting.tagDuplicates = function (values) {

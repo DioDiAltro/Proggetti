@@ -9,14 +9,14 @@ struct Nodo {
 };
 
 //@region inserimenti
-// In testa: Θ(1). head è passato per riferimento perché cambia.
+// In testa: Θ(1). head è un riferimento: cambia.
 void inserisciInTesta(Nodo*& head, int x) {
     Nodo* nuovo = new Nodo{x, nullptr};     //@t-new
     nuovo->next = head;                     //@t-link
     head = nuovo;                           //@t-head
 }
 
-// In coda: bisogna arrivare all'ultimo nodo, Θ(n).
+// In coda: si cerca l'ultimo nodo, Θ(n).
 void inserisciInCoda(Nodo*& head, int x) {
     Nodo* nuovo = new Nodo{x, nullptr};     //@c-new
     if (head == nullptr) {                  //@c-empty
@@ -29,7 +29,7 @@ void inserisciInCoda(Nodo*& head, int x) {
     p->next = nuovo;                        //@c-link
 }
 
-// Dopo il nodo p (che non deve essere nullptr): Θ(1).
+// Dopo il nodo p (non nullptr): Θ(1).
 void inserisciDopo(Nodo* p, int x) {
     Nodo* nuovo = new Nodo{x, nullptr};     //@d-new
     nuovo->next = p->next;                  //@d-link

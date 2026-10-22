@@ -164,7 +164,19 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: center;
-  gap: 8px 28px;
+  gap: 8px 14px;
+}
+
+.str-col.is-freed {
+  opacity: 0.4;
+}
+
+.str-col.is-freed .str-cell {
+  border-style: dashed;
+}
+
+.str-col.is-freed .str-cap code {
+  text-decoration: line-through;
 }
 
 .str-col {
@@ -181,7 +193,7 @@
 
 .str-row {
   display: grid;
-  grid-template-columns: 22px 52px 84px;
+  grid-template-columns: 22px 52px 66px;
   align-items: center;
   min-height: 34px;
 }
@@ -367,6 +379,50 @@
   font-weight: 600;
 }
 
+.str-sector path {
+  fill: var(--sheet);
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+  transition: fill 160ms ease, stroke 160ms ease;
+}
+
+.str-sector.is-free path,
+.str-sector.is-stale path {
+  fill: transparent;
+  stroke: var(--rule-2);
+  stroke-dasharray: 4 3;
+}
+
+.str-sector.is-compare path { fill: var(--hl); stroke: var(--hl-ink); stroke-dasharray: none; }
+.str-sector:is(.is-done, .is-found) path { fill: var(--green-soft); stroke: var(--green); stroke-dasharray: none; }
+.str-sector:is(.is-key, .is-new) path { fill: var(--violet-soft); stroke: var(--violet); stroke-dasharray: none; }
+
+.str-ridx {
+  dominant-baseline: central;
+}
+
+.str-seam {
+  stroke: var(--rule-2);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.str-seam.is-hot {
+  stroke: var(--pen);
+  stroke-width: 2.6;
+  stroke-dasharray: none;
+}
+
+.str-hub {
+  fill: var(--pen);
+}
+
+.str-ring-title {
+  fill: var(--ink-2);
+  font: 500 11px var(--font-body);
+  text-anchor: middle;
+}
+
 /* --------------------------------------------------------------------------
    Viste composte dei capitoli (stringa + pila, array circolare)
    -------------------------------------------------------------------------- */
@@ -477,7 +533,7 @@
   transition: background-color 160ms ease, border-color 160ms ease;
 }
 
-.hs-open .hs-slot {
+.hs-mode-open .hs-slot {
   width: 64px;
 }
 
@@ -651,4 +707,11 @@
 
 .str-horner .tbl {
   min-width: 0;
+}
+
+/* legenda: casella cancellata (tombstone) */
+.st-legend i.k-hs-tomb {
+  background: repeating-linear-gradient(135deg, var(--surface-2) 0 2px, transparent 2px 4px);
+  border-style: dashed;
+  border-color: var(--ink-3);
 }

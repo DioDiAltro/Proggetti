@@ -327,7 +327,7 @@ for (int x : adj[0]) cout << x << ' ';`,
       {
         t: 'DAG.',
         d: 'Orientato e senza cicli: le frecce vanno tutte "in avanti".',
-        g: { n: 4, directed: true, pos: [[15, 60], [90, 20], [90, 100], [165, 60]], edges: [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]] },
+        g: { n: 4, directed: true, pos: [[15, 60], [80, 15], [80, 105], [145, 60]], edges: [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]] },
       },
       {
         t: 'Albero.',
@@ -337,7 +337,7 @@ for (int x : adj[0]) cout << x << ' ';`,
       {
         t: 'Pesato.',
         d: 'Ogni arco ha un peso; il cammino 0–1–2 pesa 6 e batte l\'arco diretto, 7.',
-        g: { n: 3, directed: false, pos: [[20, 100], [90, 20], [160, 100]], edges: [[0, 1, 4], [1, 2, 2], [0, 2, 7]] },
+        g: { n: 3, directed: false, pos: [[20, 95], [80, 20], [140, 95]], edges: [[0, 1, 4], [1, 2, 2], [0, 2, 7]] },
       },
     ];
     const grid = h('div.gr-gallery');
@@ -364,7 +364,7 @@ for (int x : adj[0]) cout << x << ' ';`,
     let msg = '';
 
     const uid = ASD.uid('gr-rep');
-    const lab = h('div.lab.gr-rep');
+    const lab = h('div.lab.gr-lab.gr-rep');
     lab.append(h('div.lab-head', h('h3', { text: 'Tre modi di guardare lo stesso grafo' })));
     const body = h('div.lab-body.quadretti.gr-rep-body');
     const drawHost = h('div.gr-rep-draw');

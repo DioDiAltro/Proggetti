@@ -1,1 +1,636 @@
-/* ASD a quadretti — stili specifici della parte "cpp". */
+/* ASD a quadretti — stili della parte 1 "C++ essenziale".
+   mem-  vista della memoria (assets/js/viz/memory.js)
+   cpp-  tutto il resto della parte (output dei programmi, laboratori, alberi). */
+
+/* --------------------------------------------------------------------------
+   Vista della memoria: stack e heap
+   -------------------------------------------------------------------------- */
+
+.mem {
+  position: relative;
+  container-type: inline-size;
+  min-width: 0;
+  font-size: var(--fs-sm);
+}
+
+.mem-panes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  row-gap: 22px;
+  padding-right: var(--mem-gutter, 46px);
+}
+
+.mem.mem-noheap .mem-panes {
+  max-width: calc(420px + var(--mem-gutter, 46px));
+}
+
+/* abbastanza spazio: stack e heap affiancati, il corridoio delle frecce in mezzo */
+@container (min-width: 540px) {
+  .mem:not(.mem-noheap) .mem-panes {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+    column-gap: var(--mem-gutter, 46px);
+  }
+}
+
+.mem-pane {
+  min-width: 0;
+}
+
+.mem-title {
+  margin: 0 0 6px;
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.mem-title strong {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.mem-empty {
+  margin: 0;
+  font-size: var(--fs-xs);
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+/* record di attivazione (frame) */
+.mem-frames {
+  display: grid;
+  gap: 8px;
+}
+
+.mem-frame {
+  border: 1.5px solid var(--rule-2);
+  border-radius: 5px;
+  background: var(--sheet);
+}
+
+.mem-frame-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 10px;
+  padding: 3px 8px;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 4px 4px 0 0;
+  background: var(--paper-2);
+  font: 600 12.5px/1.55 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.mem-fname {
+  overflow-wrap: anywhere;
+}
+
+.mem-fnote {
+  font: 600 1.08rem/1.2 var(--font-hand);
+  color: var(--red);
+  white-space: nowrap;
+}
+
+.mem-frame.is-active {
+  border-color: var(--pen);
+}
+
+.mem-frame.is-active > .mem-frame-head {
+  background: var(--pen-soft);
+  border-bottom-color: var(--pen-tint);
+  color: var(--pen);
+}
+
+/* frame che sta per uscire: tratteggiato e sbiadito, ma la nota a mano resta leggibile */
+.mem-frame.is-out {
+  border-style: dashed;
+}
+
+.mem-frame.is-out > .mem-vars,
+.mem-frame.is-out .mem-fname {
+  opacity: 0.55;
+}
+
+.mem-vars {
+  display: grid;
+  gap: 5px;
+  padding: 6px 8px 7px;
+}
+
+/* variabili: dichiarazione a sinistra, casella del valore allineata a destra */
+.mem-var {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px 10px;
+  min-height: 28px;
+}
+
+.mem-decl {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font: 400 13px/1.3 var(--font-mono);
+  color: var(--ink);
+}
+
+.mem-sig {
+  white-space: nowrap;
+}
+
+.mem-type {
+  color: var(--s-type);
+}
+
+.mem-name {
+  font-weight: 600;
+}
+
+.mem-addr {
+  font-size: 11px;
+  color: var(--ink-2);
+}
+
+.mem-val {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  max-width: 15em;
+  height: 28px;
+  margin-left: auto;
+  padding: 0 8px;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 600 13.5px/1 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mem-txt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mem-val.is-ptr {
+  min-width: 40px;
+  padding-right: 17px;
+}
+
+.mem-val.is-null {
+  padding-right: 8px;
+  color: var(--ink-2);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.mem-val.is-ref {
+  padding-right: 17px;
+  border-style: dashed;
+  border-color: var(--violet);
+  background: var(--violet-soft);
+  color: var(--violet);
+  font: 600 12px/1 var(--font-body);
+}
+
+.mem-val.is-uninit {
+  color: var(--ink-3);
+}
+
+.mem-val.is-dangling {
+  border-color: var(--red);
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.mem-var.is-read > .mem-val,
+.mem-block.is-read > .mem-val,
+.mem-cell-box.is-read {
+  background: var(--pen-soft);
+  border-color: var(--pen);
+}
+
+.mem-var.is-hl > .mem-val,
+.mem-block.is-hl > .mem-val,
+.mem-cell-box.is-hl {
+  background: var(--hl);
+  border-color: var(--hl-ink);
+  color: var(--ink);
+}
+
+.mem-var.is-new > .mem-val,
+.mem-cell-box.is-new {
+  background: var(--violet-soft);
+  border-color: var(--violet);
+}
+
+.mem-var.is-err > .mem-val,
+.mem-cell-box.is-err {
+  background: var(--red-soft);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.mem-var.is-done > .mem-val,
+.mem-cell-box.is-done {
+  background: var(--green-soft);
+  border-color: var(--green);
+}
+
+.mem-var.is-out {
+  opacity: 0.4;
+}
+
+/* oggetti (struct e classi): un riquadro con i campi dentro */
+.mem-var.has-fields {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 3px;
+  padding: 3px 6px 6px;
+  border: 1px solid var(--rule-2);
+  border-radius: 4px;
+}
+
+.mem-fields {
+  display: grid;
+  gap: 4px;
+  padding-left: 8px;
+  border-left: 2px solid var(--rule);
+}
+
+/* array: la dichiarazione sopra, le celle sotto (con una fascia libera per le frecce) */
+.mem-var.has-cells {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.mem-var.has-cells > .mem-cells {
+  margin-top: 16px;
+}
+
+.mem-cells {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+.mem-cell {
+  display: grid;
+  justify-items: center;
+  width: 34px;
+}
+
+.mem-cell-box {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 28px;
+  border: 1.5px solid var(--ink-2);
+  background: var(--sheet);
+  font: 600 13px/1 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.mem-cell + .mem-cell > .mem-cell-box {
+  border-left-width: 0;
+}
+
+.mem-cell:first-child > .mem-cell-box {
+  border-radius: 3px 0 0 3px;
+}
+
+.mem-cell:last-child > .mem-cell-box {
+  border-radius: 0 3px 3px 0;
+}
+
+.mem-cell-box.is-uninit {
+  color: var(--ink-3);
+}
+
+.mem-cell.is-past > .mem-cell-box {
+  border-style: dashed;
+  border-left-width: 0;
+  border-color: var(--rule-2);
+  background: transparent;
+}
+
+.mem-idx {
+  font: 400 10.5px/1.45 var(--font-mono);
+  color: var(--ink-2);
+}
+
+@container (max-width: 330px) {
+  .mem-cell {
+    width: 30px;
+  }
+}
+
+/* blocchi variabili interni (il corpo di un ciclo, un blocco { }) */
+.mem-group {
+  display: grid;
+  gap: 5px;
+  padding: 3px 6px 6px;
+  border: 1px dashed var(--rule-2);
+  border-radius: 4px;
+}
+
+.mem-group-title {
+  margin: 0;
+  font: 500 11px/1.4 var(--font-body);
+  color: var(--ink-2);
+}
+
+/* blocchi sullo heap */
+.mem-blocks {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.mem-block {
+  min-width: 7.5em;
+  max-width: 100%;
+  padding: 7px 8px 3px;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 5px;
+  background: var(--sheet);
+}
+
+.mem-block.has-cells {
+  padding-top: 16px;
+}
+
+.mem-block > .mem-val {
+  margin-left: 0;
+}
+
+.mem-cap {
+  margin: 4px 0 0;
+  font: 400 11px/1.35 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.mem-block.is-new {
+  border-color: var(--violet);
+}
+
+.mem-block.is-freed {
+  border-style: dashed;
+  border-color: var(--red);
+  background: transparent;
+}
+
+.mem-block.is-freed > :not(.mem-cap) {
+  opacity: 0.45;
+}
+
+.mem-cap-freed {
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* frecce */
+.mem-arrows {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.mem-line {
+  fill: none;
+  stroke: var(--pen);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mem-head,
+.mem-dot {
+  fill: var(--pen);
+}
+
+.mem-link.is-ref .mem-line {
+  stroke: var(--violet);
+  stroke-dasharray: 5 3.5;
+}
+
+.mem-link.is-ref .mem-head {
+  fill: var(--violet);
+}
+
+.mem-link.is-ref .mem-dot {
+  fill: var(--sheet);
+  stroke: var(--violet);
+  stroke-width: 1.5;
+}
+
+.mem-link.is-dangling .mem-line {
+  stroke: var(--red);
+}
+
+.mem-link.is-dangling :is(.mem-head, .mem-dot) {
+  fill: var(--red);
+}
+
+/* legenda */
+.mem-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.mem-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mem-legend svg {
+  flex: none;
+  width: 32px;
+  height: 10px;
+  overflow: visible;
+}
+
+.mem-sw {
+  flex: none;
+  width: 14px;
+  height: 12px;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 2px;
+  background: var(--sheet);
+}
+
+.mem-sw-freed {
+  border-style: dashed;
+  border-color: var(--red);
+  background: transparent;
+}
+
+.mem-sw-hl {
+  background: var(--hl);
+  border-color: var(--hl-ink);
+}
+
+.mem-sw-read {
+  background: var(--pen-soft);
+  border-color: var(--pen);
+}
+
+/* --------------------------------------------------------------------------
+   Output del programma (accanto alla memoria)
+   -------------------------------------------------------------------------- */
+
+.cpp-memwrap {
+  min-width: 0;
+}
+
+.cpp-console {
+  margin-top: 16px;
+  max-width: 560px;
+  border: 1px dashed var(--rule-2);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+}
+
+/* con il solo stack, l'output è largo quanto la memoria */
+.cpp-memwrap:has(> .mem-noheap) > .cpp-console {
+  max-width: 420px;
+}
+
+.cpp-console-head {
+  margin: 0;
+  padding: 4px 12px;
+  border-bottom: 1px dashed var(--rule-2);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.cpp-console-body {
+  margin: 0;
+  padding: 6px 0;
+  min-height: 2.4em;
+  overflow-x: auto;
+  font: 400 13px/1.55 var(--font-mono);
+  color: var(--ink);
+}
+
+.cpp-console-body > span {
+  display: block;
+  padding: 0 12px;
+  white-space: pre;
+}
+
+.cpp-console-body > span.is-new {
+  background: var(--hl-soft);
+  box-shadow: inset 3px 0 0 var(--hl-ink);
+}
+
+.cpp-console-body > .cpp-console-empty {
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Pezzi dei capitoli
+   -------------------------------------------------------------------------- */
+
+/* l'albero delle chiamate scorre di lato invece di rimpicciolirsi */
+.cpp-albero .tv svg {
+  max-width: none;
+}
+
+/* messaggi del compilatore e del sanitizer, come nel terminale */
+.cpp-term {
+  margin: var(--sp-3) 0 var(--sp-5);
+  padding: 10px 14px;
+  max-width: var(--wide);
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--red);
+  background: var(--paper-2);
+  font: 400 0.82rem/1.55 var(--font-mono);
+  color: var(--ink);
+  white-space: pre;
+}
+
+.cpp-term b {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.cpp-term strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.cpp-term i {
+  color: var(--ink-2);
+  font-style: normal;
+}
+
+/* nelle risposte dei quiz il codice lungo va a capo invece di uscire dallo schermo */
+.cpp-quiz .quiz-opt code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* tabelle dei costi larghe: niente a capo nelle formule, si scorre di lato */
+.cpp-costi td {
+  white-space: nowrap;
+}
+
+/* scelta della strategia nel laboratorio del vector */
+.cpp-scelta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cpp-scelta legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 4px;
+  padding: 0;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.cpp-scelta label {
+  cursor: pointer;
+}
+
+.cpp-scelta label:has(input:checked) {
+  border-color: var(--pen);
+  background: var(--pen-soft);
+  color: var(--pen);
+}
+
+.cpp-scelta label:has(input:focus-visible) {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}

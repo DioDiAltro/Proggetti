@@ -17,7 +17,7 @@ struct Nodo {
 
 //@region ricorsive
 int contaNodi(Nodo* t) {
-    if (t == nullptr) return 0;                        // albero vuoto
+    if (t == nullptr) return 0;     // albero vuoto
     return 1 + contaNodi(t->left) + contaNodi(t->right);
 }
 
@@ -62,7 +62,7 @@ void postorder(Nodo* t) {
 //@region livelli
 void perLivelli(Nodo* radice) {
     if (radice == nullptr) return;
-    queue<Nodo*> q;                                    // coda FIFO di puntatori
+    queue<Nodo*> q;                    // coda FIFO
     q.push(radice);                                    //@bfs-root
     while (!q.empty()) {                               //@bfs-loop
         Nodo* t = q.front();                           //@bfs-front
@@ -75,8 +75,8 @@ void perLivelli(Nodo* radice) {
 //@endregion
 
 //@region distruggi
-// Libera tutti i nodi. Va fatto in postordine: prima i figli, poi il nodo
-// (dopo delete t non si può più leggere t->left).
+// Libera tutti i nodi, in postordine: prima i figli,
+// poi il nodo (dopo delete t, t->left non si legge più).
 void distruggi(Nodo* t) {
     if (t == nullptr) return;
     distruggi(t->left);

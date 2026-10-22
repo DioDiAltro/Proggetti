@@ -986,7 +986,7 @@
   <dt>Antenati</dt><dd>${anc.length ? anc.map(k).join(', ') : 'nessuno'}</dd>
   <dt>Sottoalbero</dt><dd>${desc.length + 1} ${desc.length ? 'nodi' : 'nodo'}: ${[x].concat(desc).map(k).join(', ')} (in viola i discendenti)</dd>
 </dl>
-<p style="margin-top:10px">Tutto l'albero: ${order.length} nodi, altezza ${H}, foglie ${leaves.map(k).join(', ')}.</p>`;
+<p class="tr-lab-sum">Tutto l'albero: ${order.length} nodi, altezza ${H}, foglie ${leaves.map(k).join(', ')}.</p>`;
     }
     select(order[4]);
   }

@@ -40,7 +40,7 @@
     render(st) {
       const mode = st.mode || this.o.mode;
       const t = st.t || [];
-      this.root.className = 'hs hs-' + mode;
+      this.root.className = 'hs hs-mode-' + mode;
       this.keyEl.innerHTML = st.key ? st.key.html : '&nbsp;';
       const marks = st.marks || {};
       const nodeMarks = st.nodeMarks || {};

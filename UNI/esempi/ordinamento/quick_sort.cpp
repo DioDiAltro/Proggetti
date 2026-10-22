@@ -7,27 +7,28 @@
 using namespace std;
 
 //@region partition
-// Partiziona a[lo..hi] attorno al pivot a[hi] e ne restituisce la posizione finale.
+// Partiziona a[lo..hi] attorno al pivot a[hi];
+// restituisce la posizione finale del pivot.
 int partition(vector<int>& a, int lo, int hi) {
-    int pivot = a[hi];                       //@pivot
-    int i = lo - 1;                          // a[lo..i] sono i <= pivot //@i-init
-    for (int j = lo; j < hi; j++) {          //@loop
-        if (a[j] <= pivot) {                 //@cmp
-            i++;                             //@inc
-            swap(a[i], a[j]);                //@swap
+    int pivot = a[hi];                //@pivot
+    int i = lo - 1;  // fine dei <= pivot //@i-init
+    for (int j = lo; j < hi; j++) {   //@loop
+        if (a[j] <= pivot) {          //@cmp
+            i++;                      //@inc
+            swap(a[i], a[j]);         //@swap
         }
     }
-    swap(a[i + 1], a[hi]);                   // il pivot va in mezzo //@place
-    return i + 1;                            //@ret
+    swap(a[i + 1], a[hi]);  // pivot in mezzo //@place
+    return i + 1;                     //@ret
 }
 //@endregion
 
 //@region sort
 void quickSort(vector<int>& a, int lo, int hi) {
-    if (lo < hi) {                           // almeno 2 elementi //@base
-        int p = partition(a, lo, hi);        // a[p] è al suo posto //@part
-        quickSort(a, lo, p - 1);             // ordina i <= pivot //@left
-        quickSort(a, p + 1, hi);             // ordina i > pivot //@right
+    if (lo < hi) {  // almeno 2 elementi //@base
+        int p = partition(a, lo, hi); //@part
+        quickSort(a, lo, p - 1);  // i <= pivot //@left
+        quickSort(a, p + 1, hi);  // i > pivot //@right
     }
 }
 //@endregion

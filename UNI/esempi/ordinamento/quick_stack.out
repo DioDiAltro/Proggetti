@@ -1,0 +1,5 @@
+n = 5000                        profondità massima
+già ordinato, due ricorsioni    5000
+già ordinato, parte piccola     2
+casuale, due ricorsioni         27
+casuale, parte piccola          9

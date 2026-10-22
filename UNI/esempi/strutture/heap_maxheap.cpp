@@ -13,7 +13,7 @@ int destro(int i) { return 2 * i + 2; }
 //@endregion
 
 //@region siftup
-// Fa risalire a[i] finché è più grande del padre.
+// a[i] sale finché è più grande del padre.
 void siftUp(vector<int>& a, int i) {
     while (i > 0 && a[padre(i)] < a[i]) {  //@up-cmp
         swap(a[padre(i)], a[i]);           //@up-swap
@@ -28,8 +28,8 @@ void inserisci(vector<int>& a, int x) {
 //@endregion
 
 //@region siftdown
-// Fa scendere a[i] finché è più piccolo di un figlio.
-// Guarda solo a[0..n-1]: n è la dimensione dell'heap.
+// a[i] scende finché è più piccolo di un figlio.
+// Usa solo a[0..n-1]: n = dimensione dell'heap.
 void siftDown(vector<int>& a, int i, int n) {
     while (sinistro(i) < n) {              //@down-loop
         int m = sinistro(i), r = destro(i);    //@down-kids
@@ -40,7 +40,7 @@ void siftDown(vector<int>& a, int i, int n) {
     }
 }
 
-int estraiMax(vector<int>& a) {            // a non vuoto
+int estraiMax(vector<int>& a) {   // a non vuoto
     int massimo = a[0];                    //@ext-max
     a[0] = a.back();                       //@ext-last
     a.pop_back();                          //@ext-pop

@@ -304,7 +304,7 @@
         const k = keyOf(u, v, directed);
         const fixed = g.bend && g.bend[k] != null;
         let bend = fixed ? g.bend[k] : 0;
-        if (!bend && directed && present.has(`${v}-${u}`)) bend = 0.16;
+        if (!bend && directed && present.has(`${v}-${u}`)) bend = 0.2;
         let geo = edgeGeom(pos[u], pos[v], bend, r, directed);
         if (!fixed) {
           // un arco non deve passare sopra un altro nodo: se succede, si curva un po'
@@ -415,6 +415,8 @@
         const rect = s('rect', { class: 'gr-w-bg', x: (-wp.w / 2).toFixed(1), y: -8.5, width: wp.w.toFixed(1), height: 17, rx: 8.5 });
         const txt = s('text', { class: 'gr-w-t', x: 0, y: 0.5 }, weighted ? String(e[2]) : '');
         const wg = s('g', { class: 'gr-w' + (weighted ? '' : ' is-empty'), transform: `translate(${wp.c[0].toFixed(1)} ${wp.c[1].toFixed(1)})`, 'aria-hidden': 'true' }, rect, txt);
+        // il peso copre l'arco: un clic sul peso vale come un clic sull'arco (da tastiera si usa l'arco)
+        if (o.onEdge) wg.addEventListener('click', () => o.onEdge(k, e));
         this.gW.append(wg);
         this.edgeEls.set(k, { el, wg, rect, txt, w: e[2], base: weighted ? String(e[2]) : '' });
       });
@@ -525,6 +527,7 @@
         if (ee.txt.textContent !== text) ee.txt.textContent = text;
         const wc = ['gr-w'];
         if (!text) wc.push('is-empty');
+        if (this.o.onEdge) wc.push('is-click');
         for (const c of [].concat(look(edgeCls, u, v) || [])) if (c) wc.push('is-' + c);
         ee.wg.setAttribute('class', wc.join(' '));
       }

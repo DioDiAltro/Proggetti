@@ -36,8 +36,10 @@
      items: ['(', '['],            // in alternativa: solo gli elementi (pila senza capacità)
      marks: { 1: 'key' },          // classi per indice
      ptrs: { n: 2 },               // etichette con freccia a destra della casella
-     note: 'cap 4'                 // testo piccolo sotto il nome
+     note: 'cap 4',                // testo piccolo sotto il nome
+     cls: 'freed'                  // classe di tutta la colonna (freed = array già cancellato)
    }] });
+   Dentro uno Stepper l'altezza è quella del fotogramma più alto: niente salti.
 
    3. ASD.viz.CircularView — array circolare di una coda (SVG).
 
@@ -58,6 +60,7 @@
   const GEO = {
     wide: { name: 'w', H: 36, VW: 42, PW: 22, G: 48 },
     narrow: { name: 'n', H: 34, VW: 36, PW: 20, G: 36 },
+    tight: { name: 't', H: 34, VW: 34, PW: 18, G: 30 },
   };
   const LINE = 15; // altezza di una riga di etichette
   const ARC = 24; // altezza degli archi sopra e sotto la riga
@@ -177,7 +180,7 @@
 
     geo() {
       const avail = this.host.clientWidth || 600;
-      const base = avail < 520 ? GEO.narrow : GEO.wide;
+      const base = avail < 380 ? GEO.tight : avail < 520 ? GEO.narrow : GEO.wide;
       const g = Object.assign({}, base, { doubly: Boolean(this.o.doubly) });
       g.W = g.VW + g.PW * (g.doubly ? 2 : 1);
       g.U = g.W + g.G;
@@ -211,6 +214,7 @@
       const nodes = st.nodes || {};
       for (const [id, P] of pos) {
         const node = nodes[id];
+        if ([].concat(node.cls || []).includes('freed')) continue; // memoria restituita: i campi non contano più
         for (const kind of g.doubly ? ['next', 'prev'] : ['next']) {
           const dy = g.doubly ? (kind === 'next' ? -5 : 5) : 0;
           const F = { x: P.x + (kind === 'next' ? g.nextOff : g.prevOff), y: P.y + g.H / 2 + dy };
@@ -573,13 +577,14 @@
         row.append(h('span.str-idx', { text: real ? String(i) : '' }));
         const cls = ['str-cell'];
         let text = '';
+        const mk = [].concat((c.marks || {})[i] || []);
         if (!real) cls.push('is-ghost');
         else if (i < n) text = String(vals[i]);
         else if (arr && vals[i] != null) {
-          cls.push('is-stale');
+          if (!mk.length) cls.push('is-stale'); // valore rimasto in una casella libera
           text = String(vals[i]);
         } else cls.push('is-free');
-        for (const k of [].concat((c.marks || {})[i] || [])) cls.push('is-' + k);
+        for (const k of mk) cls.push('is-' + k);
         row.append(h('span', { class: cls.join(' '), text }));
         const names = ptrAt.get(i);
         row.append(h('span.str-ptr', { text: names ? '← ' + names.join(', ') : '' }));
@@ -590,7 +595,7 @@
         first.children[1].className = 'str-cell is-empty';
         first.children[1].textContent = 'vuota';
       }
-      const fig = h('figure.str-col', list);
+      const fig = h('figure.str-col' + (c.cls ? '.is-' + c.cls : ''), list);
       if (c.label || c.note) {
         const cap = h('figcaption.str-cap', c.label ? h('code', { text: c.label }) : null, c.note ? h('span', { text: ' ' + c.note }) : null);
         fig.append(cap);
@@ -620,6 +625,74 @@
     }
 
     reset() {}
+
+    /** Lo stesso array disegnato come un anello: head e tail sono le lancette. */
+    ring(st, o) {
+      const a = st.a || [];
+      const cap = a.length;
+      const ro = o.narrow ? 72 : 82;
+      const ri = o.narrow ? 42 : 48;
+      const margin = 46; // spazio per indici ed etichette fuori dall'anello
+      const width = Math.max(o.W, 2 * (ro + margin + 20));
+      const cx = width / 2;
+      const cy = o.top + margin + ro;
+      const stepA = (2 * Math.PI) / cap;
+      const a0 = -Math.PI / 2;
+      const P = (r, ang) => [cx + r * Math.cos(ang), cy + r * Math.sin(ang)];
+      const els = [];
+      const inQueue = new Set();
+      for (let k = 0; k < (st.n || 0); k++) inQueue.add((st.head + k) % cap);
+      els.push(s('text', { class: 'str-ring-title', x: f1(cx), y: f1(o.top + 4) }, 'lo stesso array, visto come un anello'));
+      for (let i = 0; i < cap; i++) {
+        const s0 = a0 + i * stepA;
+        const s1 = s0 + stepA;
+        const [x1, y1] = P(ro, s0);
+        const [x2, y2] = P(ro, s1);
+        const [x3, y3] = P(ri, s1);
+        const [x4, y4] = P(ri, s0);
+        const large = stepA > Math.PI ? 1 : 0;
+        const d = `M${f1(x1)} ${f1(y1)} A${ro} ${ro} 0 ${large} 1 ${f1(x2)} ${f1(y2)} L${f1(x3)} ${f1(y3)} A${ri} ${ri} 0 ${large} 0 ${f1(x4)} ${f1(y4)} Z`;
+        const cls = ['str-ccell', 'str-sector'];
+        const inside = inQueue.has(i);
+        if (!inside && a[i] != null) cls.push('is-stale');
+        if (!inside && a[i] == null) cls.push('is-free');
+        for (const k of [].concat((st.marks || {})[i] || [])) cls.push('is-' + k);
+        const g = s('g', { class: cls.join(' ') }, s('path', { d }));
+        const mid = s0 + stepA / 2;
+        if (a[i] != null) {
+          const [tx, ty] = P((ri + ro) / 2, mid);
+          g.append(s('text', { class: 'str-cval', x: f1(tx), y: f1(ty + 1) }, String(a[i])));
+        }
+        els.push(g);
+        const [ix, iy] = P(ro + 11, mid);
+        els.push(s('text', { class: 'str-cidx str-ridx', x: f1(ix), y: f1(iy) }, String(i)));
+      }
+      // la "cucitura": dove l'array finisce e ricomincia
+      const [sx1, sy1] = P(ri - 6, a0);
+      const [sx2, sy2] = P(ro + 6, a0);
+      els.push(s('line', { class: 'str-seam' + (st.wrap ? ' is-hot' : ''), x1: f1(sx1), y1: f1(sy1), x2: f1(sx2), y2: f1(sy2) }));
+      // lancette
+      const at = new Map();
+      for (const [name, idx] of Object.entries(st.ptrs || {})) {
+        if (idx == null) continue;
+        if (!at.has(idx)) at.set(idx, []);
+        at.get(idx).push(name);
+      }
+      for (const [idx, names] of at) {
+        const mid = a0 + (idx + 0.5) * stepA;
+        const pts = [P(10, mid), P(ri - 4, mid)];
+        els.push(s('path', { class: 'str-parrow', d: pathD(pts, 0, 4) }), s('path', { class: 'str-ptip', d: headD(pts, 6) }));
+        const [lx, ly] = P(ro + 30, mid);
+        const c = Math.cos(mid);
+        const anchor = c > 0.35 ? 'start' : c < -0.35 ? 'end' : 'middle';
+        const dy = Math.sin(mid) > 0.6 ? 6 : Math.sin(mid) < -0.6 ? -2 : 4;
+        const tEl = s('text', { class: 'str-pname', x: f1(lx), y: f1(ly + dy) }, names.join(', '));
+        tEl.style.textAnchor = anchor;
+        els.push(tEl);
+      }
+      els.push(s('circle', { class: 'str-hub', cx: f1(cx), cy: f1(cy), r: 4 }));
+      return { els, bottom: Math.ceil(cy + ro + margin), width: Math.ceil(width) };
+    }
 
     render(st) {
       const a = st.a || [];
@@ -679,9 +752,21 @@
       out.push(s('rect', { class: 'str-wbg', x: (x0 + xr) / 2 - lw / 2, y: yb - 8, width: lw, height: 16, rx: 3 }));
       out.push(s('text', { class: 'str-wlabel' + hot, x: (x0 + xr) / 2, y: yb + 1 }, lbl));
 
-      const H = yb + 14;
-      this.svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-      this.svg.setAttribute('width', W);
+      let H = yb + 14;
+      let Wt = W;
+      if (this.o.ring !== false) {
+        const ring = this.ring(st, { narrow, top: yb + 22, W });
+        out.push(...ring.els);
+        H = ring.bottom;
+        Wt = ring.width;
+        if (Wt > W) {
+          // l'anello è più largo dell'array: si centra tutto
+          const dx = (Wt - W) / 2;
+          for (const el of out.slice(0, out.length - ring.els.length)) el.setAttribute('transform', `translate(${f1(dx)} 0)`);
+        }
+      }
+      this.svg.setAttribute('viewBox', `0 0 ${Wt} ${H}`);
+      this.svg.setAttribute('width', Wt);
       this.svg.setAttribute('height', H);
       this.svg.replaceChildren(...out);
       const q = [];

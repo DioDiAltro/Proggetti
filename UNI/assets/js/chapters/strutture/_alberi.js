@@ -246,6 +246,8 @@
       this.bottom = h('div.tr-panels');
       this.root.append(this.top, this.treeBox, this.emptyEl, this.captionEl, this.bottom);
       host.append(this.root);
+      const stage = host.closest && host.closest('.st-stage');
+      if (stage) stage.classList.add('tr-st-stage');
       this.panelEls = new Map();
     }
 
@@ -357,11 +359,14 @@
         height: this.o.height,
         maxSlot: this.o.mode === 'cells' ? 46 : 52,
         minSlot: 22,
+        float: this.o.float,
       });
       this.tv = new ASD.viz.TreeView(this.treeBox, { r: 17, gap: 8, levelH: 58, pad: 18, ariaLabel: 'Lo heap disegnato come albero' });
       this.root.append(this.treeBox, this.arrBox);
       this.wrap.append(this.root);
       host.append(this.wrap);
+      const stage = host.closest && host.closest('.st-stage');
+      if (stage) stage.classList.add('tr-st-stage');
     }
 
     reset() {
@@ -376,7 +381,7 @@
       const marks = Object.assign({}, st.marks);
       for (const i of st.done || []) marks[i] = [].concat(marks[i] || [], 'done');
       for (const i of st.bad || []) marks[i] = [].concat(marks[i] || [], 'swap');
-      this.av.render({ a, ids, marks, ptrs: st.ptrs || {}, range: st.range || null, max: st.max });
+      this.av.render({ a, ids, marks, ptrs: st.ptrs || {}, range: st.range || null, max: st.max, float: st.float || null });
 
       // albero: il nodo nella posizione i ha i figli in 2i+1 e 2i+2
       const nodes = {};
