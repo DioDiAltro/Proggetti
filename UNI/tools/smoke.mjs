@@ -132,18 +132,19 @@ for (const scheme of ['light', 'dark']) {
   await phone.page.waitForFunction(() => window.ASD && window.ASD.ready, null, { timeout: 15000 });
   for (const ch of chapters) {
     if (only.length && !only.includes(ch.id)) continue;
+    phone.problems.length = 0;
     await phone.page.evaluate((id) => (location.hash = '#' + id), ch.id);
     await phone.page.waitForFunction((id) => document.querySelector(`article[data-chapter="${id}"]`), ch.id);
     await phone.page.waitForTimeout(120);
     const overflow = await phone.page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     const r = report.find((x) => x.id === ch.id);
     if (scheme === 'light' && overflow > 1) r.problems.push(`[mobile] la pagina scorre di lato di ${overflow}px a 390px`);
+    for (const p of phone.problems) r.problems.push(`[mobile ${scheme}] ${p}`);
     if (shots && (scheme === 'light' || ch.ready)) {
       await phone.page.evaluate(() => window.scrollTo(0, 0));
       await phone.page.screenshot({ path: join(shots, `${ch.id}-phone-${scheme}.png`), fullPage: full });
     }
   }
-  for (const p of phone.problems) report[0] && report[0].problems.push(`[mobile ${scheme}] ${p}`);
   await phone.ctx.close();
 }
 
