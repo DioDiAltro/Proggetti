@@ -141,7 +141,8 @@
       if (st.float && st.float.label) {
         this.floatTag.hidden = false;
         this.floatTag.textContent = st.float.label;
-        this.floatTag.style.setProperty('--x', xs(st.float.at) + slot / 2 + 8 + 'px');
+        const half = this.o.mode === 'cells' ? Math.min(40, slot * 0.88) / 2 : Math.min(46, slot * 0.72) / 2;
+        this.floatTag.style.setProperty('--x', xs(st.float.at) + slot / 2 + half + 6 + 'px');
       } else this.floatTag.hidden = true;
 
       // indici

@@ -667,6 +667,7 @@
   display: block;
   margin-inline: auto;
   overflow: visible;
+  height: auto;
 }
 
 .tv-edge {
