@@ -1,0 +1,8 @@
+size 5, v[0] = 10, v.back() = 50
+zeri.size() = 4, w.at(2) = 8
+w.at(10): indice fuori dai limiti (con w[10] nessun avviso)
+10 20 30 40 50 
+10 20 30 40 50 
+10 20 30 40 50 
+0 10 30 40 
+righe 3, colonne 4, m[1][2] = 7

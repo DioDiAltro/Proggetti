@@ -1,0 +1,5 @@
+catena       preordine: 10 20 30 | simmetrica: 10 20 30 | altezza 2
+a sinistra   preordine: 20 10 30 | simmetrica: 10 20 30 | altezza 1
+a destra     preordine: 10 20 30 | simmetrica: 10 20 30 | altezza 2
+catena       preordine: 10 20 30 40 50 | simmetrica: 10 20 30 40 50 | altezza 4
+su 20        preordine: 10 30 20 40 50 | simmetrica: 10 20 30 40 50 | altezza 3

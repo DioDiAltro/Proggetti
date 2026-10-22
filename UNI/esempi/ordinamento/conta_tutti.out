@@ -1,0 +1,7 @@
+n = 2000    casuale  ordinato   inverso  pochi distinti
+selection   1999000   1999000   1999000         1999000
+insertion   1006193      1999   1999000          911731
+bubble      1998747      1999   1999000         1975780
+merge         19427     11088     10864           18855
+quick         23643   1999000   1999000          205368
+heap          37636     39159     35964           34904

@@ -1,0 +1,4 @@
+4 15 23
+somma con il puntatore: 66
+somma con la funzione:  66
+tra &a[1] e &a[4] ci sono 3 elementi

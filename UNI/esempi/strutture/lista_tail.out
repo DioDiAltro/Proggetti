@@ -1,0 +1,4 @@
+8 -> 15 -> 23 -> nullptr   (tail: 23)
+23 -> nullptr   (tail: 23)
+nullptr
+42 -> nullptr   (tail: 42)

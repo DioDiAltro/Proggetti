@@ -1,0 +1,4 @@
+8 -> 15 -> 23 -> 42 -> nullptr
+cancella(23): true  8 -> 15 -> 42 -> nullptr
+cancella(8):  true  15 -> 42 -> nullptr
+cancella(7):  false  15 -> 42 -> nullptr

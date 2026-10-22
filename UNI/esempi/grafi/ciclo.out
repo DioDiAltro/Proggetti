@@ -1,0 +1,4 @@
+Orientato     0->1, 1->2, 0->2, 2->3: ciclo? false
+Non orientato 0-1, 1-2, 0-2, 2-3:     ciclo? true
+Orientato     0->1, 1->2, 2->0, 2->3: ciclo? true
+Non orientato 0-1, 0-2, 2-3:          ciclo? false

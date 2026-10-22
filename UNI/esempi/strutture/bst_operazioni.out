@@ -1,0 +1,14 @@
+simmetrica: 20 30 35 40 45 50 60 65 70 80 
+preordine:  50 30 20 40 35 45 70 60 65 80 
+minimo 20, massimo 80
+cerca(45): trovata
+cerca(55): assente
+successore di 45: 50
+successore di 50: 60
+successore di 55: 60
+successore di 80: nessuno
+dopo inserisci(55), preordine: 50 30 20 40 35 45 70 60 55 65 80 
+dopo cancella(20), preordine: 50 30 40 35 45 70 60 55 65 80 
+dopo cancella(30), preordine: 50 40 35 45 70 60 55 65 80 
+dopo cancella(50), preordine: 55 40 35 45 70 60 65 80 
+simmetrica finale: 35 40 45 55 60 65 70 80 

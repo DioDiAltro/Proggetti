@@ -1,0 +1,451 @@
+/* ASD a quadretti — stili dei capitoli sugli alberi (alberi, bst, heap). Prefisso classi: tr-
+   Solo token di base.css: niente colori scritti a mano, così valgono i due temi. */
+
+/* --------------------------------------------------------------------------
+   Vista composta: albero + pannelli (pila delle chiamate, coda, output, array)
+   -------------------------------------------------------------------------- */
+
+.tr-stage {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.tr-tree {
+  min-width: 0;
+}
+
+.tr-tree[hidden],
+.tr-panels[hidden] {
+  display: none;
+}
+
+.tr-empty {
+  margin: 28px 0;
+  text-align: center;
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.tr-caption {
+  margin: -4px 0 0;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.tr-panels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px 20px;
+  min-width: 0;
+}
+
+.tr-panel {
+  min-width: 0;
+}
+
+.tr-panel-title {
+  margin: 0 0 5px;
+  font: 600 var(--fs-xs)/1.3 var(--font-body);
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+.tr-panel-title code {
+  white-space: nowrap;
+}
+
+.tr-panel-stack {
+  flex: 0 1 15em;
+}
+
+.tr-panel-seq,
+.tr-panel-queue {
+  flex: 1 1 13em;
+}
+
+.tr-panel-array {
+  flex: 1 1 100%;
+}
+
+.tr-panel-arr {
+  overflow-x: auto;
+}
+
+.tr-stack,
+.tr-queue,
+.tr-seq {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* pila delle chiamate: la cima sta in alto */
+.tr-stack {
+  display: grid;
+  gap: 3px;
+}
+
+.tr-stack li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+  padding: 1px 8px;
+  border: 1px solid var(--rule-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 400 var(--fs-xs)/1.7 var(--font-mono);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.tr-stack li.is-top {
+  border-color: var(--pen);
+  background: var(--pen-soft);
+  font-weight: 600;
+}
+
+.tr-stack .tr-note {
+  color: var(--ink-2);
+  font-weight: 400;
+}
+
+/* coda e sequenze: celle in fila */
+.tr-queue,
+.tr-seq {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tr-queue li,
+.tr-seq li {
+  min-width: 2.3em;
+  margin: 0;
+  padding: 2px 6px;
+  text-align: center;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 600 13px/1.5 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.tr-queue li {
+  border-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.tr-queue li.is-hi {
+  border-color: var(--pen);
+  background: var(--pen);
+  color: var(--on-pen);
+}
+
+.tr-seq li.is-hi {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.tr-stack li.tr-none,
+.tr-queue li.tr-none,
+.tr-seq li.tr-none {
+  min-width: 0;
+  padding: 1px 0;
+  border: 0;
+  background: none;
+  color: var(--ink-3);
+  font: italic 400 var(--fs-xs)/1.7 var(--font-body);
+  text-align: left;
+}
+
+/* righe dei livelli dietro l'albero */
+.tr-levels line {
+  stroke: var(--grid-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.tr-levels text {
+  fill: var(--ink-2);
+  font: 500 11px var(--font-body);
+}
+
+/* arco "sbagliato" (proprietà violata) e nodo cancellato */
+:is(.tr-stage, .tr-heap, .tr-lab) .tv-edge.is-bad {
+  stroke: var(--red);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 4;
+}
+
+:is(.tr-stage, .tr-heap, .tr-lab) .tv-node.is-gone :is(circle, rect) {
+  fill: var(--red-soft);
+  stroke: var(--red);
+  stroke-dasharray: 4 3;
+}
+
+:is(.tr-stage, .tr-heap, .tr-lab) .tv-node.is-gone text:not(.tv-sub, .tv-note) {
+  text-decoration: line-through;
+}
+
+/* --------------------------------------------------------------------------
+   Heap: array e albero insieme
+   -------------------------------------------------------------------------- */
+
+.tr-heap-wrap {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.tr-heap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-items: end;
+}
+
+.tr-heap-arr,
+.tr-heap-tree {
+  min-width: 0;
+}
+
+.tr-heap-arr {
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+/* i nomi dei puntatori accanto ai nodi, a penna blu */
+.tr-heap .tv-node .tv-note {
+  fill: var(--pen);
+  font-size: 17px;
+}
+
+@container (min-width: 520px) {
+  .tr-heap.tr-heap-bars {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Controlli aggiunti agli stepper e ai laboratori
+   -------------------------------------------------------------------------- */
+
+.tr-head-choice {
+  display: flex;
+  min-width: 0;
+}
+
+.tr-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.tr-choice legend {
+  float: left;
+  margin: 0 4px 0 0;
+  padding: 0;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.tr-choice .chip {
+  min-height: 30px;
+  cursor: pointer;
+}
+
+.tr-choice .chip input {
+  margin: 0;
+}
+
+.tr-choice .chip:has(input:checked) {
+  border-color: var(--pen);
+  background: var(--pen-soft);
+  color: var(--pen);
+}
+
+.st-input input.tr-field {
+  font-family: var(--font-mono);
+  width: min(100%, 14em);
+}
+
+.st-input input.tr-field-num {
+  width: 4.6em;
+}
+
+/* --------------------------------------------------------------------------
+   Laboratori
+   -------------------------------------------------------------------------- */
+
+.tr-lab .lab-body {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.tr-lab .tv {
+  margin-inline: auto;
+}
+
+.tr-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.tr-nodes legend {
+  float: left;
+  width: 100%;
+  margin: 0 0 4px;
+  padding: 0;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.tr-nodes .btn {
+  min-width: 42px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.tr-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 4px 16px;
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+.tr-facts dt {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.tr-facts dd {
+  margin: 0;
+  min-width: 0;
+}
+
+@media (max-width: 480px) {
+  .tr-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .tr-facts dd {
+    margin-bottom: 6px;
+  }
+}
+
+.tr-lab-out p {
+  margin: 0 0 6px;
+}
+
+.tr-lab-out p:last-child {
+  margin-bottom: 0;
+}
+
+.tr-ops {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 10px;
+}
+
+.tr-ops .field input {
+  width: 5.5em;
+  font-family: var(--font-mono);
+}
+
+.tr-ops .field input.tr-wide {
+  width: min(100%, 17em);
+}
+
+.tr-ops-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+
+/* figure statiche (forme di alberi) una accanto all'altra */
+.tr-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: var(--sp-4);
+  margin: var(--sp-4) 0 var(--sp-5);
+  max-width: var(--wide);
+}
+
+.tr-fig {
+  margin: 0;
+  padding: 12px 10px 10px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  min-width: 0;
+}
+
+.tr-fig figcaption {
+  margin-top: 6px;
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.tr-fig figcaption strong {
+  display: block;
+  color: var(--ink);
+}
+
+/* alberi disegnati a caratteri nelle domande del quiz */
+.tr-ascii {
+  display: block;
+  margin: 8px 0 4px;
+  white-space: pre;
+  font: 500 0.9rem/1.25 var(--font-mono);
+  color: var(--ink);
+  overflow-x: auto;
+}
+
+/* soluzione nascosta di un esercizio */
+.tr-sol {
+  max-width: var(--wide);
+  margin: var(--sp-3) 0 var(--sp-5);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px dashed var(--rule-2);
+  border-radius: var(--radius);
+}
+
+.tr-sol summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--pen);
+}
+
+.tr-sol[open] summary {
+  margin-bottom: var(--sp-2);
+}
+
+.tr-sol .code {
+  margin-top: 0;
+}

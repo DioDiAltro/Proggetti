@@ -1,1 +1,506 @@
-/* ASD a quadretti — stili specifici della parte "grafi". */
+/* ASD a quadretti — stili specifici della parte "grafi" (prefisso gr-).
+   Vista del grafo (viz/graph.js), scena con le strutture dati, pannelli,
+   strumenti interattivi dei capitoli. Solo token di base.css. */
+
+/* --------------------------------------------------------------------------
+   Vista del grafo (SVG)
+   -------------------------------------------------------------------------- */
+
+.gr-view {
+  min-width: 0;
+}
+
+.gr-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* archi */
+.gr-e-line {
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 1.6;
+}
+
+.gr-e-head {
+  fill: var(--ink-3);
+}
+
+.gr-e-halo {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.gr-e-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 16;
+  pointer-events: stroke;
+}
+
+.gr-edge[role="button"] {
+  cursor: pointer;
+}
+
+.gr-edge:focus {
+  outline: none;
+}
+
+.gr-edge:focus-visible .gr-e-halo {
+  stroke: var(--pen-tint);
+}
+
+.gr-edge.is-compare .gr-e-halo { stroke: var(--hl); }
+.gr-edge.is-compare .gr-e-line { stroke: var(--hl-ink); stroke-width: 2.8; }
+.gr-edge.is-compare .gr-e-head { fill: var(--hl-ink); }
+
+.gr-edge:is(.is-tree, .is-path) .gr-e-line { stroke: var(--pen); stroke-width: 3; }
+.gr-edge:is(.is-tree, .is-path) .gr-e-head { fill: var(--pen); }
+
+.gr-edge:is(.is-done, .is-found) .gr-e-line { stroke: var(--green); stroke-width: 3.4; }
+.gr-edge:is(.is-done, .is-found) .gr-e-head { fill: var(--green); }
+
+.gr-edge:is(.is-new, .is-key) .gr-e-line { stroke: var(--violet); stroke-width: 3; }
+.gr-edge:is(.is-new, .is-key) .gr-e-head { fill: var(--violet); }
+
+.gr-edge:is(.is-swap, .is-rejected) .gr-e-line { stroke: var(--red); stroke-width: 2.2; stroke-dasharray: 6 4; }
+.gr-edge:is(.is-swap, .is-rejected) .gr-e-head { fill: var(--red); }
+
+/* classificazione della DFS */
+.gr-edge.is-back .gr-e-line { stroke: var(--red); stroke-width: 2.4; stroke-dasharray: 7 4; }
+.gr-edge.is-back .gr-e-head { fill: var(--red); }
+.gr-edge.is-forward .gr-e-line { stroke: var(--violet); stroke-width: 2.2; stroke-dasharray: 2 4; stroke-linecap: round; }
+.gr-edge.is-forward .gr-e-head { fill: var(--violet); }
+.gr-edge.is-cross .gr-e-line { stroke: var(--ink-2); stroke-width: 2; stroke-dasharray: 1 4; stroke-linecap: round; }
+.gr-edge.is-cross .gr-e-head { fill: var(--ink-2); }
+
+.gr-edge.is-ghost .gr-e-line { stroke: var(--rule-2); stroke-dasharray: 3 5; }
+.gr-edge.is-ghost .gr-e-head { fill: var(--rule-2); }
+.gr-edge.is-ghost { opacity: 0.55; }
+
+.gr-edge.is-cut .gr-e-halo { stroke: var(--violet-soft); }
+.gr-edge.is-cut .gr-e-line { stroke: var(--violet); stroke-width: 2.6; }
+
+.gr-edge.is-sel .gr-e-halo { stroke: var(--pen-tint); }
+.gr-edge.is-sel .gr-e-line { stroke: var(--pen); stroke-width: 3.2; }
+.gr-edge.is-sel .gr-e-head { fill: var(--pen); }
+
+.gr-edge.is-out { opacity: 0.22; }
+
+/* pesi ed etichette degli archi */
+.gr-w-bg {
+  fill: var(--sheet);
+  stroke: var(--rule-2);
+  stroke-width: 1;
+}
+
+.gr-w-t {
+  fill: var(--ink);
+  font: 600 12px var(--font-mono);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.gr-w.is-empty {
+  display: none;
+}
+
+.gr-w.is-compare .gr-w-bg { fill: var(--hl); stroke: var(--hl-ink); }
+.gr-w:is(.is-tree, .is-path, .is-sel) .gr-w-bg { stroke: var(--pen); }
+.gr-w:is(.is-done, .is-found) .gr-w-bg { fill: var(--green-soft); stroke: var(--green); }
+.gr-w:is(.is-new, .is-key) .gr-w-bg { fill: var(--violet-soft); stroke: var(--violet); }
+.gr-w:is(.is-swap, .is-rejected, .is-back) .gr-w-bg { fill: var(--red-soft); stroke: var(--red); }
+.gr-w.is-forward .gr-w-bg { stroke: var(--violet); }
+.gr-w.is-cut .gr-w-bg { fill: var(--violet-soft); stroke: var(--violet); }
+.gr-w:is(.is-out, .is-ghost) { opacity: 0.45; }
+
+/* nodi */
+.gr-node[role="button"] {
+  cursor: pointer;
+}
+
+.gr-node:focus {
+  outline: none;
+}
+
+.gr-n-c {
+  fill: var(--sheet);
+  stroke: var(--ink-2);
+  stroke-width: 1.6;
+}
+
+.gr-n-ring {
+  fill: none;
+  stroke: none;
+}
+
+.gr-n-t {
+  fill: var(--ink);
+  font: 600 14px var(--font-mono);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.gr-node:focus-visible .gr-n-ring {
+  stroke: var(--pen);
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+}
+
+.gr-node.is-src .gr-n-ring { stroke: var(--ink-2); stroke-width: 1.3; }
+
+.gr-node.is-gray .gr-n-c { fill: color-mix(in oklab, var(--ink-2) 32%, var(--sheet)); stroke: var(--ink-2); }
+.gr-node.is-black .gr-n-c { fill: var(--ink); stroke: var(--ink); }
+.gr-node.is-black .gr-n-t { fill: var(--sheet); }
+.gr-node.is-visited .gr-n-c { fill: var(--surface-2); }
+.gr-node.is-compare .gr-n-c { fill: var(--hl); stroke: var(--hl-ink); stroke-width: 2.2; }
+.gr-node.is-swap .gr-n-c { fill: var(--red-soft); stroke: var(--red); stroke-width: 2.2; }
+.gr-node:is(.is-done, .is-found) .gr-n-c { fill: var(--green-soft); stroke: var(--green); stroke-width: 2.2; }
+.gr-node:is(.is-key, .is-new, .is-min) .gr-n-c { fill: var(--violet-soft); stroke: var(--violet); stroke-width: 2.2; }
+.gr-node.is-active .gr-n-c { fill: var(--pen); stroke: var(--pen); }
+.gr-node.is-active .gr-n-t { fill: var(--on-pen); }
+.gr-node.is-sel .gr-n-c { fill: var(--pen-soft); stroke: var(--pen); stroke-width: 3; }
+.gr-node.is-out { opacity: 0.3; }
+
+/* gruppi (componenti connesse, insiemi): il numero resta scritto accanto, il colore aiuta */
+.gr-node.is-c1 .gr-n-c { fill: color-mix(in oklab, var(--series-1) 24%, var(--sheet)); stroke: var(--series-1); stroke-width: 2.4; }
+.gr-node.is-c2 .gr-n-c { fill: color-mix(in oklab, var(--series-2) 24%, var(--sheet)); stroke: var(--series-2); stroke-width: 2.4; }
+.gr-node.is-c3 .gr-n-c { fill: color-mix(in oklab, var(--series-3) 24%, var(--sheet)); stroke: var(--series-3); stroke-width: 2.4; }
+.gr-node.is-c4 .gr-n-c { fill: color-mix(in oklab, var(--series-7) 24%, var(--sheet)); stroke: var(--series-7); stroke-width: 2.4; }
+.gr-node.is-c5 .gr-n-c { fill: color-mix(in oklab, var(--series-5) 24%, var(--sheet)); stroke: var(--series-5); stroke-width: 2.4; }
+.gr-node.is-c6 .gr-n-c { fill: color-mix(in oklab, var(--series-4) 24%, var(--sheet)); stroke: var(--series-4); stroke-width: 2.4; }
+
+/* etichette accanto ai nodi (d, d/f, padre...) */
+.gr-tag {
+  fill: var(--ink-2);
+  font: 500 12px var(--font-mono);
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.gr-tag.is-new { fill: var(--violet); font-weight: 700; }
+.gr-tag.is-done { fill: var(--green); font-weight: 700; }
+.gr-tag.is-swap { fill: var(--red); font-weight: 700; }
+.gr-tag.is-strong { fill: var(--ink); font-weight: 600; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gr-n-c,
+  .gr-e-line,
+  .gr-e-head,
+  .gr-e-halo,
+  .gr-w-bg {
+    transition: fill 160ms ease, stroke 160ms ease, stroke-width 160ms ease;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Scena: grafo + pannelli delle strutture dati
+   -------------------------------------------------------------------------- */
+
+.gr-scene {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.gr-scene-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.gr-scene-graph {
+  min-width: 0;
+}
+
+.gr-scene-side {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.gr-scene-in:not(.has-side) .gr-scene-side {
+  display: none;
+}
+
+@container (min-width: 600px) {
+  .gr-scene-in.has-side {
+    grid-template-columns: minmax(0, 1.25fr) minmax(210px, 1fr);
+    gap: 18px;
+  }
+}
+
+.gr-panel {
+  min-width: 0;
+  padding: 8px 10px 10px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--sheet);
+}
+
+.gr-panel[hidden] {
+  display: none;
+}
+
+.gr-ptitle {
+  margin: 0 0 6px;
+  font: 600 var(--fs-xs)/1.3 var(--font-body);
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+.gr-ptitle code {
+  font-size: 0.95em;
+  letter-spacing: 0;
+}
+
+.gr-pbody {
+  position: relative;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.gr-pnote {
+  margin: 6px 0 0;
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.gr-empty {
+  margin: 0;
+  padding: 6px 0;
+  font: 400 var(--fs-xs)/1.4 var(--font-body);
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+.gr-panel-cells .av {
+  margin-inline: 0 !important;
+}
+
+.gr-panel-cells .av-ptrs {
+  height: 18px;
+}
+
+/* gettoni in fila (coda con priorità, ordine di uscita, insiemi) */
+.gr-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.gr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 26px;
+  padding: 2px 8px;
+  border: 1.5px solid var(--rule-2);
+  border-radius: 4px;
+  background: var(--sheet);
+  font: 600 12.5px/1.2 var(--font-mono);
+  color: var(--ink);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.gr-chip.is-top { border-color: var(--pen); box-shadow: inset 0 0 0 1px var(--pen); }
+.gr-chip.is-active { background: var(--pen); border-color: var(--pen); color: var(--on-pen); }
+.gr-chip.is-compare { background: var(--hl); border-color: var(--hl-ink); }
+.gr-chip:is(.is-done, .is-found) { background: var(--green-soft); border-color: var(--green); }
+.gr-chip:is(.is-new, .is-key) { background: var(--violet-soft); border-color: var(--violet); }
+.gr-chip:is(.is-swap, .is-rejected) { background: var(--red-soft); border-color: var(--red); }
+.gr-chip.is-stale { color: var(--ink-3); border-style: dashed; text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.gr-chip.is-out { opacity: 0.45; }
+.gr-chip.is-set { font-weight: 500; }
+
+.gr-chip small {
+  font: 500 10.5px/1 var(--font-body);
+  color: inherit;
+  opacity: 0.85;
+}
+
+/* pila delle chiamate (cima in alto) */
+.gr-stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+  max-width: 220px;
+}
+
+.gr-stack li {
+  padding: 3px 10px;
+  border: 1.5px solid var(--rule-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 500 12.5px/1.4 var(--font-mono);
+  color: var(--ink);
+}
+
+.gr-stack li.is-active {
+  border-color: var(--pen);
+  background: var(--pen-soft);
+  font-weight: 600;
+}
+
+.gr-stack li.is-done {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+/* tabella piccola (dist, padre, gradi entranti...) */
+.gr-tab-wrap {
+  overflow-x: auto;
+}
+
+.gr-tab {
+  border-collapse: collapse;
+  font: 500 12.5px/1.2 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.gr-tab th,
+.gr-tab td {
+  min-width: 28px;
+  height: 26px;
+  padding: 2px 5px;
+  text-align: center;
+  border: 1px solid var(--rule);
+}
+
+.gr-tab thead th {
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--paper-2);
+}
+
+.gr-tab tbody th {
+  text-align: left;
+  font: 600 var(--fs-xs)/1.2 var(--font-body);
+  color: var(--ink-2);
+  background: var(--paper-2);
+  white-space: nowrap;
+}
+
+.gr-tab .gr-tab-corner {
+  background: transparent;
+  border-color: transparent;
+}
+
+.gr-tab .is-new,
+.gr-tab .is-key { background: var(--violet-soft); color: var(--ink); font-weight: 700; box-shadow: inset 0 0 0 1.5px var(--violet); }
+.gr-tab .is-compare { background: var(--hl); }
+.gr-tab .is-active { background: var(--pen-soft); }
+.gr-tab thead th.is-active { background: var(--pen); color: var(--on-pen); }
+.gr-tab :is(.is-done, .is-found) { background: var(--green-soft); }
+.gr-tab .is-swap { background: var(--red-soft); color: var(--red); font-weight: 700; }
+.gr-tab .is-mute { color: var(--ink-3); }
+
+/* righe "intestazione → elementi" (liste di adiacenza) */
+.gr-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.gr-rows li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: max-content;
+}
+
+.gr-rows-h {
+  min-width: 52px;
+  font: 600 12.5px/1.2 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.gr-rows li.is-active .gr-rows-h { color: var(--pen); }
+
+.gr-rows-i {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.gr-rows-x {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 24px;
+  padding: 0 5px;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 600 12.5px/1 var(--font-mono);
+  color: var(--ink);
+}
+
+.gr-rows-x + .gr-rows-x {
+  margin-left: 14px;
+  position: relative;
+}
+
+.gr-rows-x + .gr-rows-x::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 12px;
+  border-top: 1.5px solid var(--ink-3);
+}
+
+.gr-rows-x:is(.is-new, .is-key) { background: var(--violet-soft); border-color: var(--violet); }
+.gr-rows-x.is-compare { background: var(--hl); border-color: var(--hl-ink); }
+.gr-rows-x.is-sel { background: var(--pen-soft); border-color: var(--pen); }
+
+.gr-rows-none {
+  font: italic 400 var(--fs-xs)/1 var(--font-body);
+  color: var(--ink-3);
+}
+
+/* legenda dello stepper: campioni per nodi e archi dei grafi */
+.st-legend i.k-gr-gray { background: color-mix(in oklab, var(--ink-2) 32%, var(--sheet)); border-color: var(--ink-2); border-radius: 50%; }
+.st-legend i.k-gr-black { background: var(--ink); border-color: var(--ink); border-radius: 50%; }
+.st-legend i.k-gr-white { background: var(--sheet); border-color: var(--ink-2); border-radius: 50%; }
+.st-legend i.k-gr-active { background: var(--pen); border-color: var(--pen); border-radius: 50%; }
+.st-legend i.k-gr-done { background: var(--green-soft); border-color: var(--green); border-radius: 50%; }
+.st-legend i.k-gr-new { background: var(--violet-soft); border-color: var(--violet); border-radius: 50%; }
+
+.st-legend i:is(.k-gr-e-tree, .k-gr-e-compare, .k-gr-e-done, .k-gr-e-new, .k-gr-e-rejected, .k-gr-e-back, .k-gr-e-forward, .k-gr-e-cross, .k-gr-e-ghost) {
+  width: 18px;
+  height: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.st-legend i.k-gr-e-tree { border-top: 3px solid var(--pen); }
+.st-legend i.k-gr-e-compare { border-top: 3px solid var(--hl-ink); box-shadow: 0 0 0 3px var(--hl); }
+.st-legend i.k-gr-e-done { border-top: 3.5px solid var(--green); }
+.st-legend i.k-gr-e-new { border-top: 3px solid var(--violet); }
+.st-legend i.k-gr-e-rejected { border-top: 2.5px dashed var(--red); }
+.st-legend i.k-gr-e-back { border-top: 2.5px dashed var(--red); }
+.st-legend i.k-gr-e-forward { border-top: 2.5px dotted var(--violet); }
+.st-legend i.k-gr-e-cross { border-top: 2.5px dotted var(--ink-2); }
+.st-legend i.k-gr-e-ghost { border-top: 2px dashed var(--rule-2); }

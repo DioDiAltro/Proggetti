@@ -1,0 +1,8 @@
+stack: top = 3, size = 3
+dopo pop: top = 2
+queue: front = 1, back = 3
+dopo pop: front = 2
+deque: 1 2 3 4   d[2] = 3
+dopo pop_front e pop_back: 2 3
+tolgo 2
+tolgo 1

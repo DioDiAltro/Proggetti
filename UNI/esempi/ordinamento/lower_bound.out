@@ -1,0 +1,6 @@
+a = 1 3 3 3 5 8 8 10
+x =  3:  lower 1  upper 4  occorrenze 3   libreria: 1 4 true
+x =  4:  lower 4  upper 4  occorrenze 0   libreria: 4 4 false
+x =  8:  lower 5  upper 7  occorrenze 2   libreria: 5 7 true
+x =  0:  lower 0  upper 0  occorrenze 0   libreria: 0 0 false
+x = 11:  lower 8  upper 8  occorrenze 0   libreria: 8 8 false

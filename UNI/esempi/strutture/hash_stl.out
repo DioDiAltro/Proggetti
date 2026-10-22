@@ -1,0 +1,10 @@
+chiavi distinte: 6
+contiene 16: true
+dopo erase, contiene 16: false
+coda: 2
+lista: 1
+pila: 3
+albero trovato: false
+quadrati[12] = 144
+load_factor <= max_load_factor: true
+max_load_factor predefinito: 1

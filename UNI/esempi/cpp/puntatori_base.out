@@ -1,0 +1,7 @@
+x = 10, *p = 10
+dopo *p = 20: x = 20
+p punta a x? sì
+ora *p = 7
+dopo r = 30: x = 30
+q è nullo: non va dereferenziato
+in una condizione nullptr vale false

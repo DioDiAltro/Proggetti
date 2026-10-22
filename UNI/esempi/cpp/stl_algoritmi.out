@@ -1,0 +1,10 @@
+2 2 4 7 8 9 
+9 8 7 4 2 2 
+2 2 4 7 8 9 
+binary_search(7) = 1, binary_search(5) = 0
+lower_bound(2) in posizione 0, upper_bound(2) in posizione 2: i 2 sono 2
+il 5 andrebbe inserito in posizione 3
+min 2, max 9, somma 32
+accumulate con 0:   -294967296
+accumulate con 0LL: 4000000000
+1b 1d 2a 2c 

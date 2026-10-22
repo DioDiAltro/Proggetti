@@ -1,0 +1,8 @@
+dopo 8 inserimenti: 25 20 17 5 2 13 8 4   (max-heap)
+dopo inserisci(30): 30 25 17 20 2 13 8 4 5   (max-heap)
+estraiMax() = 30
+  heap: 25 20 17 5 2 13 8 4   (max-heap)
+estraiMax() = 25
+  heap: 20 5 17 4 2 13 8   (max-heap)
+estraiMax() = 20
+  heap: 17 5 13 4 2 8   (max-heap)

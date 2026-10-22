@@ -1,0 +1,16 @@
+nodo  d/f    padre
+  0   1/6    -1
+  1   2/5    0
+  2   3/4    1
+  3   7/12   -1
+  4   8/11   3
+  5   9/10   4
+Archi:
+  0 -> 1  albero
+  0 -> 2  in avanti
+  1 -> 2  albero
+  2 -> 0  all'indietro
+  3 -> 2  attraversamento
+  3 -> 4  albero
+  4 -> 5  albero
+  5 -> 3  all'indietro

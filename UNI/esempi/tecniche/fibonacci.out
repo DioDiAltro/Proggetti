@@ -1,0 +1,5 @@
+ n       F(n)   chiamate (semplice)   chiamate (memo)   iterazioni
+10         55                   177                19            9
+20       6765                 21891                39           19
+30     832040               2692537                59           29
+F(90) = 2880067194370816120

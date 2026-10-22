@@ -1,0 +1,6 @@
+push 10  -> size 1
+push 20  -> size 2
+push 30  -> size 3
+push 40  -> size 4
+push 50  -> size 5
+svuoto: 50 40 30 20 10 

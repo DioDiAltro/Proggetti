@@ -1,0 +1,7 @@
+Archi dell'MST (Kruskal), nell'ordine in cui entrano:
+  0 - 1  peso 1
+  2 - 3  peso 1
+  0 - 3  peso 2
+  4 - 5  peso 2
+  1 - 4  peso 3
+Peso totale: 9

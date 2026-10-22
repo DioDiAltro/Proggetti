@@ -1,1 +1,654 @@
-/* ASD a quadretti — stili specifici della parte "strutture". */
+/* ASD a quadretti — stili dei capitoli liste, pile e code, hash. Prefissi classi: ll-, hs-, str-
+   Tutti i colori arrivano dai token di base.css: i due temi funzionano da soli. */
+
+/* --------------------------------------------------------------------------
+   Lista concatenata (ListView, SVG)
+   -------------------------------------------------------------------------- */
+
+.ll {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+.ll svg {
+  display: block;
+  margin-inline: auto;
+  max-width: none;
+  overflow: visible;
+}
+
+.ll-box {
+  fill: var(--sheet);
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+  transition: fill 160ms ease, stroke 160ms ease;
+}
+
+.ll-sep {
+  stroke: var(--ink-2);
+  stroke-width: 1.2;
+}
+
+.ll-val {
+  fill: var(--ink);
+  font: 600 14px var(--font-mono);
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-variant-numeric: tabular-nums;
+}
+
+.ll-hatch {
+  display: none;
+  stroke: var(--rule-2);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+.ll-node.is-sentinel .ll-hatch {
+  display: inline;
+}
+
+.ll-node.is-sentinel .ll-box {
+  fill: var(--surface);
+}
+
+.ll-node.is-sentinel .ll-val {
+  fill: var(--ink-2);
+  font: italic 500 12px var(--font-body);
+}
+
+.ll-node.is-compare .ll-box { fill: var(--hl); stroke: var(--hl-ink); }
+.ll-node.is-swap .ll-box { fill: var(--red-soft); stroke: var(--red); }
+.ll-node:is(.is-done, .is-found) .ll-box { fill: var(--green-soft); stroke: var(--green); }
+.ll-node:is(.is-key, .is-new) .ll-box { fill: var(--violet-soft); stroke: var(--violet); }
+.ll-node.is-visited .ll-box { fill: var(--surface-2); }
+.ll-node.is-out .ll-box { stroke-dasharray: 5 4; }
+.ll-node.is-freed { opacity: 0.45; }
+.ll-node.is-freed .ll-box { stroke-dasharray: 3 3; fill: transparent; }
+.ll-node.is-freed .ll-val { text-decoration: line-through; }
+
+.ll-link {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ll-tip,
+.ll-dot {
+  fill: var(--ink-2);
+}
+
+.ll-link.is-hot {
+  stroke: var(--pen);
+  stroke-width: 2.6;
+}
+
+.ll-tip.is-hot,
+.ll-dot.is-hot {
+  fill: var(--pen);
+}
+
+.ll-ground,
+.ll-pground {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.ll-ground.is-hot {
+  stroke: var(--pen);
+  stroke-width: 2.2;
+}
+
+.ll-pground {
+  stroke: var(--pen);
+}
+
+.ll-parrow {
+  fill: none;
+  stroke: var(--pen);
+  stroke-width: 1.4;
+}
+
+.ll-ptip {
+  fill: var(--pen);
+}
+
+.ll-parrow.is-hot {
+  stroke-width: 2.2;
+}
+
+.ll-pname {
+  fill: var(--pen);
+  font: 600 12.5px var(--font-mono);
+  text-anchor: middle;
+}
+
+.ll-hl {
+  fill: var(--hl);
+}
+
+/* figura statica (fuori da uno stepper) */
+.ll-figure {
+  margin: var(--sp-4) 0 var(--sp-5);
+  max-width: var(--wide);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.ll-figure .ll {
+  padding: 14px 12px 6px;
+}
+
+.ll-figure figcaption {
+  padding: 8px 14px;
+  border-top: 1px solid var(--rule);
+  background: var(--paper-2);
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
+/* --------------------------------------------------------------------------
+   Pila verticale (StackView, HTML)
+   -------------------------------------------------------------------------- */
+
+.str-stacks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px 28px;
+}
+
+.str-col {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.str-cells {
+  display: grid;
+  gap: 0;
+}
+
+.str-row {
+  display: grid;
+  grid-template-columns: 22px 52px 84px;
+  align-items: center;
+  min-height: 34px;
+}
+
+.str-idx {
+  font: 400 11px/1 var(--font-mono);
+  color: var(--ink-3);
+  text-align: right;
+  padding-right: 6px;
+}
+
+.str-cells {
+  padding-top: 1.5px;
+}
+
+.str-cell {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  margin-top: -1.5px;
+  border: 1.5px solid var(--ink-2);
+  background: var(--sheet);
+  font: 600 15px/1 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.str-cell.is-ghost {
+  visibility: hidden;
+}
+
+.str-cell.is-free {
+  border-style: dashed;
+  border-color: var(--rule-2);
+  background: transparent;
+}
+
+.str-cell.is-stale {
+  border-style: dashed;
+  border-color: var(--rule-2);
+  background: transparent;
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.str-cell.is-empty {
+  border: 1.5px dashed var(--rule-2);
+  background: transparent;
+  color: var(--ink-2);
+  font: italic 400 12px/1 var(--font-body);
+}
+
+.str-cell.is-compare { background: var(--hl); border-color: var(--hl-ink); }
+.str-cell.is-swap { background: var(--red-soft); border-color: var(--red); }
+.str-cell:is(.is-done, .is-found) { background: var(--green-soft); border-color: var(--green); }
+.str-cell:is(.is-key, .is-new) { background: var(--violet-soft); border-color: var(--violet); }
+
+.str-ptr {
+  padding-left: 8px;
+  font: 600 12.5px/1.2 var(--font-mono);
+  color: var(--pen);
+  white-space: nowrap;
+}
+
+.str-cap {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Array circolare (CircularView, SVG)
+   -------------------------------------------------------------------------- */
+
+.str-circ {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.str-circ svg {
+  display: block;
+  margin-inline: auto;
+  max-width: none;
+  overflow: visible;
+}
+
+.str-ccell rect {
+  fill: var(--sheet);
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+  transition: fill 160ms ease, stroke 160ms ease;
+}
+
+.str-ccell.is-free rect,
+.str-ccell.is-stale rect {
+  fill: transparent;
+  stroke: var(--rule-2);
+  stroke-dasharray: 4 3;
+}
+
+.str-ccell.is-compare rect { fill: var(--hl); stroke: var(--hl-ink); stroke-dasharray: none; }
+.str-ccell.is-swap rect { fill: var(--red-soft); stroke: var(--red); stroke-dasharray: none; }
+.str-ccell:is(.is-done, .is-found) rect { fill: var(--green-soft); stroke: var(--green); stroke-dasharray: none; }
+.str-ccell:is(.is-key, .is-new) rect { fill: var(--violet-soft); stroke: var(--violet); stroke-dasharray: none; }
+
+.str-cval {
+  fill: var(--ink);
+  font: 600 15px var(--font-mono);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.str-ccell.is-stale .str-cval {
+  fill: var(--ink-3);
+  font-weight: 400;
+}
+
+.str-order {
+  fill: var(--ink-2);
+  font: 500 11px var(--font-body);
+  text-anchor: middle;
+}
+
+.str-cidx {
+  fill: var(--ink-3);
+  font: 400 11px var(--font-mono);
+  text-anchor: middle;
+}
+
+.str-parrow {
+  fill: none;
+  stroke: var(--pen);
+  stroke-width: 1.4;
+}
+
+.str-ptip {
+  fill: var(--pen);
+}
+
+.str-pname {
+  fill: var(--pen);
+  font: 600 12.5px var(--font-mono);
+  text-anchor: middle;
+}
+
+.str-wrap {
+  fill: none;
+  stroke: var(--rule-2);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.str-wtip {
+  fill: var(--rule-2);
+}
+
+.str-wrap.is-hot {
+  stroke: var(--pen);
+  stroke-width: 2.4;
+  stroke-dasharray: none;
+}
+
+.str-wtip.is-hot {
+  fill: var(--pen);
+}
+
+.str-wbg {
+  fill: var(--sheet);
+}
+
+.str-wlabel {
+  fill: var(--ink-2);
+  font: 500 11px var(--font-mono);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.str-wlabel.is-hot {
+  fill: var(--pen);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Viste composte dei capitoli (stringa + pila, array circolare)
+   -------------------------------------------------------------------------- */
+
+.str-scan {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 16px 24px;
+}
+
+.str-scan-label {
+  margin: 0 0 4px;
+  font: 600 var(--fs-xs)/1.2 var(--font-body);
+  color: var(--ink-2);
+  letter-spacing: 0.04em;
+}
+
+.str-scan .av {
+  margin-inline: auto;
+}
+
+@container (max-width: 560px) {
+  .str-scan {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.str-result {
+  margin: 10px 0 0;
+  text-align: center;
+  font: 600 var(--fs-sm)/1.3 var(--font-mono);
+  color: var(--ink);
+  min-height: 1.3em;
+}
+
+/* --------------------------------------------------------------------------
+   Tabella hash (HashView, HTML)
+   -------------------------------------------------------------------------- */
+
+.hs {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.hs-key {
+  margin: 0 0 10px;
+  min-height: 1.6em;
+  font-size: var(--fs-sm);
+  color: var(--ink);
+}
+
+.hs-key code {
+  white-space: nowrap;
+}
+
+.hs-table {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  width: max-content;
+  min-width: 100%;
+}
+
+.hs-row {
+  display: grid;
+  grid-template-columns: 24px 26px auto;
+  align-items: center;
+  min-height: 34px;
+}
+
+.hs-probe {
+  justify-self: start;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  border-radius: 999px;
+  font: 600 11px/19px var(--font-mono);
+  text-align: center;
+}
+
+.hs-probe:not(:empty) {
+  background: var(--pen-soft);
+  color: var(--pen);
+}
+
+.hs-idx {
+  font: 400 12px/1 var(--font-mono);
+  color: var(--ink-3);
+  text-align: right;
+  padding-right: 8px;
+}
+
+.hs-slot {
+  display: inline-grid;
+  place-items: center;
+  height: 32px;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 600 15px/1 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.hs-open .hs-slot {
+  width: 64px;
+}
+
+.hs-chain .hs-slot {
+  width: 30px;
+}
+
+.hs-slot.is-probed {
+  background: var(--pen-soft);
+  border-color: var(--pen);
+}
+
+.hs-slot.is-empty {
+  border-style: dashed;
+  border-color: var(--rule-2);
+  background: transparent;
+}
+
+.hs-slot.is-tomb {
+  background: repeating-linear-gradient(135deg, var(--surface-2) 0 3px, transparent 3px 7px);
+  border-style: dashed;
+  border-color: var(--ink-3);
+  color: var(--ink-2);
+  font: italic 500 12px/1 var(--font-body);
+}
+
+.hs-slot.is-compare,
+.hs-node.is-compare { background: var(--hl); border-color: var(--hl-ink); }
+.hs-slot.is-swap,
+.hs-node.is-swap { background: var(--red-soft); border-color: var(--red); }
+.hs-slot:is(.is-done, .is-found),
+.hs-node:is(.is-done, .is-found) { background: var(--green-soft); border-color: var(--green); }
+.hs-slot:is(.is-key, .is-new),
+.hs-node:is(.is-key, .is-new) { background: var(--violet-soft); border-color: var(--violet); }
+.hs-node.is-visited { background: var(--surface-2); }
+.hs-node.is-out { border-style: dashed; opacity: 0.6; }
+
+.hs-chain {
+  display: flex;
+  align-items: center;
+}
+
+.hs-arrow {
+  position: relative;
+  flex: none;
+  width: 22px;
+  height: 2px;
+  margin-left: -9px;
+  background: var(--ink-2);
+}
+
+.hs-arrow::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border-left: 7px solid var(--ink-2);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.hs-node {
+  display: inline-grid;
+  grid-template-columns: auto 22px;
+  align-items: stretch;
+  height: 30px;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.hs-k {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  padding: 0 6px;
+  font: 600 14px/1 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.hs-next {
+  display: grid;
+  place-items: center;
+  border-left: 1.2px solid var(--ink-2);
+}
+
+.hs-dot {
+  position: relative;
+  z-index: 1;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-2);
+}
+
+.hs-slot .hs-dot {
+  margin-left: 18px;
+}
+
+.hs-ground {
+  display: block;
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.hs-next .hs-ground {
+  width: 16px;
+  height: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   Laboratori dei capitoli
+   -------------------------------------------------------------------------- */
+
+.str-lab-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.str-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.str-field input[type="number"],
+.str-field input[type="text"] {
+  width: 7.5em;
+  font-family: var(--font-mono);
+}
+
+.str-field select {
+  min-width: 11em;
+}
+
+.str-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.str-msg {
+  margin: 0 0 8px;
+  min-height: 1.5em;
+}
+
+.str-msg.is-bad {
+  color: var(--red);
+}
+
+.str-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.str-horner {
+  margin: 8px 0 0;
+}
+
+.str-horner .tbl {
+  min-width: 0;
+}

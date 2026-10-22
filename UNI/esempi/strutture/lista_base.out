@@ -1,0 +1,5 @@
+8 -> 15 -> 23 -> 42 -> nullptr
+lunghezza: 4
+cerca(23): trovato, il successivo vale 42
+cerca(7):  nullptr, non trovato
+dopo libera: nullptr

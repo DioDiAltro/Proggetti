@@ -1,0 +1,7 @@
+a  freq 45  codice 0
+c  freq 12  codice 100
+b  freq 13  codice 101
+f  freq 5  codice 1100
+e  freq 9  codice 1101
+d  freq 16  codice 111
+Bit totali: 224 (con 3 bit fissi per carattere: 300)

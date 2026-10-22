@@ -1,0 +1,10 @@
+somma = 20
+2^10 = 1024, 3^13 = 1594323
+ricerca di 9: indice 4, ricerca di 5: -1
+disco 1: A -> C
+disco 2: A -> B
+disco 1: C -> B
+disco 3: A -> C
+disco 1: B -> A
+disco 2: B -> C
+disco 1: A -> C

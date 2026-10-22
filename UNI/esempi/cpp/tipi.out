@@ -1,0 +1,12 @@
+sizeof(int)       = 4 byte
+sizeof(long long) = 8 byte
+sizeof(double)    = 8 byte
+sizeof(char)      = 1 byte
+sizeof(bool)      = 1 byte
+int va da -2147483648 a 2147483647
+long long arriva a 9223372036854775807
+100000 * 100000 = 10000000000
+A ha codice 65, la lettera dopo è B
+7 / 2 = 3,  7 / 2.0 = 3.5
+area del cerchio di raggio 2: 12.5664
+a è pari? 1 (con boolalpha: true)

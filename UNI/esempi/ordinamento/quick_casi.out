@@ -1,0 +1,7 @@
+n = 2000                   confronti  profondità
+casuale                        23843          25
+già ordinato                 1999000        2000
+al contrario                 1999000        2000
+tutti uguali                 1999000        2000
+già ordinato, pivot a caso     24747          24
+n(n-1)/2 = 1999000

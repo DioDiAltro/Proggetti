@@ -1,0 +1,6 @@
+top: 25
+estratti: 25 13 7 5 2
+estratti dal min-heap: 2 5 7 13 25
+priorità 5: backup
+priorità 2: stampa
+priorità 1: pulizia

@@ -1,1 +1,735 @@
-/* ASD a quadretti — stili specifici della parte "tecniche". */
+/* ASD a quadretti — stili della parte "Tecniche di progetto" (prefisso tc-).
+   Tabella della programmazione dinamica (ASD.viz.TableView), linea del tempo
+   delle attività, monete, zaini, foresta di Huffman, albero delle chiamate.
+   Tutti i colori vengono dai token di base.css. */
+
+/* --------------------------------------------------------------------------
+   Controlli comuni
+   -------------------------------------------------------------------------- */
+
+.tc-radios {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.tc-radios legend {
+  padding: 0;
+  margin-bottom: 4px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.tc-radios-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tc-radios .chip {
+  cursor: pointer;
+  min-height: 32px;
+  font-size: var(--fs-sm);
+  color: var(--ink);
+}
+
+.tc-radios .chip:has(input:checked) {
+  border-color: var(--pen);
+  background: var(--pen-soft);
+}
+
+.tc-radios .chip:has(input:focus-visible) {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+
+.tc-out-line {
+  margin: 0;
+}
+
+.tc-out-line + .tc-out-line {
+  margin-top: 6px;
+}
+
+.tc-verdict-ok {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.tc-verdict-no {
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Tabella della programmazione dinamica (ASD.viz.TableView)
+   -------------------------------------------------------------------------- */
+
+.tc-tv {
+  min-width: 0;
+}
+
+.tc-tv-label {
+  margin: 0 0 10px;
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+  max-width: var(--measure);
+}
+
+.tc-tv-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 2px 2px 8px;
+  scrollbar-width: thin;
+}
+
+.tc-tv-table {
+  border-collapse: separate;
+  border-spacing: 3px;
+  margin-inline: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.tc-tv-table :is(th, td) {
+  padding: 0;
+}
+
+.tc-tv-corner {
+  font: 500 var(--fs-xs)/1.2 var(--font-mono);
+  color: var(--ink-2);
+  text-align: right;
+  vertical-align: bottom;
+  padding: 0 8px 4px 0 !important;
+  white-space: nowrap;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--sheet);
+}
+
+.tc-tv-ch,
+.tc-tv-rh {
+  font-weight: 400;
+  color: var(--ink);
+  border-radius: 3px;
+  transition: background-color 160ms ease;
+}
+
+.tc-tv-ch {
+  text-align: center;
+  vertical-align: bottom;
+  padding: 2px 0 4px !important;
+}
+
+.tc-tv-rh {
+  text-align: right;
+  padding: 0 8px 0 4px !important;
+  white-space: nowrap;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--sheet);
+}
+
+.tc-tv-hl {
+  display: block;
+  font: 600 0.9rem/1.15 var(--font-mono);
+  color: var(--ink);
+}
+
+.tc-tv-hs {
+  display: block;
+  font: 400 0.7rem/1.2 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.tc-tv-ch:is(.is-compare),
+.tc-tv-rh:is(.is-compare) {
+  background: var(--hl);
+}
+
+.tc-tv-ch.is-done,
+.tc-tv-rh.is-done {
+  background: var(--green-soft);
+  box-shadow: inset 0 0 0 1.5px var(--green);
+}
+
+.tc-tv-ch.is-key,
+.tc-tv-rh.is-key {
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1.5px var(--violet);
+}
+
+.tc-tv-ch.is-out,
+.tc-tv-rh.is-out {
+  opacity: 0.45;
+}
+
+.tc-tv-cell {
+  position: relative;
+  width: 2.6rem;
+  height: 2.3rem;
+  text-align: center;
+  vertical-align: middle;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 600 0.92rem/1 var(--font-mono);
+  color: var(--ink);
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.tc-tv-v {
+  display: block;
+}
+
+.tc-tv-cell.has-ar .tc-tv-v {
+  padding: 9px 0 0 9px;
+}
+
+.tc-tv-ar {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font: 600 0.74rem/1 var(--font-body);
+  color: var(--ink-2);
+}
+
+.tc-tv-cell.is-empty {
+  border-style: dashed;
+  border-color: var(--rule-2);
+  background: transparent;
+}
+
+.tc-tv-cell.is-out {
+  color: var(--ink-3);
+  border-color: var(--rule-2);
+  background: transparent;
+}
+
+.tc-tv-cell:is(.is-key, .is-new, .is-min) {
+  background: var(--violet-soft);
+  border-color: var(--violet);
+}
+
+.tc-tv-cell.is-swap {
+  background: var(--red-soft);
+  border-color: var(--red);
+}
+
+.tc-tv-cell:is(.is-path, .is-done, .is-found) {
+  background: var(--green-soft);
+  border-color: var(--green);
+  border-width: 2px;
+}
+
+.tc-tv-cell:is(.is-path, .is-done, .is-found) .tc-tv-ar {
+  color: var(--green);
+}
+
+.tc-tv-cell.is-compare {
+  background: var(--hl);
+  border-color: var(--hl-ink);
+  border-style: solid;
+  color: var(--ink);
+}
+
+.tc-tv-cell.is-active {
+  background: var(--pen);
+  border-color: var(--pen);
+  border-style: solid;
+  color: var(--on-pen);
+}
+
+.tc-tv-cell.is-active .tc-tv-ar {
+  color: var(--on-pen);
+}
+
+@container (max-width: 560px) {
+  .tc-tv-table {
+    border-spacing: 2px;
+  }
+
+  .tc-tv-cell {
+    width: 2.15rem;
+    height: 2.1rem;
+    font-size: 0.84rem;
+  }
+
+  .tc-tv-cell.has-ar .tc-tv-v {
+    padding: 8px 0 0 7px;
+  }
+
+  .tc-tv-ar {
+    font-size: 0.66rem;
+  }
+
+  .tc-tv-rh {
+    padding: 0 5px 0 2px !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Selezione di attività: la linea del tempo
+   -------------------------------------------------------------------------- */
+
+.tc-tl {
+  --tl-name: 84px;
+  --tl-row: 30px;
+  position: relative;
+  min-width: 0;
+  padding-top: 22px;
+}
+
+.tc-tl-rows {
+  position: relative;
+}
+
+/* righe verticali di ogni unità di tempo, solo sotto la parte disegnata */
+.tc-tl-rows::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--tl-name);
+  right: 0;
+  background-image: linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
+  background-size: calc(100% / var(--T, 10)) 100%;
+  pointer-events: none;
+}
+
+.tc-tl-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--tl-row);
+  display: grid;
+  grid-template-columns: var(--tl-name) minmax(0, 1fr);
+  align-items: center;
+  transform: translateY(var(--y, 0px));
+  transition: transform var(--av-dur, 300ms) ease, opacity 200ms ease;
+}
+
+.tc-tl-name {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-right: 8px;
+  white-space: nowrap;
+  font: 600 0.88rem/1 var(--font-mono);
+  color: var(--ink);
+}
+
+.tc-tl-name small {
+  font: 400 0.72rem/1 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.tc-tl-track {
+  position: relative;
+  height: 100%;
+}
+
+.tc-tl-bar {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: calc(var(--s) * 100%);
+  width: calc(var(--d) * 100%);
+  background: var(--pen-tint);
+  border: 1.5px solid var(--pen);
+  border-radius: 3px;
+  transition: background-color 160ms ease, border-color 160ms ease, opacity 200ms ease;
+}
+
+.tc-tl-row.is-compare .tc-tl-bar { background: var(--hl); border-color: var(--hl-ink); }
+.tc-tl-row.is-done .tc-tl-bar { background: var(--green-soft); border-color: var(--green); border-width: 2px; }
+.tc-tl-row.is-swap .tc-tl-bar { background: var(--red-soft); border-color: var(--red); }
+.tc-tl-row.is-key .tc-tl-bar { background: var(--violet-soft); border-color: var(--violet); }
+.tc-tl-row.is-out .tc-tl-bar { opacity: 0.35; border-style: dashed; }
+.tc-tl-row.is-out .tc-tl-name { color: var(--ink-3); }
+.tc-tl-row.is-compare .tc-tl-name { background: linear-gradient(transparent 12%, var(--hl) 12% 88%, transparent 88%); }
+
+.tc-tl-mark {
+  position: absolute;
+  top: -20px;
+  bottom: -4px;
+  left: calc(var(--tl-name) + (100% - var(--tl-name)) * var(--t));
+  border-left: 2px dashed var(--red);
+  pointer-events: none;
+  transition: left var(--av-dur, 300ms) ease;
+}
+
+.tc-tl-mark span {
+  position: absolute;
+  top: -2px;
+  left: 6px;
+  font: 600 1.05rem/1 var(--font-hand);
+  color: var(--red);
+  white-space: nowrap;
+}
+
+.tc-tl-mark.at-end span {
+  left: auto;
+  right: 6px;
+}
+
+.tc-tl-axis {
+  position: relative;
+  height: 22px;
+  margin-left: var(--tl-name);
+  border-top: 1.5px solid var(--ink-2);
+}
+
+.tc-tl-tick {
+  position: absolute;
+  top: 4px;
+  left: calc(var(--t) * 100%);
+  transform: translateX(-50%);
+  font: 400 11px/1 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.tc-tl-summary {
+  margin: 8px 0 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
+@container (max-width: 560px) {
+  .tc-tl {
+    --tl-name: 70px;
+    --tl-row: 27px;
+  }
+
+  .tc-tl-name {
+    gap: 4px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Monete
+   -------------------------------------------------------------------------- */
+
+.tc-coins {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+}
+
+.tc-coin {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--ink-2);
+  background: var(--sheet);
+  font: 600 0.8rem/1 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.tc-coins.is-bad .tc-coin {
+  border-color: var(--red);
+  background: var(--red-soft);
+}
+
+.tc-coins.is-good .tc-coin {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.tc-coin-row {
+  display: grid;
+  grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 14px;
+  padding: 6px 0;
+}
+
+.tc-coin-row + .tc-coin-row {
+  border-top: 1px dashed var(--rule);
+}
+
+.tc-coin-row > p {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
+.tc-coin-row > p strong {
+  display: block;
+  color: var(--ink);
+}
+
+.tc-strip-wrap {
+  margin-top: 14px;
+}
+
+.tc-strip-title {
+  margin: 0 0 6px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.tc-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(26px, 1fr));
+  gap: 3px;
+  max-width: 760px;
+}
+
+.tc-strip span {
+  display: grid;
+  place-items: center;
+  height: 24px;
+  border: 1px solid var(--rule-2);
+  border-radius: 3px;
+  background: var(--sheet);
+  font: 400 0.68rem/1 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.tc-strip span.is-swap {
+  border-color: var(--red);
+  background: var(--red-soft);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.tc-strip span.is-active {
+  box-shadow: 0 0 0 2px var(--pen);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+@container (max-width: 560px) {
+  .tc-coin-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Zaino frazionario e 0/1: tre zaini a confronto
+   -------------------------------------------------------------------------- */
+
+.tc-sacks {
+  display: grid;
+  gap: 14px;
+}
+
+.tc-sack-title {
+  margin: 0 0 4px;
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.tc-sack-title span {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.tc-sack-scale {
+  position: relative;
+  height: 34px;
+}
+
+.tc-sack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: calc(var(--cap) * 100%);
+  display: flex;
+  border: 2px solid var(--ink-2);
+  border-radius: 4px;
+  background: var(--sheet);
+  overflow: hidden;
+  transition: width var(--av-dur, 250ms) ease;
+}
+
+.tc-sack-seg {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(var(--w) * 100%);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font: 600 0.78rem/1 var(--font-mono);
+  color: var(--ink);
+  border-right: 1.5px solid var(--ink-2);
+}
+
+.tc-sack-seg.o1 { background: color-mix(in srgb, var(--series-1) 26%, var(--sheet)); }
+.tc-sack-seg.o2 { background: color-mix(in srgb, var(--series-2) 26%, var(--sheet)); }
+.tc-sack-seg.o3 { background: color-mix(in srgb, var(--series-3) 26%, var(--sheet)); }
+.tc-sack-seg.part { background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--ink) 10%, transparent) 6px 8px); }
+
+.tc-sack-cap {
+  position: absolute;
+  top: -1px;
+  font: 600 0.95rem/1 var(--font-hand);
+  color: var(--red);
+  white-space: nowrap;
+  left: calc(var(--cap) * 100% + 6px);
+}
+
+.tc-sack-cap.at-end {
+  left: auto;
+  right: calc((1 - var(--cap)) * 100% + 6px);
+  top: auto;
+  bottom: -18px;
+}
+
+.tc-sack-val {
+  margin: 4px 0 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
+.tc-sack-val strong {
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Huffman: coda con priorità e foresta
+   -------------------------------------------------------------------------- */
+
+.tc-hf {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.tc-hf-q {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.tc-hf-q-title {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.tc-hf-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1.5px solid var(--ink-2);
+  border-radius: 999px;
+  background: var(--sheet);
+  font: 600 0.8rem/1.2 var(--font-mono);
+  color: var(--ink);
+}
+
+.tc-hf-item.is-new {
+  border-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.tc-hf-item.is-compare {
+  border-color: var(--hl-ink);
+  background: var(--hl);
+}
+
+.tc-hf-empty {
+  font-style: italic;
+}
+
+.tc-hf-bit {
+  font: 600 12px var(--font-mono);
+  fill: var(--pen);
+  text-anchor: middle;
+  dominant-baseline: central;
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.tc-hf-codes {
+  min-width: 0;
+}
+
+.tc-hf-codes .tbl {
+  min-width: 0;
+  margin: 0;
+}
+
+.tc-hf-codes .tbl-wrap {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Fibonacci: contatore di chiamate e albero
+   -------------------------------------------------------------------------- */
+
+.tc-fib-tree {
+  min-height: 60px;
+}
+
+.tc-fib-tree .tv {
+  padding-bottom: 4px;
+}
+
+.tc-fib-msg {
+  margin: 0;
+  padding: 18px 8px;
+  text-align: center;
+  color: var(--ink-2);
+  font-size: var(--fs-sm);
+}
+
+.tc-fib-legend {
+  margin-top: 8px;
+}
+
+.tc-fib-counts {
+  margin: 0;
+  min-width: 0;
+}
+
+.tc-fib-counts td.num {
+  text-align: right;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Riquadro "come si scrive all'esame"
+   -------------------------------------------------------------------------- */
+
+.tc-scheda {
+  max-width: var(--measure);
+  margin: var(--sp-4) 0 var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid var(--grid-strong);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+}
+
+.tc-scheda > :last-child {
+  margin-bottom: 0;
+}
+
+.tc-scheda h3 {
+  margin-top: 0;
+}
+
+.tc-scheda ol {
+  padding-left: 1.3em;
+}

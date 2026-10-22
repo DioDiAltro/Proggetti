@@ -1,0 +1,9 @@
+push_back n. 1: capacity 0 -> 1, copiati 0
+push_back n. 2: capacity 1 -> 2, copiati 1
+push_back n. 3: capacity 2 -> 4, copiati 2
+push_back n. 5: capacity 4 -> 8, copiati 4
+push_back n. 9: capacity 8 -> 16, copiati 8
+push_back n. 17: capacity 16 -> 32, copiati 16
+push_back n. 33: capacity 32 -> 64, copiati 32
+dopo 1000 push_back: capacity 1024, copie 1023, costo totale 2023 <= 3n = 3000
+std::vector, capacity: 1 2 4 8 16 32 64 128

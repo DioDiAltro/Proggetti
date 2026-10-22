@@ -1,0 +1,5 @@
+{[()()]}  ->  bilanciata
+a*(b+c)-[d/e]  ->  bilanciata
+([)]  ->  NON bilanciata
+(()  ->  NON bilanciata
+())  ->  NON bilanciata

@@ -1,0 +1,5 @@
+nodi: 8, altezza: 3, somma: 46
+preordine:   10 4 2 9 1 8 7 5 
+simmetrica:  2 4 1 9 8 10 7 5 
+postordine:  2 1 8 9 4 5 7 10 
+per livelli: 10 4 7 2 9 5 1 8 

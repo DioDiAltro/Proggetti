@@ -1,0 +1,28 @@
+Matrice di adiacenza (6 x 6):
+    0 1 2 3 4 5 
+ 0: 0 1 0 1 1 0 
+ 1: 1 0 1 0 1 0 
+ 2: 0 1 0 0 0 1 
+ 3: 1 0 0 0 1 0 
+ 4: 1 1 0 1 0 1 
+ 5: 0 0 1 0 1 0 
+
+Liste di adiacenza:
+ adj[0]: 1 3 4   (grado 3)
+ adj[1]: 0 2 4   (grado 3)
+ adj[2]: 1 5   (grado 2)
+ adj[3]: 0 4   (grado 2)
+ adj[4]: 0 1 3 5   (grado 4)
+ adj[5]: 4 2   (grado 2)
+Somma dei gradi = 16 = 2 * 8 archi
+
+(1, 4) è un arco? sì / sì
+(2, 3) è un arco? no / no
+
+Liste pesate, coppie (vicino, peso):
+ adj[0]: (1, 4) (3, 2) (4, 5)
+ adj[1]: (0, 4) (2, 3) (4, 1)
+ adj[2]: (1, 3) (5, 7)
+ adj[3]: (0, 2) (4, 6)
+ adj[4]: (0, 5) (1, 1) (3, 6) (5, 2)
+ adj[5]: (4, 2) (2, 7)

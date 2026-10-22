@@ -1,0 +1,15 @@
+   k   k mod 11   moltiplicazione (m = 16)
+  10         10           2
+  22          0           9
+  31          9           2
+   4          4           7
+  15          4           4
+  28          6           4
+  17          6           8
+  88          0           6
+  59          4           7
+-7 % 5 = -2, hDivisioneSicura(-7, 5) = 3
+hStringa("pila", 13) = 11
+hStringa("coda", 13) = 4
+hStringa("lista", 13) = 2
+hStringa("albero", 13) = 7

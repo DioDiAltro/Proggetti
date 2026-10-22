@@ -1,0 +1,5 @@
+nodo  Dijkstra  Bellman-Ford
+  0       0          0
+  1       1          1
+  2       4          4
+  3       4          3   <- sbagliato
