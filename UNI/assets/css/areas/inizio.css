@@ -1,0 +1,228 @@
+/* ASD a quadretti — pagina iniziale e pagina "Compilare ed eseguire". */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-6);
+  align-items: center;
+  margin-bottom: var(--sp-7);
+}
+
+@media (min-width: 1180px) {
+  .hero {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: var(--sp-7);
+  }
+}
+
+.hero-title {
+  margin: 0 0 var(--sp-4);
+  font-size: clamp(3rem, 2.2rem + 4vw, 5.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.hero-title:focus {
+  outline: none;
+}
+
+.hero-title em {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--pen);
+}
+
+.hero-lead {
+  font-size: var(--fs-xl);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 34ch;
+  margin: 0 0 var(--sp-5);
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+/* il foglio di quaderno: quadretti e margine rosso */
+.hero-sheet {
+  position: relative;
+  padding: 22px 18px 18px 46px;
+  border-radius: 4px;
+  border: 1px solid var(--grid-strong);
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+
+.hero-sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 30px;
+  width: 0;
+  border-left: 2px solid var(--margin);
+}
+
+.hero-sheet .stepper {
+  margin: 0;
+  box-shadow: none;
+}
+
+.hero-sheet .st-stage {
+  min-height: 0;
+  padding-top: 10px;
+}
+
+.hero-sheet .st-note {
+  min-height: 3em;
+  font-size: var(--fs-sm);
+}
+
+.hero-sheet .st-code .code-body {
+  --code-max: 196px;
+}
+
+@container (min-width: 820px) {
+  .hero-sheet .st-code .code-body {
+    --code-max: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-sheet {
+    padding: 14px 10px 12px 24px;
+  }
+
+  .hero-sheet::before {
+    left: 12px;
+  }
+}
+
+.hero-note {
+  margin: 14px 0 0;
+  transform: rotate(-1.5deg);
+  transform-origin: left center;
+  font-size: 1.45rem;
+}
+
+.tips h3 {
+  margin-top: 0;
+}
+
+/* il percorso: le parti in sequenza */
+.path {
+  list-style: none;
+  margin: var(--sp-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  max-width: var(--wide);
+}
+
+.path-part {
+  margin: 0;
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--sheet);
+}
+
+.path-n {
+  margin: 0;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.path-part h3 {
+  margin: 2px 0 var(--sp-2);
+  font: 600 var(--fs-xl)/1.2 var(--font-display);
+}
+
+.path-ch {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--fs-sm);
+}
+
+.path-ch li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.path-ch li + li {
+  margin: 0;
+}
+
+.path-ch a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.path-ch a:hover {
+  color: var(--pen);
+  text-decoration: underline;
+}
+
+.path-todo {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* pagina "Compilare ed eseguire" */
+.terminal {
+  margin: var(--sp-3) 0 var(--sp-5);
+  padding: 12px 16px;
+  max-width: var(--measure);
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  font: 400 0.86rem/1.6 var(--font-mono);
+}
+
+.terminal .prompt {
+  color: var(--ink-3);
+  user-select: none;
+}
+
+.steps {
+  counter-reset: passo;
+  list-style: none;
+  padding-left: 0;
+}
+
+.steps > li {
+  counter-increment: passo;
+  position: relative;
+  padding-left: 2.6em;
+  margin-bottom: var(--sp-4);
+}
+
+.steps > li::before {
+  content: counter(passo);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  width: 1.8em;
+  height: 1.8em;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--pen);
+  border-radius: 3px;
+  color: var(--pen);
+  font: 600 var(--fs-sm)/1 var(--font-mono);
+}

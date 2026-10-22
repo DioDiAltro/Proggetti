@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ASD a quadretti</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Corso accelerato di Algoritmi e Strutture Dati in C++: codice che si muove riga per riga, visualizzazioni e un metodo per calcolare la complessità.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/areas/inizio.css">
+<link rel="stylesheet" href="assets/css/areas/cpp.css">
+<link rel="stylesheet" href="assets/css/areas/complessita.css">
+<link rel="stylesheet" href="assets/css/areas/ordinamento.css">
+<link rel="stylesheet" href="assets/css/areas/strutture.css">
+<link rel="stylesheet" href="assets/css/areas/grafi.css">
+<link rel="stylesheet" href="assets/css/areas/tecniche.css">
+<link rel="stylesheet" href="assets/css/areas/esame.css">
+</head>
+<body>
+<a class="skip-link visually-hidden" href="#contenuto">Vai al contenuto</a>
+<div class="shell">
+  <header class="topbar">
+    <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Apri l'indice del corso" aria-haspopup="dialog"></button>
+    <a class="brand" href="#home" aria-label="ASD a quadretti, pagina iniziale">
+      <span id="brand-mark"></span>
+      <span class="brand-name">ASD <em>a quadretti</em></span>
+    </a>
+    <p class="crumb" id="crumb"></p>
+    <div class="topbar-progress" id="progress"></div>
+  </header>
+
+  <aside class="sidebar" aria-label="Indice del corso">
+    <search class="nav-search">
+      <label for="nav-filter">Cerca un capitolo</label>
+      <input id="nav-filter" type="search" placeholder="es. heap, Dijkstra" autocomplete="off">
+    </search>
+    <nav class="course-nav" id="nav" aria-label="Capitoli"></nav>
+  </aside>
+
+  <main id="contenuto" tabindex="-1"></main>
+</div>
+
+<dialog class="nav-dialog" id="nav-dialog" aria-label="Indice del corso">
+  <div class="nav-dialog-inner">
+    <div class="nav-dialog-head">
+      <span class="brand-name">ASD <em>a quadretti</em></span>
+      <button class="icon-btn" id="nav-close" type="button" aria-label="Chiudi l'indice"></button>
+    </div>
+    <search class="nav-search">
+      <label for="nav-filter-2">Cerca un capitolo</label>
+      <input id="nav-filter-2" type="search" placeholder="es. heap, Dijkstra" autocomplete="off">
+    </search>
+    <nav class="course-nav" id="nav-dialog-list" aria-label="Capitoli"></nav>
+  </div>
+</dialog>
+
+<!-- nucleo -->
+<script src="assets/js/core/asd.js"></script>
+<script src="assets/js/core/outline.js"></script>
+<script src="assets/js/core/highlight.js"></script>
+<script src="assets/js/core/code.js"></script>
+<script src="assets/js/core/stepper.js"></script>
+<script src="assets/js/core/quiz.js"></script>
+<script src="assets/js/viz/array.js"></script>
+<script src="assets/js/viz/tree.js"></script>
+<script src="assets/js/viz/plot.js"></script>
+
+<!-- area:inizio -->
+<script src="assets/js/chapters/inizio/home.js"></script>
+<script src="assets/js/chapters/inizio/setup.js"></script>
+<!-- /area:inizio -->
+
+<!-- area:cpp -->
+<script src="assets/js/viz/memory.js"></script>
+<script src="assets/js/sources/cpp.js"></script>
+<script src="assets/js/chapters/cpp/_comune.js"></script>
+<script src="assets/js/chapters/cpp/cpp-basi.js"></script>
+<script src="assets/js/chapters/cpp/cpp-funzioni.js"></script>
+<script src="assets/js/chapters/cpp/cpp-puntatori.js"></script>
+<script src="assets/js/chapters/cpp/cpp-classi.js"></script>
+<script src="assets/js/chapters/cpp/cpp-stl.js"></script>
+<script src="assets/js/chapters/cpp/cpp-ricorsione.js"></script>
+<!-- /area:cpp -->
+
+<!-- area:complessita -->
+<script src="assets/js/sources/complessita.js"></script>
+<script src="assets/js/chapters/complessita/_comune.js"></script>
+<script src="assets/js/chapters/complessita/cx-costo.js"></script>
+<script src="assets/js/chapters/complessita/cx-notazioni.js"></script>
+<script src="assets/js/chapters/complessita/cx-metodo.js"></script>
+<script src="assets/js/chapters/complessita/cx-laboratorio.js"></script>
+<script src="assets/js/chapters/complessita/cx-ricorrenze.js"></script>
+<!-- /area:complessita -->
+
+<!-- area:ordinamento -->
+<script src="assets/js/sources/ordinamento.js"></script>
+<script src="assets/js/chapters/ordinamento/_comune.js"></script>
+<script src="assets/js/chapters/ordinamento/ricerca.js"></script>
+<script src="assets/js/chapters/ordinamento/sort-semplici.js"></script>
+<script src="assets/js/chapters/ordinamento/merge-sort.js"></script>
+<script src="assets/js/chapters/ordinamento/quick-sort.js"></script>
+<script src="assets/js/chapters/ordinamento/sort-lineari.js"></script>
+<script src="assets/js/chapters/ordinamento/sort-confronto.js"></script>
+<!-- /area:ordinamento -->
+
+<!-- area:strutture -->
+<script src="assets/js/viz/list.js"></script>
+<script src="assets/js/viz/hash.js"></script>
+<script src="assets/js/sources/strutture.js"></script>
+<script src="assets/js/chapters/strutture/_comune.js"></script>
+<script src="assets/js/chapters/strutture/liste.js"></script>
+<script src="assets/js/chapters/strutture/pile-code.js"></script>
+<script src="assets/js/chapters/strutture/hash.js"></script>
+<script src="assets/js/chapters/strutture/alberi.js"></script>
+<script src="assets/js/chapters/strutture/bst.js"></script>
+<script src="assets/js/chapters/strutture/heap.js"></script>
+<!-- /area:strutture -->
+
+<!-- area:grafi -->
+<script src="assets/js/viz/graph.js"></script>
+<script src="assets/js/sources/grafi.js"></script>
+<script src="assets/js/chapters/grafi/_comune.js"></script>
+<script src="assets/js/chapters/grafi/grafi-intro.js"></script>
+<script src="assets/js/chapters/grafi/visite.js"></script>
+<script src="assets/js/chapters/grafi/cammini-minimi.js"></script>
+<script src="assets/js/chapters/grafi/mst.js"></script>
+<!-- /area:grafi -->
+
+<!-- area:tecniche -->
+<script src="assets/js/viz/table.js"></script>
+<script src="assets/js/sources/tecniche.js"></script>
+<script src="assets/js/chapters/tecniche/_comune.js"></script>
+<script src="assets/js/chapters/tecniche/greedy.js"></script>
+<script src="assets/js/chapters/tecniche/dp.js"></script>
+<script src="assets/js/chapters/tecniche/dp-problemi.js"></script>
+<!-- /area:tecniche -->
+
+<!-- area:esame -->
+<script src="assets/js/sources/esame.js"></script>
+<script src="assets/js/chapters/esame/formulario.js"></script>
+<script src="assets/js/chapters/esame/esercizi.js"></script>
+<!-- /area:esame -->
+
+<!-- avvio: sempre per ultimo -->
+<script src="assets/js/core/app.js"></script>
+</body>
+</html>
