@@ -396,6 +396,21 @@
           const F = from.get(id);
           if (F && (Math.abs(F.x - P.x) > 0.5 || Math.abs(F.y - P.y) > 0.5)) moving = true;
         }
+        // se due nodi si scambiano di posto (per esempio la lista invertita ridisegnata)
+        // l'animazione li farebbe passare uno sull'altro: meglio saltare subito alla fine
+        const both = [...target.keys()].filter((id) => from.has(id));
+        for (let i = 0; moving && i < both.length; i++) {
+          for (let j = i + 1; j < both.length; j++) {
+            const a = both[i];
+            const b = both[j];
+            const before = from.get(a).x - from.get(b).x;
+            const after = target.get(a).x - target.get(b).x;
+            if (Math.abs(before) > 1 && Math.abs(after) > 1 && Math.sign(before) !== Math.sign(after)) {
+              moving = false;
+              break;
+            }
+          }
+        }
       }
       if (!moving) {
         this.draw(st, target, g, e);

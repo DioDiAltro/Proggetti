@@ -639,8 +639,8 @@
   <p>Segui <code>rimuovi(p)</code> sul disegno: <code>p-&gt;prev-&gt;next = p-&gt;next</code> fa saltare il nodo nella
   direzione in avanti, <code>p-&gt;next-&gt;prev = p-&gt;prev</code> in quella all'indietro. Se <code>p</code> è il primo
   nodo, <code>p-&gt;prev</code> è la sentinella: non serve nessun <code>if</code>.</p>
-  ${box('nota', `<code>std::list</code> è una lista doppia e <code>std::forward_list</code> una lista semplice
-  (${ASD.link('cpp-stl')}). All'esame però si chiede quasi sempre di scrivere i nodi a mano, come qui.`, 'Nella libreria standard')}
+  ${box('nota', `<p><code>std::list</code> è una lista doppia e <code>std::forward_list</code> una lista semplice
+  (${ASD.link('cpp-stl')}). All'esame però si chiede quasi sempre di scrivere i nodi a mano, come qui.</p>`, 'Nella libreria standard')}
 </section>
 
 <section id="inversione">

@@ -613,8 +613,7 @@
   ASD.chapter({
     id: 'hash',
     title: 'Tabelle hash',
-    lead:
-      'Una tabella hash trasforma la chiave in un indice di array con una funzione hash: inserire, cercare e cancellare costano O(1) in media. Il prezzo sono le collisioni, chiavi diverse con lo stesso indice, che si gestiscono con le liste di trabocco o con l\'indirizzamento aperto.',
+    lead: `Una tabella hash trasforma la chiave in un indice di array con una funzione hash: inserire, cercare e cancellare costano ${m('O(1)')} in media. Il prezzo sono le collisioni, chiavi diverse con lo stesso indice, che si gestiscono con le liste di trabocco o con l'indirizzamento aperto.`,
     minutes: 55,
     prereq: ['liste', 'cx-notazioni'],
     goals: [

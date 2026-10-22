@@ -163,7 +163,7 @@
 
   /** Riquadro: ASD.box('ricorda', '<p>…</p>') — tipi: ricorda, errore, esame, nota. */
   ASD.box = function (kind, html, label) {
-    const body = /^\s*</.test(html) ? html : `<p>${html}</p>`;
+    const body = /^\s*<(p|ul|ol|dl|div|table|pre|figure|blockquote|h[1-6])[\s>]/i.test(html) ? html : `<p>${html}</p>`;
     return `<div class="box box-${kind}"><p class="box-label">${label || BOX_LABELS[kind] || ''}</p>${body}</div>`;
   };
 

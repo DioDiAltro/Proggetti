@@ -609,8 +609,7 @@
   ASD.chapter({
     id: 'pile-code',
     title: 'Pile e code',
-    lead:
-      'Pila e coda sono sequenze in cui si inserisce e si toglie solo agli estremi. Nella pila si entra e si esce dalla stessa parte: l\'ultimo arrivato esce per primo. Nella coda si entra da una parte e si esce dall\'altra: esce per primo chi è arrivato per primo. Con queste regole ogni operazione costa O(1).',
+    lead: `Pila e coda sono sequenze in cui si inserisce e si toglie solo agli estremi. Nella pila si entra e si esce dalla stessa parte: l'ultimo arrivato esce per primo. Nella coda si entra da una parte e si esce dall'altra: esce per primo chi è arrivato per primo. Con queste regole ogni operazione costa ${m('O(1)')}.`,
     minutes: 45,
     prereq: ['liste', 'cpp-classi'],
     goals: [

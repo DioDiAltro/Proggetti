@@ -289,7 +289,9 @@ samp {
   border: 1px solid var(--rule);
   border-radius: 3px;
   padding: 0.05em 0.3em;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 kbd {
