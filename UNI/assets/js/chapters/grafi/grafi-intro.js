@@ -94,7 +94,8 @@
   <p>Due conseguenze che serviranno nei prossimi capitoli:</p>
   <ul>
     <li>se il grafo è connesso, ${m('m >= n - 1')}, quindi ${m('Θ(n + m) = Θ(m)')};</li>
-    <li>${m('m <= n^2')} implica ${m('log m <= 2 log n')}: scrivere ${m('O(m log m)')} o ${m('O(m log n)')} è la stessa cosa.</li>
+    <li>${m('m <= n^2')} implica ${m('log m <= 2 log n')}, quindi ${m('O(m log m)')} è anche ${m('O(m log n)')}: per questo
+    i costi di Kruskal e di Dijkstra si trovano scritti in tutti e due i modi.</li>
   </ul>
 </section>
 

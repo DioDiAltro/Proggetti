@@ -131,8 +131,10 @@
   <h2>Stesso peso, alberi diversi</h2>
   <p>Le visualizzazioni qui sopra usano lo stesso grafo. Kruskal e Prim restituiscono due alberi diversi, entrambi di peso
   9. Il motivo sono i pareggi: gli archi ${m('0–3')} e ${m('1–2')} pesano 2 tutti e due, e servono allo stesso scopo (collegare
-  ${m('{0, 1}')} con ${m('{2, 3}')}). Kruskal, a parità di peso, prende prima ${m('0–3')}; Prim arriva a 2 da 1 prima di
-  arrivarci da 3.</p>
+  ${m('{0, 1}')} con ${m('{2, 3}')}). Kruskal, a parità di peso, esamina prima ${m('0–3')} e lo prende; quando arriva a
+  ${m('1–2')}, i due pezzi sono già uniti e lo scarta. Prim invece, partito da 0, prende subito 1 (arco di peso 1). A quel punto
+  in coda ci sono le coppie (2, 2) e (2, 3), di pari peso: la <code>pair</code> confronta poi il nodo, ed esce prima 2, collegato
+  da 1. Solo dopo entra 3, da 2, con l'arco di peso 1: ${m('0–3')} non gli serve più.</p>
   <div data-mount="due"></div>
   <p>Output dei due programmi:</p>
   <div class="cols">

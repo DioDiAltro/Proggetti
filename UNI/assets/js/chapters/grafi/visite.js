@@ -393,7 +393,7 @@ Con l'arco 2 -> 3 Kahn ordina solo 2 nodi su 7: c'è un ciclo.</code></pre>
       for (let v = 0; v < n; v++) if (dist[v] !== -1) tags[v] = 'd=' + dist[v];
       const cls = { colore: {}, dist: {}, padre: {} };
       if (o.chg) cls[o.chg[0]][o.chg[1]] = 'new';
-      const st = G.snap(g, {
+      return G.snap(g, {
         nodes,
         edges,
         tags,
@@ -408,12 +408,10 @@ Con l'arco 2 -> 3 Kahn ordina solo 2 nodi su 7: c'è un ciclo.</code></pre>
               { th: 'padre', cells: padre.map(String), cls: cls.padre },
             ],
             colCls: u != null ? { [u]: 'active' } : {},
-            note: undefined,
+            note: 'B bianco, G grigio, N nero; −1 = non raggiunto',
           },
         },
       });
-      st.p.tab.note = 'B bianco, G grigio, N nero; −1 = non raggiunto';
-      return st;
     };
 
     colore[s] = 'G';

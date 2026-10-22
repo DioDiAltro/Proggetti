@@ -183,7 +183,7 @@
     renderPtrs(ptrs, xs, slot, n) {
       const groups = new Map();
       for (const [name, idx] of Object.entries(ptrs)) {
-        if (idx == null || idx < -1 || idx > n) continue;
+        if (idx == null || n === 0 || idx < -1 || idx > n) continue;
         if (!groups.has(idx)) groups.set(idx, []);
         groups.get(idx).push(name);
       }
