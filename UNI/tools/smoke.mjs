@@ -101,7 +101,27 @@ for (const ch of chapters) {
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: join(shots, `${ch.id}-desktop.png`), fullPage: full });
   }
-  report.push({ id: ch.id, ready: ch.ready, steppers, problems: [...problems] });
+  const anchors = await page.evaluate((id) => {
+    const art = document.querySelector(`article[data-chapter="${id}"]`);
+    return {
+      sections: [...art.querySelectorAll('section[id]')].map((s) => s.id),
+      links: [...art.querySelectorAll('.ch-head a[href^="#"], .ch-body a[href^="#"]')].map((a) => a.getAttribute('href').slice(1)).filter(Boolean),
+    };
+  }, ch.id);
+  report.push({ id: ch.id, ready: ch.ready, steppers, problems: [...problems], ...anchors });
+}
+
+// collegamenti interni: il capitolo deve esistere ed essere scritto, la sezione deve esistere
+const known = new Map(report.map((r) => [r.id, r]));
+const allIds = new Set(chapters.map((c) => c.id));
+for (const r of report) {
+  for (const href of new Set(r.links || [])) {
+    const [cid, sec] = href.split('--');
+    if (cid === 'contenuto') continue;
+    if (!allIds.has(cid)) r.problems.push(`[link] #${href}: il capitolo "${cid}" non esiste`);
+    else if (known.has(cid) && !known.get(cid).ready) continue; // capitolo non ancora scritto: si controllerà quando ci sarà
+    else if (sec && known.has(cid) && !known.get(cid).sections.includes(href)) r.problems.push(`[link] #${href}: la sezione "${sec}" non esiste in "${cid}"`);
+  }
 }
 
 // telefono: niente scorrimento laterale, screenshot chiaro e scuro

@@ -346,9 +346,21 @@
     }
 
     window.addEventListener('hashchange', () => {
+      const raw = location.hash.slice(1).split('--')[0];
+      // un'ancora che non è un capitolo (per esempio #contenuto) non cambia pagina
+      if (raw && !ASD.findChapter(raw)) return;
       const { id, sec } = parseHash();
       show(id, sec);
     });
+
+    // il link "Vai al contenuto" sposta solo il fuoco, senza toccare l'indirizzo
+    const skip = document.querySelector('.skip-link');
+    if (skip) {
+      skip.addEventListener('click', (e) => {
+        e.preventDefault();
+        main.focus();
+      });
+    }
 
     const { id, sec } = parseHash();
     show(id, sec);
