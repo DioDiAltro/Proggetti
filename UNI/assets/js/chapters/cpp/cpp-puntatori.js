@@ -295,7 +295,7 @@ int main() {
           }),
         lista: mountLista,
         quiz: (host) =>
-          C.quiz(host, [
+          ASD.quiz(host, [
             {
               q: 'Che cosa stampa?',
               code: `int x = 5;
@@ -375,7 +375,7 @@ delete a;`,
             },
           ]),
       });
-      C.aCapo(el);
+      C.capitolo(el);
     },
   });
 

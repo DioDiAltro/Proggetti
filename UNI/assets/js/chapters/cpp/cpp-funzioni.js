@@ -214,7 +214,7 @@ auto [lo, hi] = minMax(voti);        // C++17: spacchetta la coppia in due varia
         overload: (host) => ASD.code(host, { src: 'cpp/parametri', region: 'overloading' }),
         default: (host) => ASD.code(host, { src: 'cpp/parametri', region: 'default' }),
         quiz: (host) =>
-          C.quiz(host, [
+          ASD.quiz(host, [
             {
               q: 'Che cosa stampa?',
               code: `void f(int x)  { x = x * 2; }
@@ -294,7 +294,7 @@ int main() {
             },
           ]),
       });
-      C.aCapo(el);
+      C.capitolo(el);
     },
   });
 

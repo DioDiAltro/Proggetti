@@ -259,7 +259,7 @@
     render(st) {
       const tree = st.tree || { nodes: {} };
       this.tv.render(tree);
-      if (st.levels != null) T.levelGuides(this.tv, st.levels, st.levelLabel ? (d) => st.levelLabel.replace('{d}', d) : null);
+      if (st.levels != null) T.levelGuides(this.tv, st.levels);
       T.fit(this.tv, this.o.minScale);
       const empty = !Object.keys(tree.nodes || {}).length;
       this.treeBox.hidden = empty;

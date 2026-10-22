@@ -309,7 +309,7 @@ accumulate con 0LL: 4000000000
         cerca: (host) => ASD.code(host, { src: 'cpp/stl_algoritmi', region: 'cerca' }),
         minmax: (host) => ASD.code(host, { src: 'cpp/stl_algoritmi', region: 'minmax' }),
         quale: (host) =>
-          C.quiz(
+          ASD.quiz(
             host,
             [
               {
@@ -363,7 +363,7 @@ accumulate con 0LL: 4000000000
             { id: 'quale' }
           ),
         quiz: (host) =>
-          C.quiz(host, [
+          ASD.quiz(host, [
             {
               q: 'Che cosa stampa?',
               code: `priority_queue<int> pq;
@@ -422,7 +422,7 @@ cout << m["ciao"] << ' ' << m.size();`,
             },
           ]),
       });
-      C.aCapo(el);
+      C.capitolo(el);
     },
   });
 

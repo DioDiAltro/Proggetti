@@ -7,7 +7,8 @@
    ASD.cpp.ConsoleView  il riquadro "Output" con le righe stampate da cout
    ASD.cpp.vista(o)     (stage) => vista composta: MemoryView (+ Output se o.console)
    ASD.cpp.term(testo)  messaggio del compilatore come appare nel terminale
-   ASD.cpp.outputUguale(righe)  validate per lo Stepper: l'output finale è quello atteso */
+   ASD.cpp.outputUguale(righe)  validate per lo Stepper: l'output finale è quello atteso
+   ASD.cpp.capitolo(el)  classe cpp-capitolo sul corpo del capitolo */
 (function () {
   'use strict';
 
@@ -283,20 +284,9 @@
     return null;
   };
 
-  /** Il codice in linea lungo (come priority_queue<pair<int, int>, …>) può andare a capo: sui
-      telefoni altrimenti esce dalla pagina. Quello corto resta su una riga. Va chiamato alla fine
-      di render, dopo ASD.mount. */
-  cpp.aCapo = (root, soglia = 26) => {
-    for (const c of root.querySelectorAll('code')) {
-      if (!c.closest('pre') && c.textContent.length > soglia) c.classList.add('cpp-wrap');
-    }
-  };
-
-  /** ASD.quiz con una classe in più: il codice nelle risposte può andare a capo sui telefoni. */
-  cpp.quiz = (host, questions, o) => {
-    host.classList.add('cpp-quiz');
-    return ASD.quiz(host, questions, o);
-  };
+  /** Segna il corpo del capitolo come capitolo di questa parte (per gli stili cpp-capitolo).
+      Va chiamato alla fine di render. */
+  cpp.capitolo = (root) => root.classList.add('cpp-capitolo');
 
   /** Output di un programma, come nel terminale (copiato dal file .out dell'esempio). */
   cpp.out = (text) => `<pre class="code-out" tabindex="0" aria-label="Output del programma"><code>${ASD.esc(text)}</code></pre>`;

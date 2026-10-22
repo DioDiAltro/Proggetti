@@ -615,16 +615,10 @@
   font-style: normal;
 }
 
-/* codice in linea lungo: può andare a capo (vedi ASD.cpp.aCapo) */
-code.cpp-wrap {
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-/* nelle risposte dei quiz il codice lungo va a capo invece di uscire dallo schermo */
-.cpp-quiz .quiz-opt code {
-  white-space: normal;
-  overflow-wrap: anywhere;
+/* nelle tabelle il codice resta intero (<stack>, s.substr(i, k)): la tabella scorre di lato */
+.cpp-capitolo .tbl code {
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 
 /* tabelle dei costi larghe: niente a capo nelle formule, si scorre di lato */

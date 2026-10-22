@@ -253,7 +253,7 @@ Segmentation fault`)}
             notes: { 2: 'non si ferma mai' },
           }),
         quiz: (host) =>
-          C.quiz(host, [
+          ASD.quiz(host, [
             {
               q: 'Quanto costa questa funzione?',
               code: `int f(int n) {
@@ -309,7 +309,7 @@ Segmentation fault`)}
             },
           ]),
       });
-      C.aCapo(el);
+      C.capitolo(el);
     },
   });
 

@@ -258,7 +258,7 @@ void f() {
         tfunzione: (host) => ASD.code(host, { src: 'cpp/pila_template', region: 'funzione' }),
         pila: (host) => ASD.code(host, { src: 'cpp/pila_template', region: 'pila' }),
         quiz: (host) =>
-          C.quiz(host, [
+          ASD.quiz(host, [
             {
               q: 'Che cosa stampa? (<code>T</code> stampa <code>+</code> e il nome quando nasce, <code>-</code> e il nome quando muore)',
               code: `int main() {
@@ -333,7 +333,7 @@ double m = massimo(3, 2.5);`,
             },
           ]),
       });
-      C.aCapo(el);
+      C.capitolo(el);
     },
   });
 

@@ -347,7 +347,7 @@ cout << "n = " << n << ", x = " << x << '\\n';   // '\\n' va a capo`,
         cifre: mountCifre,
         errore: (host) => ASD.code(host, { src: 'cpp/errore_compilazione' }),
         quiz: (host) =>
-          C.quiz(host, [
+          ASD.quiz(host, [
             {
               q: 'Che cosa stampa?',
               code: `int a = 17, b = 5;
@@ -418,7 +418,7 @@ int b4 = a * a;`,
             },
           ]),
       });
-      C.aCapo(el);
+      C.capitolo(el);
     },
   });
 

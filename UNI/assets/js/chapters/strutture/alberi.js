@@ -1097,7 +1097,7 @@
   /* ---------------------------------------------------------------- quiz */
 
   function mountQuiz(host) {
-    const albero = `<span class="tr-ascii" aria-label="Albero: A ha figli B e C; B ha figli D ed E; C ha solo il figlio destro F">      A
+    const albero = `<span class="tr-ascii" role="img" aria-label="Albero: A ha figli B e C; B ha figli D ed E; C ha solo il figlio destro F">      A
      / \\
     B   C
    / \\   \\
@@ -1109,7 +1109,8 @@
         answer: 0,
         explain: `Postordine: sinistro, destro, nodo. Il sottoalbero di B dà <code>D E B</code>, quello di C dà <code>F C</code>,
         la radice viene per ultima: <code>D E B F C A</code>. <code>D B E A C F</code> è la simmetrica, <code>A B D E C F</code>
-        la preordine; l'ultima opzione è una postordine sbagliata (C prima di B).`,
+        la preordine. L'ultima mescola i due sottoalberi: F, che sta sotto C, esce prima di B, che invece chiude il sottoalbero
+        sinistro.`,
       },
       {
         q: 'Quanti nodi ha <strong>al massimo</strong> un albero binario di altezza 4 (altezza contata in archi)?',
